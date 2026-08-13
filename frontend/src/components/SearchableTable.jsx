@@ -1,9 +1,35 @@
 import './SearchableTable.css';
 
+// A cell value is either a plain string/number (most columns) or an array
+// of { text, url } segments for columns that can contain PDF reference
+// links (e.g. the Tripitaka catalogue's "PDF ..." columns) — some segments
+// resolve to a real link, some don't, both can appear in the same cell.
+function Cell({ value }) {
+  if (!Array.isArray(value)) return value;
+  return (
+    <>
+      {value.map((segment, i) => (
+        <span key={i} className="searchable-table__cell-segment">
+          {segment.url ? (
+            <a href={segment.url} target="_blank" rel="noopener noreferrer">
+              {segment.text}
+            </a>
+          ) : (
+            segment.text
+          )}
+          {i < value.length - 1 ? ' / ' : ''}
+        </span>
+      ))}
+    </>
+  );
+}
+
 // Reusable shell: heading + search box + paginated results table.
 // Deliberately generic — columns and rows come entirely from the API
 // response, so the same component drives any search-backed table
-// (dictionaries now, the Tripitaka catalogue next).
+// (dictionaries, the Tripitaka catalogue). `children`, if given, renders
+// between the heading and the search box — e.g. the catalogue's static
+// devotional/legend/disclaimer content.
 export function SearchableTable({
   titleEn,
   titleSi,
@@ -18,15 +44,22 @@ export function SearchableTable({
   onPageChange,
   loading,
   error,
+  tooShort,
+  minQueryLength,
+  children,
 }) {
   return (
     <div className="searchable-table">
-      <header className="searchable-table__header">
-        <h1>
-          {titleEn}
-          {titleSi ? <span className="searchable-table__title-si"> — {titleSi}</span> : null}
-        </h1>
-      </header>
+      {titleEn ? (
+        <header className="searchable-table__header">
+          <h1>
+            {titleEn}
+            {titleSi ? <span className="searchable-table__title-si"> — {titleSi}</span> : null}
+          </h1>
+        </header>
+      ) : null}
+
+      {children}
 
       <input
         type="search"
@@ -39,8 +72,11 @@ export function SearchableTable({
 
       {error ? (
         <p className="searchable-table__error">Search failed: {error.message}</p>
+      ) : tooShort ? (
+        <p className="searchable-table__hint">Type at least {minQueryLength} characters to search.</p>
       ) : (
         <>
+          <div className="searchable-table__scroll">
           <table className="searchable-table__table">
             <thead>
               <tr>
@@ -53,7 +89,9 @@ export function SearchableTable({
               {rows.map((row, i) => (
                 <tr key={i}>
                   {columns.map((col) => (
-                    <td key={col.key}>{row[col.key]}</td>
+                    <td key={col.key}>
+                      <Cell value={row[col.key]} />
+                    </td>
                   ))}
                 </tr>
               ))}
@@ -66,6 +104,7 @@ export function SearchableTable({
               ) : null}
             </tbody>
           </table>
+          </div>
 
           <div className="searchable-table__pagination">
             <button

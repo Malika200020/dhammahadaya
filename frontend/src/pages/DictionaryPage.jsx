@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { searchDictionary } from '../api/dictionaries';
-import { usePaginatedSearch } from '../hooks/usePaginatedSearch';
+import { usePaginatedSearch, MIN_QUERY_LENGTH } from '../hooks/usePaginatedSearch';
 import { SearchableTable } from '../components/SearchableTable';
 
 // Thin per-dictionary page: `slug` selects which table the API searches
@@ -12,7 +12,7 @@ export function DictionaryPage({ slug, searchPlaceholder }) {
     [slug]
   );
 
-  const { inputValue, setInputValue, page, setPage, data, loading, error } = usePaginatedSearch(fetchPage);
+  const { inputValue, setInputValue, page, setPage, data, loading, error, tooShort } = usePaginatedSearch(fetchPage);
 
   return (
     <SearchableTable
@@ -29,6 +29,8 @@ export function DictionaryPage({ slug, searchPlaceholder }) {
       onPageChange={setPage}
       loading={loading}
       error={error}
+      tooShort={tooShort}
+      minQueryLength={MIN_QUERY_LENGTH}
     />
   );
 }

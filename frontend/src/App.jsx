@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { DictionaryPage } from './pages/DictionaryPage';
+import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
           path="/sinhala-dictionary/"
           element={<DictionaryPage slug="sinhala-dictionary" searchPlaceholder="Search Sinhala word... / වචනය සොයන්න..." />}
         />
+        <Route path="/tripitaka-catalogs/" element={<TripitakaCataloguePage />} />
         <Route path="/" element={<Navigate to="/sinhala-dictionary/" replace />} />
       </Routes>
     </BrowserRouter>

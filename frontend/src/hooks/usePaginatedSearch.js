@@ -2,10 +2,16 @@ import { useEffect, useState } from 'react';
 
 const DEBOUNCE_MS = 300;
 
+// Below this length a query can't form a full trigram, so pg_trgm falls
+// back to a sequential scan (confirmed in docs/data-notes.md / the search
+// spike). Not firing short queries avoids that fallback and is better UX
+// besides — 1-2 typed characters are rarely a useful search yet.
+export const MIN_QUERY_LENGTH = 3;
+
 // Generic paginated-search state machine: debounces the query, resets to
 // page 1 whenever the query changes, and re-fetches on query/page change.
 // `fetchPage` is whatever page-fetching function the caller wires up (a
-// dictionary search, later the Tripitaka catalogue search, etc).
+// dictionary search, the Tripitaka catalogue search, etc).
 export function usePaginatedSearch(fetchPage, { pageSize = 20 } = {}) {
   const [inputValue, setInputValue] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -23,11 +29,22 @@ export function usePaginatedSearch(fetchPage, { pageSize = 20 } = {}) {
     setPage(1);
   }, [debouncedQuery]);
 
+  const trimmedQuery = debouncedQuery.trim();
+  const tooShort = trimmedQuery.length > 0 && trimmedQuery.length < MIN_QUERY_LENGTH;
+
   useEffect(() => {
+    if (tooShort) {
+      // Don't fire a search for 1-2 characters; leave whatever results are
+      // already on screen alone rather than re-querying.
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetchPage({ query: debouncedQuery, page, pageSize })
+    fetchPage({ query: trimmedQuery, page, pageSize })
       .then((result) => {
         if (!cancelled) setData(result);
       })
@@ -42,7 +59,7 @@ export function usePaginatedSearch(fetchPage, { pageSize = 20 } = {}) {
     };
     // fetchPage is expected to be stable per page instance (defined via useCallback / module scope by the caller).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedQuery, page, pageSize]);
+  }, [tooShort, trimmedQuery, page, pageSize]);
 
   return {
     inputValue,
@@ -52,5 +69,6 @@ export function usePaginatedSearch(fetchPage, { pageSize = 20 } = {}) {
     data,
     loading,
     error,
+    tooShort,
   };
 }

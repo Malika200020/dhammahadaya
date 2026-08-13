@@ -1,7 +1,11 @@
 .searchable-table {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.searchable-table__scroll {
+  overflow-x: auto;
 }
 
 .searchable-table__header h1 {
@@ -81,4 +85,15 @@
 
 .searchable-table__error {
   color: #b00020;
+}
+
+.searchable-table__hint {
+  color: var(--color-text-accent);
+  font-style: italic;
+}
+
+.searchable-table__cell-segment a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  text-decoration: underline;
 }

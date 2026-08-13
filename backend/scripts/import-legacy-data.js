@@ -61,7 +61,11 @@ const TABLES = [
       'pdf_page_no', 'pdf_pali_atthakatha', 'sinhala_atthakatha',
       'pdf_sinhala_atthakatha', 'pdf_pali_tika', 'pali_sinhala_tika',
     ],
-    trgmColumns: ['sutta_name'],
+    // sutta_name is the primary search target; nikaya/vagga are worth
+    // indexing too (7 / 27 distinct values, meaningful categorical text).
+    // pitaka is excluded — only 1 distinct value across all 268 rows, so
+    // it has no discriminating power as a search column.
+    trgmColumns: ['sutta_name', 'nikaya', 'vagga'],
     expectedRows: 268,
   },
 ];
