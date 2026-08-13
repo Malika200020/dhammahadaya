@@ -1,0 +1,21 @@
+/* Brand palette — build-spec §1 "Design tokens" */
+:root {
+  --color-white: #ffffff;
+  --color-primary: #fda042;
+  --color-primary-dark: #fd9939;
+  --color-text-accent: #45311c;
+
+  --color-border: #f0d9bd;
+  --color-background: #fffaf3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans Sinhala', 'Iskoola Pota', system-ui, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text-accent);
+}
