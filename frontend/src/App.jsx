@@ -3,11 +3,16 @@ import { DictionaryPage } from './pages/DictionaryPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
 import { EntryDetailPage } from './pages/EntryDetailPage';
+import { PdfBooksLandingPage } from './pages/PdfBooksLandingPage';
+import { PdfBookCategoryPage } from './pages/PdfBookCategoryPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminEntriesListPage } from './pages/admin/AdminEntriesListPage';
 import { AdminEntryFormPage } from './pages/admin/AdminEntryFormPage';
+import { AdminPdfBooksListPage } from './pages/admin/AdminPdfBooksListPage';
+import { AdminPdfBookFormPage } from './pages/admin/AdminPdfBookFormPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
 
 // Article-list pattern (build-spec §3) routes: same two components, one
 // per entry-type slug — see frontend/src/config/entryTypes.js.
@@ -34,6 +39,11 @@ export function App() {
           <Route key={slug} path={`/${slug}/:id/`} element={<EntryDetailPage slug={slug} />} />
         ))}
 
+        <Route path="/pdf-books/" element={<PdfBooksLandingPage />} />
+        {PDF_BOOK_CATEGORIES.map((c) => (
+          <Route key={c.slug} path={`/${c.slug}/`} element={<PdfBookCategoryPage slug={c.slug} />} />
+        ))}
+
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<RequireAdminAuth />}>
           <Route element={<AdminLayout />}>
@@ -41,6 +51,9 @@ export function App() {
             <Route path="/admin/entries/:type" element={<AdminEntriesListPage />} />
             <Route path="/admin/entries/:type/new" element={<AdminEntryFormPage />} />
             <Route path="/admin/entries/:type/:id/edit" element={<AdminEntryFormPage />} />
+            <Route path="/admin/pdf-books/:category" element={<AdminPdfBooksListPage />} />
+            <Route path="/admin/pdf-books/:category/new" element={<AdminPdfBookFormPage />} />
+            <Route path="/admin/pdf-books/:category/:id/edit" element={<AdminPdfBookFormPage />} />
           </Route>
         </Route>
 

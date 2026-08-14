@@ -16,14 +16,20 @@
 // Titles from sections that don't use this coding scheme (AP De Zoysa
 // Tripitaka, PTS/ENG Tripitaka, Other Valuable Books) simply get a null
 // link_prefix/link_book_code and are never matched — expected, not a bug.
+//
+// CAUTION: this DROPs and recreates pdf_books from the CSV every run. That
+// was fine when this table only held the legacy import, but the admin PDF
+// Books CRUD (backend/src/routes/admin-pdf-books.js) now writes to the
+// same table — re-running this script wipes any admin-added/edited rows.
+// Only run it again if you actually intend to reset to the original CSV.
 
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const fs = require('fs');
 const path = require('path');
 const { Client } = require('pg');
+const { extractLinkCode } = require('../src/pdfBookCode');
 
 const CSV_PATH = path.join(__dirname, '..', 'previous_system_files', 'pdf-books.csv');
-const CODE_RE = /^([A-Za-z]+)(\d*)_([A-Za-z0-9]+)_/;
 
 function parseCsvLine(line) {
   const result = [];
@@ -96,10 +102,8 @@ async function main() {
     });
     const [nCategory, nSection, nSubsection, nTitle, nLinkUrl, nLinkStatus] = normalized;
 
-    const match = nTitle.match(CODE_RE);
-    const linkPrefix = match ? match[1] : null;
-    const linkBookCode = match ? match[3] : null;
-    if (match) matchedCodeCount++;
+    const { linkPrefix, linkBookCode } = extractLinkCode(nTitle);
+    if (linkPrefix) matchedCodeCount++;
 
     const rowValues = [nCategory, nSection, nSubsection, nTitle, nLinkUrl, nLinkStatus, linkPrefix, linkBookCode];
     const placeholders = rowValues.map((_, idx) => `$${params.length + idx + 1}`);

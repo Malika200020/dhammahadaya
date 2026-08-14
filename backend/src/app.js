@@ -6,9 +6,11 @@ const { requireAdminAuth } = require('./middleware/requireAdminAuth');
 const dictionariesRouter = require('./routes/dictionaries');
 const tripitakaCatalogueRouter = require('./routes/tripitaka-catalogue');
 const entriesRouter = require('./routes/entries');
+const pdfBooksRouter = require('./routes/pdf-books');
 const adminAuthRouter = require('./routes/admin-auth');
 const adminEntriesRouter = require('./routes/admin-entries');
 const adminUploadsRouter = require('./routes/admin-uploads');
+const adminPdfBooksRouter = require('./routes/admin-pdf-books');
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -23,10 +25,12 @@ if ((process.env.STORAGE_DRIVER || 'local') === 'local') {
 app.use('/api/dictionaries', dictionariesRouter);
 app.use('/api/tripitaka-catalogue', tripitakaCatalogueRouter);
 app.use('/api/entries', entriesRouter);
+app.use('/api/pdf-books', pdfBooksRouter);
 
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin/entries', requireAdminAuth, adminEntriesRouter);
 app.use('/api/admin/uploads', requireAdminAuth, adminUploadsRouter);
+app.use('/api/admin/pdf-books', requireAdminAuth, adminPdfBooksRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

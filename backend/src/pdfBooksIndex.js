@@ -1,9 +1,10 @@
 const { pool } = require('./db');
 
-// pdf_books is 293 rows — small enough to hold in memory rather than
-// re-querying per catalogue cell. Loaded once, memoized for the process
-// lifetime (the data comes from a one-time legacy import, not something
-// that changes at runtime yet).
+// pdf_books is 293+ rows — small enough to hold in memory rather than
+// re-querying per catalogue cell. Memoized for the process lifetime, but
+// invalidated (see invalidatePdfBooksIndex) whenever the admin PDF Books
+// CRUD writes to the table, so the catalogue's link resolution doesn't
+// serve stale data until a restart.
 let cachedIndexPromise = null;
 
 async function loadPdfBooksIndex() {
@@ -25,4 +26,8 @@ function getPdfBooksIndex() {
   return cachedIndexPromise;
 }
 
-module.exports = { getPdfBooksIndex };
+function invalidatePdfBooksIndex() {
+  cachedIndexPromise = null;
+}
+
+module.exports = { getPdfBooksIndex, invalidatePdfBooksIndex };

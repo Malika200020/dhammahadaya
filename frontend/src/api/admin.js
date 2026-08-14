@@ -38,6 +38,21 @@ export const updateEntry = (id, entry) =>
 export const deleteEntry = (id) =>
   request(`/api/admin/entries/${id}`, { method: 'DELETE' });
 
+// --- pdf-books CRUD ---
+export const listAdminPdfBooks = (category) =>
+  request(`/api/admin/pdf-books?category=${encodeURIComponent(category)}`);
+
+export const getAdminPdfBook = (id) => request(`/api/admin/pdf-books/${id}`);
+
+export const createPdfBook = (entry) =>
+  request('/api/admin/pdf-books', { method: 'POST', ...jsonBody(entry) });
+
+export const updatePdfBook = (id, entry) =>
+  request(`/api/admin/pdf-books/${id}`, { method: 'PUT', ...jsonBody(entry) });
+
+export const deletePdfBook = (id) =>
+  request(`/api/admin/pdf-books/${id}`, { method: 'DELETE' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

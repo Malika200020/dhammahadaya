@@ -1,0 +1,43 @@
+.pdf-books-landing {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.pdf-books-landing h1 {
+  color: var(--color-text-accent);
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 0.5rem;
+}
+
+.pdf-books-landing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.pdf-books-landing__card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+.pdf-books-landing__card:hover {
+  border-color: var(--color-primary);
+}
+
+.pdf-books-landing__title-en {
+  font-weight: 700;
+  color: var(--color-text-accent);
+}
+
+.pdf-books-landing__title-si {
+  color: var(--color-primary-dark);
+}

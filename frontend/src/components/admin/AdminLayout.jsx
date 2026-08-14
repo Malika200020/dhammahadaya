@@ -1,6 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import { useAdminSession } from '../../hooks/useAdminSession';
 import { ENTRY_TYPES } from '../../config/entryTypes';
+import { PDF_BOOK_CATEGORIES } from '../../config/pdfBookCategories';
 import './AdminLayout.css';
 
 export function AdminLayout() {
@@ -14,6 +15,12 @@ export function AdminLayout() {
           {ENTRY_TYPES.map((t) => (
             <Link key={t.type} to={`/admin/entries/${t.type}`}>
               {t.label}
+            </Link>
+          ))}
+          <hr />
+          {PDF_BOOK_CATEGORIES.map((c) => (
+            <Link key={c.slug} to={`/admin/pdf-books/${c.slug}`}>
+              {c.titleEn}
             </Link>
           ))}
         </nav>
