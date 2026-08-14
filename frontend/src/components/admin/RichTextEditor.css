@@ -1,0 +1,9 @@
+.rich-text-editor {
+  background: var(--color-white);
+  min-height: 220px;
+}
+
+.rich-text-editor .ql-editor {
+  min-height: 200px;
+  font-size: 1rem;
+}

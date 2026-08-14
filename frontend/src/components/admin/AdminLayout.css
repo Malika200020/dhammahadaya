@@ -1,0 +1,62 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-layout__sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--color-text-accent);
+  color: var(--color-white);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-layout__sidebar h2 {
+  margin-top: 0;
+  color: var(--color-primary);
+}
+
+.admin-layout__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.admin-layout__nav a {
+  color: var(--color-white);
+  text-decoration: none;
+  padding: 0.4rem 0.5rem;
+  border-radius: 4px;
+}
+
+.admin-layout__nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-layout__account {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.admin-layout__account button {
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem;
+  cursor: pointer;
+  color: var(--color-text-accent);
+  font-weight: 600;
+}
+
+.admin-layout__content {
+  flex: 1;
+  padding: 2rem;
+  background: var(--color-background);
+}
