@@ -23,6 +23,10 @@ export function AdminLayout() {
               {c.titleEn}
             </Link>
           ))}
+          <hr />
+          <Link to="/admin/video-series">Dhamma Sermon Series</Link>
+          <Link to="/admin/videos/buddha-puja">Buddha Puja Videos</Link>
+          <Link to="/admin/galleries/buddha-puja">Buddha Puja Gallery</Link>
         </nav>
         <div className="admin-layout__account">
           <span>{session?.email}</span>

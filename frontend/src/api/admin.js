@@ -53,6 +53,46 @@ export const updatePdfBook = (id, entry) =>
 export const deletePdfBook = (id) =>
   request(`/api/admin/pdf-books/${id}`, { method: 'DELETE' });
 
+// --- video series CRUD ---
+export const listAdminVideoSeries = () => request('/api/admin/video-series');
+
+export const createVideoSeries = (series) =>
+  request('/api/admin/video-series', { method: 'POST', ...jsonBody(series) });
+
+export const updateVideoSeries = (slug, series) =>
+  request(`/api/admin/video-series/${slug}`, { method: 'PUT', ...jsonBody(series) });
+
+export const deleteVideoSeries = (slug) =>
+  request(`/api/admin/video-series/${slug}`, { method: 'DELETE' });
+
+// --- videos CRUD ---
+export const listAdminVideos = (section, seriesSlug) =>
+  request(`/api/admin/videos?section=${encodeURIComponent(section)}${seriesSlug ? `&seriesSlug=${encodeURIComponent(seriesSlug)}` : ''}`);
+
+export const getAdminVideo = (id) => request(`/api/admin/videos/${id}`);
+
+export const createVideo = (video) =>
+  request('/api/admin/videos', { method: 'POST', ...jsonBody(video) });
+
+export const updateVideo = (id, video) =>
+  request(`/api/admin/videos/${id}`, { method: 'PUT', ...jsonBody(video) });
+
+export const deleteVideo = (id) =>
+  request(`/api/admin/videos/${id}`, { method: 'DELETE' });
+
+// --- gallery images CRUD ---
+export const listAdminGalleryImages = (gallery, key) =>
+  request(`/api/admin/galleries?gallery=${encodeURIComponent(gallery)}${key ? `&key=${encodeURIComponent(key)}` : ''}`);
+
+export const createGalleryImage = (image) =>
+  request('/api/admin/galleries', { method: 'POST', ...jsonBody(image) });
+
+export const updateGalleryImage = (id, image) =>
+  request(`/api/admin/galleries/${id}`, { method: 'PUT', ...jsonBody(image) });
+
+export const deleteGalleryImage = (id) =>
+  request(`/api/admin/galleries/${id}`, { method: 'DELETE' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

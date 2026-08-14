@@ -5,14 +5,23 @@ import { EntryListPage } from './pages/EntryListPage';
 import { EntryDetailPage } from './pages/EntryDetailPage';
 import { PdfBooksLandingPage } from './pages/PdfBooksLandingPage';
 import { PdfBookCategoryPage } from './pages/PdfBookCategoryPage';
+import { DhammaSermonIndexPage } from './pages/DhammaSermonIndexPage';
+import { DhammaSermonSeriesPage } from './pages/DhammaSermonSeriesPage';
+import { BuddhaPujaPage } from './pages/BuddhaPujaPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminEntriesListPage } from './pages/admin/AdminEntriesListPage';
 import { AdminEntryFormPage } from './pages/admin/AdminEntryFormPage';
 import { AdminPdfBooksListPage } from './pages/admin/AdminPdfBooksListPage';
 import { AdminPdfBookFormPage } from './pages/admin/AdminPdfBookFormPage';
+import { AdminVideoSeriesListPage } from './pages/admin/AdminVideoSeriesListPage';
+import { AdminVideoSeriesFormPage } from './pages/admin/AdminVideoSeriesFormPage';
+import { AdminVideosListPage } from './pages/admin/AdminVideosListPage';
+import { AdminVideoFormPage } from './pages/admin/AdminVideoFormPage';
+import { AdminGalleryPage } from './pages/admin/AdminGalleryPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
+import { DHAMMA_SERMON_SERIES_SLUGS } from './config/dhammaSermonSeries';
 
 // Article-list pattern (build-spec §3) routes: same two components, one
 // per entry-type slug — see frontend/src/config/entryTypes.js.
@@ -44,6 +53,12 @@ export function App() {
           <Route key={c.slug} path={`/${c.slug}/`} element={<PdfBookCategoryPage slug={c.slug} />} />
         ))}
 
+        <Route path="/dhamma-sermon/" element={<DhammaSermonIndexPage />} />
+        {DHAMMA_SERMON_SERIES_SLUGS.map((slug) => (
+          <Route key={slug} path={`/${slug}/`} element={<DhammaSermonSeriesPage seriesSlug={slug} />} />
+        ))}
+        <Route path="/buddha-puja/" element={<BuddhaPujaPage />} />
+
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<RequireAdminAuth />}>
           <Route element={<AdminLayout />}>
@@ -54,6 +69,23 @@ export function App() {
             <Route path="/admin/pdf-books/:category" element={<AdminPdfBooksListPage />} />
             <Route path="/admin/pdf-books/:category/new" element={<AdminPdfBookFormPage />} />
             <Route path="/admin/pdf-books/:category/:id/edit" element={<AdminPdfBookFormPage />} />
+
+            <Route path="/admin/video-series" element={<AdminVideoSeriesListPage />} />
+            <Route path="/admin/video-series/new" element={<AdminVideoSeriesFormPage />} />
+            <Route path="/admin/video-series/:slug/edit" element={<AdminVideoSeriesFormPage />} />
+
+            <Route path="/admin/videos/dhamma-sermon/:seriesSlug" element={<AdminVideosListPage section="dhamma_sermon" />} />
+            <Route path="/admin/videos/dhamma-sermon/:seriesSlug/new" element={<AdminVideoFormPage section="dhamma_sermon" />} />
+            <Route path="/admin/videos/dhamma-sermon/:seriesSlug/:id/edit" element={<AdminVideoFormPage section="dhamma_sermon" />} />
+
+            <Route path="/admin/videos/buddha-puja" element={<AdminVideosListPage section="buddha_puja" />} />
+            <Route path="/admin/videos/buddha-puja/new" element={<AdminVideoFormPage section="buddha_puja" />} />
+            <Route path="/admin/videos/buddha-puja/:id/edit" element={<AdminVideoFormPage section="buddha_puja" />} />
+
+            <Route
+              path="/admin/galleries/buddha-puja"
+              element={<AdminGalleryPage gallery="buddha-puja" title="Buddha Puja Photo Gallery" />}
+            />
           </Route>
         </Route>
 
