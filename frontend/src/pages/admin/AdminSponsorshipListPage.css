@@ -1,0 +1,96 @@
+.admin-sponsorship__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.admin-sponsorship__header h1 {
+  color: var(--color-text-accent);
+  margin: 0;
+}
+
+.admin-sponsorship__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.admin-sponsorship__tab {
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-text-accent);
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-sponsorship__tab--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary-dark);
+}
+
+.admin-sponsorship__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: 0.9rem;
+}
+
+.admin-sponsorship__table th,
+.admin-sponsorship__table td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-sponsorship__status {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.admin-sponsorship__status--pending {
+  background: #fff3d6;
+  color: #7a5a00;
+}
+
+.admin-sponsorship__status--booked {
+  background: #dff2df;
+  color: #1b5e20;
+}
+
+.admin-sponsorship__status--declined {
+  background: #f2f2f2;
+  color: #666;
+}
+
+.admin-sponsorship__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.admin-sponsorship__actions button {
+  background: none;
+  border: none;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.admin-sponsorship__actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-sponsorship__empty {
+  color: #8a7a63;
+  text-align: center;
+}
+
+.admin-sponsorship__error {
+  color: #b00020;
+}

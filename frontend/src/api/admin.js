@@ -93,6 +93,16 @@ export const updateGalleryImage = (id, image) =>
 export const deleteGalleryImage = (id) =>
   request(`/api/admin/galleries/${id}`, { method: 'DELETE' });
 
+// --- sponsorship bookings ---
+export const listAdminBookings = (status) =>
+  request(`/api/admin/sponsorship${status ? `?status=${encodeURIComponent(status)}` : ''}`);
+
+export const confirmBooking = (id) =>
+  request(`/api/admin/sponsorship/${id}/confirm`, { method: 'POST' });
+
+export const declineBooking = (id) =>
+  request(`/api/admin/sponsorship/${id}/decline`, { method: 'POST' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

@@ -27,6 +27,8 @@ export function AdminLayout() {
           <Link to="/admin/video-series">Dhamma Sermon Series</Link>
           <Link to="/admin/videos/buddha-puja">Buddha Puja Videos</Link>
           <Link to="/admin/galleries/buddha-puja">Buddha Puja Gallery</Link>
+          <hr />
+          <Link to="/admin/sponsorship">Sponsorship Bookings</Link>
         </nav>
         <div className="admin-layout__account">
           <span>{session?.email}</span>

@@ -1,0 +1,114 @@
+.booking-calendar__legend {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.booking-calendar__legend-item {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.booking-calendar__legend-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 3px;
+}
+
+.booking-calendar__legend-item--available::before {
+  background: #dff2df;
+  border: 1px solid #4caf50;
+}
+
+.booking-calendar__legend-item--pending::before {
+  background: #fff3d6;
+  border: 1px solid #e0a300;
+}
+
+.booking-calendar__legend-item--booked::before {
+  background: #f6d9d9;
+  border: 1px solid #b00020;
+}
+
+.booking-calendar__months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.booking-calendar__month h3 {
+  color: var(--color-text-accent);
+  margin: 0 0 0.5rem;
+}
+
+.booking-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 2.2rem);
+  gap: 0.25rem;
+}
+
+.booking-calendar__weekday {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-accent);
+  opacity: 0.7;
+}
+
+.booking-calendar__cell {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.booking-calendar__cell--blank {
+  border: none;
+  background: none;
+  cursor: default;
+}
+
+.booking-calendar__cell--available {
+  background: #dff2df;
+  border-color: #4caf50;
+  color: #1b5e20;
+}
+
+.booking-calendar__cell--pending {
+  background: #fff3d6;
+  border-color: #e0a300;
+  color: #7a5a00;
+  cursor: not-allowed;
+}
+
+.booking-calendar__cell--booked {
+  background: #f6d9d9;
+  border-color: #b00020;
+  color: #7a0016;
+  cursor: not-allowed;
+}
+
+.booking-calendar__cell--past {
+  background: #f2f2f2;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.booking-calendar__cell--selected {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 1px;
+  font-weight: 700;
+}
+
+.booking-calendar__cell:disabled {
+  opacity: 0.85;
+}

@@ -144,7 +144,41 @@ async function main() {
       ON gallery_images (gallery, gallery_key, "order");
   `);
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images.');
+  // sponsorship_booking (build-spec §10). "available" is never stored as a
+  // row — it's the absence of an active (pending/booked) row for a date, so
+  // there's no need for a background job to pre-populate every future
+  // calendar date. `declined` isn't in the spec's status list but is added
+  // so admin has a way to release a mistakenly-pending date back to
+  // available (otherwise a bad request would permanently lock that date).
+  // Double-booking is prevented at the DB level, not just in app code: the
+  // partial unique index below lets Postgres itself reject a second
+  // pending/booked row for the same date, even under a concurrent race
+  // between two submissions — the INSERT either succeeds or throws a unique
+  // violation (23505) that the route catches and turns into a 409.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS sponsorship_booking (
+      id SERIAL PRIMARY KEY,
+      date DATE NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'booked', 'declined')),
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      objective TEXT,
+      mailing_address TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      confirmed_at TIMESTAMPTZ
+    );
+  `);
+  await client.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_sponsorship_booking_active_date
+      ON sponsorship_booking (date) WHERE status IN ('pending', 'booked');
+  `);
+  await client.query(`
+    CREATE INDEX IF NOT EXISTS idx_sponsorship_booking_status_date
+      ON sponsorship_booking (status, date);
+  `);
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking.');
   await client.end();
 }
 

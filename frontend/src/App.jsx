@@ -8,6 +8,7 @@ import { PdfBookCategoryPage } from './pages/PdfBookCategoryPage';
 import { DhammaSermonIndexPage } from './pages/DhammaSermonIndexPage';
 import { DhammaSermonSeriesPage } from './pages/DhammaSermonSeriesPage';
 import { BuddhaPujaPage } from './pages/BuddhaPujaPage';
+import { SponsorshipPage } from './pages/SponsorshipPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminEntriesListPage } from './pages/admin/AdminEntriesListPage';
 import { AdminEntryFormPage } from './pages/admin/AdminEntryFormPage';
@@ -18,6 +19,7 @@ import { AdminVideoSeriesFormPage } from './pages/admin/AdminVideoSeriesFormPage
 import { AdminVideosListPage } from './pages/admin/AdminVideosListPage';
 import { AdminVideoFormPage } from './pages/admin/AdminVideoFormPage';
 import { AdminGalleryPage } from './pages/admin/AdminGalleryPage';
+import { AdminSponsorshipListPage } from './pages/admin/AdminSponsorshipListPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
@@ -58,6 +60,7 @@ export function App() {
           <Route key={slug} path={`/${slug}/`} element={<DhammaSermonSeriesPage seriesSlug={slug} />} />
         ))}
         <Route path="/buddha-puja/" element={<BuddhaPujaPage />} />
+        <Route path="/sponsorship/" element={<SponsorshipPage />} />
 
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<RequireAdminAuth />}>
@@ -86,6 +89,8 @@ export function App() {
               path="/admin/galleries/buddha-puja"
               element={<AdminGalleryPage gallery="buddha-puja" title="Buddha Puja Photo Gallery" />}
             />
+
+            <Route path="/admin/sponsorship" element={<AdminSponsorshipListPage />} />
           </Route>
         </Route>
 

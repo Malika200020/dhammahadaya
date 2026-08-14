@@ -16,6 +16,8 @@ const adminPdfBooksRouter = require('./routes/admin-pdf-books');
 const adminVideoSeriesRouter = require('./routes/admin-video-series');
 const adminVideosRouter = require('./routes/admin-videos');
 const adminGalleriesRouter = require('./routes/admin-galleries');
+const sponsorshipRouter = require('./routes/sponsorship');
+const adminSponsorshipRouter = require('./routes/admin-sponsorship');
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -33,6 +35,7 @@ app.use('/api/entries', entriesRouter);
 app.use('/api/pdf-books', pdfBooksRouter);
 app.use('/api/videos', videosRouter);
 app.use('/api/galleries', galleriesRouter);
+app.use('/api/sponsorship', sponsorshipRouter);
 
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin/entries', requireAdminAuth, adminEntriesRouter);
@@ -41,6 +44,7 @@ app.use('/api/admin/pdf-books', requireAdminAuth, adminPdfBooksRouter);
 app.use('/api/admin/video-series', requireAdminAuth, adminVideoSeriesRouter);
 app.use('/api/admin/videos', requireAdminAuth, adminVideosRouter);
 app.use('/api/admin/galleries', requireAdminAuth, adminGalleriesRouter);
+app.use('/api/admin/sponsorship', requireAdminAuth, adminSponsorshipRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
