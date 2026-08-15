@@ -58,3 +58,9 @@
   margin: 0;
   font-size: 0.9rem;
 }
+
+.admin-login__hint {
+  margin: -0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #6b5a44;
+}

@@ -343,7 +343,35 @@ async function main() {
     );
   `);
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber.');
+  // pdf_books (build-spec §8) — previously owned entirely by
+  // scripts/import-pdf-books.js, which DROPped and recreated this table on
+  // every run. Moved here so it follows the same idempotent
+  // CREATE-TABLE-IF-NOT-EXISTS pattern as every other admin-writable
+  // table, and gains a `source` column so the importer can tell untouched
+  // legacy CSV rows apart from admin-added/edited ones and refuse to run
+  // if any admin rows exist, instead of silently wiping them (see
+  // scripts/import-pdf-books.js). New rows default to 'admin' — anything
+  // not explicitly tagged as a legacy import is treated as admin-owned.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS pdf_books (
+      id SERIAL PRIMARY KEY,
+      category TEXT,
+      section TEXT,
+      subsection TEXT,
+      title TEXT,
+      link_url TEXT,
+      link_status TEXT,
+      link_prefix TEXT,
+      link_book_code TEXT,
+      source TEXT NOT NULL DEFAULT 'admin'
+    );
+  `);
+  await client.query(`ALTER TABLE pdf_books ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'admin';`);
+  await client.query(`
+    CREATE INDEX IF NOT EXISTS idx_pdf_books_link_ref ON pdf_books (link_prefix, link_book_code);
+  `);
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber, pdf_books.');
   await client.end();
 }
 

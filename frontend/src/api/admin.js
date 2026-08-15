@@ -19,6 +19,8 @@ function jsonBody(data) {
 export const login = (email, password) =>
   request('/api/admin/auth/login', { method: 'POST', ...jsonBody({ email, password }) });
 
+export const verifyOtp = (code) => request('/api/admin/auth/verify-otp', { method: 'POST', ...jsonBody({ code }) });
+
 export const logout = () => request('/api/admin/auth/logout', { method: 'POST' });
 
 export const getSession = () => request('/api/admin/auth/me');

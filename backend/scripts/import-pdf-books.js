@@ -17,11 +17,11 @@
 // Tripitaka, PTS/ENG Tripitaka, Other Valuable Books) simply get a null
 // link_prefix/link_book_code and are never matched — expected, not a bug.
 //
-// CAUTION: this DROPs and recreates pdf_books from the CSV every run. That
-// was fine when this table only held the legacy import, but the admin PDF
-// Books CRUD (backend/src/routes/admin-pdf-books.js) now writes to the
-// same table — re-running this script wipes any admin-added/edited rows.
-// Only run it again if you actually intend to reset to the original CSV.
+// This only ever replaces rows tagged source='legacy_import' — it refuses
+// to run at all if any source='admin' row exists (admin-created or
+// admin-edited, see backend/src/routes/admin-pdf-books.js), so it can't
+// silently wipe real admin work. The table itself is owned by
+// scripts/migrate.js (CREATE TABLE IF NOT EXISTS) — run that first.
 
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const fs = require('fs');
@@ -75,20 +75,21 @@ async function main() {
   });
   await client.connect();
 
-  await client.query('DROP TABLE IF EXISTS pdf_books;');
-  await client.query(`
-    CREATE TABLE pdf_books (
-      id SERIAL PRIMARY KEY,
-      category TEXT,
-      section TEXT,
-      subsection TEXT,
-      title TEXT,
-      link_url TEXT,
-      link_status TEXT,
-      link_prefix TEXT,
-      link_book_code TEXT
+  const adminRows = await client.query(`SELECT count(*) FROM pdf_books WHERE source = 'admin';`);
+  const adminRowCount = Number(adminRows.rows[0].count);
+  if (adminRowCount > 0) {
+    console.error(
+      `Refusing to run: ${adminRowCount} pdf_books row(s) are admin-added/edited (source='admin'). ` +
+        `Re-importing the legacy CSV would silently overwrite them. If you really intend to reset ` +
+        `everything to the original CSV, back up/export those rows first, then delete them (or run ` +
+        `\`DELETE FROM pdf_books WHERE source = 'admin';\`) before re-running this script.`
     );
-  `);
+    await client.end();
+    process.exitCode = 1;
+    return;
+  }
+
+  await client.query(`DELETE FROM pdf_books WHERE source = 'legacy_import';`);
 
   let normalizedFieldCount = 0;
   let matchedCodeCount = 0;
@@ -105,21 +106,20 @@ async function main() {
     const { linkPrefix, linkBookCode } = extractLinkCode(nTitle);
     if (linkPrefix) matchedCodeCount++;
 
-    const rowValues = [nCategory, nSection, nSubsection, nTitle, nLinkUrl, nLinkStatus, linkPrefix, linkBookCode];
+    const rowValues = [nCategory, nSection, nSubsection, nTitle, nLinkUrl, nLinkStatus, linkPrefix, linkBookCode, 'legacy_import'];
     const placeholders = rowValues.map((_, idx) => `$${params.length + idx + 1}`);
     valueRows.push(`(${placeholders.join(', ')})`);
     params.push(...rowValues);
   }
   await client.query(
-    `INSERT INTO pdf_books (category, section, subsection, title, link_url, link_status, link_prefix, link_book_code)
+    `INSERT INTO pdf_books (category, section, subsection, title, link_url, link_status, link_prefix, link_book_code, source)
      VALUES ${valueRows.join(', ')};`,
     params
   );
 
-  await client.query('CREATE INDEX idx_pdf_books_link_ref ON pdf_books (link_prefix, link_book_code);');
   await client.query('ANALYZE pdf_books;');
 
-  const countRes = await client.query('SELECT count(*) FROM pdf_books;');
+  const countRes = await client.query(`SELECT count(*) FROM pdf_books WHERE source = 'legacy_import';`);
   console.log('Imported rows:', countRes.rows[0].count, '(expected 293)');
   console.log('Rows with a derived link_prefix/link_book_code:', matchedCodeCount, '(expected 161)');
   console.log('Fields needing NFC normalization:', normalizedFieldCount);

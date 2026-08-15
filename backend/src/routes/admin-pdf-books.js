@@ -53,8 +53,8 @@ router.post('/', async (req, res, next) => {
     }
     const { linkPrefix, linkBookCode } = extractLinkCode(title);
     const result = await pool.query(
-      `INSERT INTO pdf_books (category, section, subsection, title, link_url, link_status, link_prefix, link_book_code)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      `INSERT INTO pdf_books (category, section, subsection, title, link_url, link_status, link_prefix, link_book_code, source)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'admin')
        RETURNING *;`,
       [categoryConfig.category, section, subsection, title, link_url || '', link_status, linkPrefix, linkBookCode]
     );
@@ -79,10 +79,13 @@ router.put('/:id', async (req, res, next) => {
       return res.status(400).json({ error: `link_status must be one of: ${[...VALID_STATUSES].join(', ')}` });
     }
     const { linkPrefix, linkBookCode } = extractLinkCode(title);
+    // Any admin edit — including fixing up a legacy row — reclassifies it
+    // as source='admin', so a future re-run of the CSV importer refuses to
+    // touch it instead of silently reverting the edit.
     const result = await pool.query(
       `UPDATE pdf_books SET
          category = $1, section = $2, subsection = $3, title = $4,
-         link_url = $5, link_status = $6, link_prefix = $7, link_book_code = $8
+         link_url = $5, link_status = $6, link_prefix = $7, link_book_code = $8, source = 'admin'
        WHERE id = $9
        RETURNING *;`,
       [categoryConfig.category, section, subsection, title, link_url || '', link_status, linkPrefix, linkBookCode, req.params.id]
