@@ -18,6 +18,12 @@ const adminVideosRouter = require('./routes/admin-videos');
 const adminGalleriesRouter = require('./routes/admin-galleries');
 const sponsorshipRouter = require('./routes/sponsorship');
 const adminSponsorshipRouter = require('./routes/admin-sponsorship');
+const meditationRouter = require('./routes/meditation');
+const adminMeditationRouter = require('./routes/admin-meditation');
+const katinaRouter = require('./routes/katina');
+const adminKatinaRouter = require('./routes/admin-katina');
+const pohoyaCalendarRouter = require('./routes/pohoya-calendar');
+const adminPohoyaCalendarRouter = require('./routes/admin-pohoya-calendar');
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -36,6 +42,9 @@ app.use('/api/pdf-books', pdfBooksRouter);
 app.use('/api/videos', videosRouter);
 app.use('/api/galleries', galleriesRouter);
 app.use('/api/sponsorship', sponsorshipRouter);
+app.use('/api/meditation-applications', meditationRouter);
+app.use('/api/katina', katinaRouter);
+app.use('/api/pohoya-calendar', pohoyaCalendarRouter);
 
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin/entries', requireAdminAuth, adminEntriesRouter);
@@ -45,6 +54,9 @@ app.use('/api/admin/video-series', requireAdminAuth, adminVideoSeriesRouter);
 app.use('/api/admin/videos', requireAdminAuth, adminVideosRouter);
 app.use('/api/admin/galleries', requireAdminAuth, adminGalleriesRouter);
 app.use('/api/admin/sponsorship', requireAdminAuth, adminSponsorshipRouter);
+app.use('/api/admin/meditation-applications', requireAdminAuth, adminMeditationRouter);
+app.use('/api/admin/katina', requireAdminAuth, adminKatinaRouter);
+app.use('/api/admin/pohoya-calendar', requireAdminAuth, adminPohoyaCalendarRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

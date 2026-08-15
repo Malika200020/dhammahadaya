@@ -1,0 +1,63 @@
+.admin-pohoya__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.admin-pohoya__header h1 {
+  color: var(--color-text-accent);
+  margin: 0;
+}
+
+.admin-pohoya__new {
+  background: var(--color-primary);
+  color: var(--color-text-accent);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.admin-pohoya__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: 0.9rem;
+}
+
+.admin-pohoya__table th,
+.admin-pohoya__table td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-pohoya__actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.admin-pohoya__actions a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.admin-pohoya__actions button {
+  background: none;
+  border: none;
+  color: #b00020;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.admin-pohoya__empty {
+  color: #8a7a63;
+  text-align: center;
+}
+
+.admin-pohoya__error {
+  color: #b00020;
+}

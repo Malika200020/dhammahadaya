@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { DictionaryPage } from './pages/DictionaryPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
@@ -9,6 +9,11 @@ import { DhammaSermonIndexPage } from './pages/DhammaSermonIndexPage';
 import { DhammaSermonSeriesPage } from './pages/DhammaSermonSeriesPage';
 import { BuddhaPujaPage } from './pages/BuddhaPujaPage';
 import { SponsorshipPage } from './pages/SponsorshipPage';
+import { MeditationProgramsPage } from './pages/MeditationProgramsPage';
+import { KatinaCeremonyPage } from './pages/KatinaCeremonyPage';
+import { ProgramsLandingPage } from './pages/ProgramsLandingPage';
+import { SatharaPohoyaCalendarIndexPage } from './pages/SatharaPohoyaCalendarIndexPage';
+import { PohoyaCalendarYearPage } from './pages/PohoyaCalendarYearPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminEntriesListPage } from './pages/admin/AdminEntriesListPage';
 import { AdminEntryFormPage } from './pages/admin/AdminEntryFormPage';
@@ -20,6 +25,12 @@ import { AdminVideosListPage } from './pages/admin/AdminVideosListPage';
 import { AdminVideoFormPage } from './pages/admin/AdminVideoFormPage';
 import { AdminGalleryPage } from './pages/admin/AdminGalleryPage';
 import { AdminSponsorshipListPage } from './pages/admin/AdminSponsorshipListPage';
+import { AdminMeditationApplicationsPage } from './pages/admin/AdminMeditationApplicationsPage';
+import { AdminKatinaListPage } from './pages/admin/AdminKatinaListPage';
+import { AdminKatinaYearFormPage } from './pages/admin/AdminKatinaYearFormPage';
+import { AdminKatinaGalleryPage } from './pages/admin/AdminKatinaGalleryPage';
+import { AdminPohoyaCalendarListPage } from './pages/admin/AdminPohoyaCalendarListPage';
+import { AdminPohoyaCalendarFormPage } from './pages/admin/AdminPohoyaCalendarFormPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
@@ -28,6 +39,21 @@ import { DHAMMA_SERMON_SERIES_SLUGS } from './config/dhammaSermonSeries';
 // Article-list pattern (build-spec §3) routes: same two components, one
 // per entry-type slug — see frontend/src/config/entryTypes.js.
 const ARTICLE_LIST_SLUGS = ['post', 'ape-budu-hamuduruwo-all', 'important-articles'];
+
+// React Router v6 can't match a :param fused into a literal path segment
+// (confirmed: a path like "/sathara-pohoya-calendar-:year/" and a splat
+// like "/sathara-pohoya-calendar-*" both fail to match) — so the exact
+// "/sathara-pohoya-calendar-2026/" URL shape from the legacy site can only
+// be handled via the catch-all route below + manual parsing, which is what
+// keeps this genuinely open-ended for admin-added future years without a
+// code change.
+function CatchAllRoute() {
+  const { pathname } = useLocation();
+  if (/^\/sathara-pohoya-calendar-[^/]+\/?$/.test(pathname)) {
+    return <PohoyaCalendarYearPage />;
+  }
+  return <p style={{ padding: '2rem' }}>Page not found.</p>;
+}
 
 export function App() {
   return (
@@ -61,6 +87,10 @@ export function App() {
         ))}
         <Route path="/buddha-puja/" element={<BuddhaPujaPage />} />
         <Route path="/sponsorship/" element={<SponsorshipPage />} />
+        <Route path="/meditation-programs/" element={<MeditationProgramsPage />} />
+        <Route path="/kathina-ceremony/" element={<KatinaCeremonyPage />} />
+        <Route path="/programs/" element={<ProgramsLandingPage />} />
+        <Route path="/sathara-pohoya-calendar/" element={<SatharaPohoyaCalendarIndexPage />} />
 
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<RequireAdminAuth />}>
@@ -91,10 +121,22 @@ export function App() {
             />
 
             <Route path="/admin/sponsorship" element={<AdminSponsorshipListPage />} />
+
+            <Route path="/admin/meditation-applications" element={<AdminMeditationApplicationsPage />} />
+
+            <Route path="/admin/katina" element={<AdminKatinaListPage />} />
+            <Route path="/admin/katina/new" element={<AdminKatinaYearFormPage />} />
+            <Route path="/admin/katina/:year/edit" element={<AdminKatinaYearFormPage />} />
+            <Route path="/admin/galleries/katina/:year" element={<AdminKatinaGalleryPage />} />
+
+            <Route path="/admin/pohoya-calendar" element={<AdminPohoyaCalendarListPage />} />
+            <Route path="/admin/pohoya-calendar/new" element={<AdminPohoyaCalendarFormPage />} />
+            <Route path="/admin/pohoya-calendar/:year/edit" element={<AdminPohoyaCalendarFormPage />} />
           </Route>
         </Route>
 
         <Route path="/" element={<Navigate to="/sinhala-dictionary/" replace />} />
+        <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </BrowserRouter>
   );

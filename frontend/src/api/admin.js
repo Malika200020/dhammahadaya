@@ -103,6 +103,40 @@ export const confirmBooking = (id) =>
 export const declineBooking = (id) =>
   request(`/api/admin/sponsorship/${id}/decline`, { method: 'POST' });
 
+// --- meditation applications ---
+export const listAdminMeditationApplications = () => request('/api/admin/meditation-applications');
+
+export const deleteMeditationApplication = (id) =>
+  request(`/api/admin/meditation-applications/${id}`, { method: 'DELETE' });
+
+// --- katina years ---
+export const listAdminKatinaYears = () => request('/api/admin/katina');
+
+export const getAdminKatinaYear = (year) => request(`/api/admin/katina/${year}`);
+
+export const createKatinaYear = (year) =>
+  request('/api/admin/katina', { method: 'POST', ...jsonBody(year) });
+
+export const updateKatinaYear = (year, data) =>
+  request(`/api/admin/katina/${year}`, { method: 'PUT', ...jsonBody(data) });
+
+export const deleteKatinaYear = (year) =>
+  request(`/api/admin/katina/${year}`, { method: 'DELETE' });
+
+// --- pohoya calendar years ---
+export const listAdminPohoyaCalendarYears = () => request('/api/admin/pohoya-calendar');
+
+export const getAdminPohoyaCalendarYear = (year) => request(`/api/admin/pohoya-calendar/${year}`);
+
+export const createPohoyaCalendarYear = (data) =>
+  request('/api/admin/pohoya-calendar', { method: 'POST', ...jsonBody(data) });
+
+export const updatePohoyaCalendarYear = (year, data) =>
+  request(`/api/admin/pohoya-calendar/${year}`, { method: 'PUT', ...jsonBody(data) });
+
+export const deletePohoyaCalendarYear = (year) =>
+  request(`/api/admin/pohoya-calendar/${year}`, { method: 'DELETE' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

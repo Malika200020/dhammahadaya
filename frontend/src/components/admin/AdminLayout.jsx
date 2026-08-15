@@ -29,6 +29,10 @@ export function AdminLayout() {
           <Link to="/admin/galleries/buddha-puja">Buddha Puja Gallery</Link>
           <hr />
           <Link to="/admin/sponsorship">Sponsorship Bookings</Link>
+          <hr />
+          <Link to="/admin/meditation-applications">Meditation Applications</Link>
+          <Link to="/admin/katina">Katina Ceremony Years</Link>
+          <Link to="/admin/pohoya-calendar">Pohoya Calendars</Link>
         </nav>
         <div className="admin-layout__account">
           <span>{session?.email}</span>

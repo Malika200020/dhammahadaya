@@ -178,7 +178,68 @@ async function main() {
       ON sponsorship_booking (status, date);
   `);
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking.');
+  // meditation_application (build-spec §13). The 7-day max stay is enforced
+  // in the route (a CHECK using date arithmetic would work too, but the
+  // route already has to validate everything else about the submission, so
+  // keeping the one time-based rule there avoids splitting validation logic
+  // across two places for no real safety gain — unlike the sponsorship
+  // double-booking guard, there's no concurrent-write race here to defend
+  // against at the DB level).
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS meditation_application (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      from_date DATE NOT NULL,
+      to_date DATE NOT NULL,
+      experience TEXT NOT NULL CHECK (experience IN ('yes', 'no')),
+      meditation_types TEXT,
+      previous_teachers TEXT,
+      current_diseases TEXT,
+      agreed BOOLEAN NOT NULL CHECK (agreed = true),
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+
+  // katina_year (build-spec §11). `organizers` is just a flat list of names
+  // (nothing in the spec gives them further structure), so a Postgres array
+  // column is enough — no need for a separate organizers table. The photo
+  // gallery reuses gallery_images from step 7 via gallery='katina',
+  // gallery_key=<year>, exactly the per-year scoping it was built for.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS katina_year (
+      year INTEGER PRIMARY KEY,
+      organizers TEXT[] NOT NULL DEFAULT '{}'
+    );
+  `);
+
+  // pohoya_calendar (build-spec §16) — `rows` matches the spec's own data
+  // model shape (an array of {month_si_en, date, weekday, poya}) so it's
+  // stored as JSONB rather than a normalized child table; each year's table
+  // is always read/written as a whole, never queried row-by-row.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS pohoya_calendar (
+      year INTEGER PRIMARY KEY,
+      rows JSONB NOT NULL,
+      image_url TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+  const seedYears = [
+    [2025, require('../src/content/pohoyaCalendar2025.json')],
+    [2026, require('../src/content/pohoyaCalendar2026.json')],
+  ];
+  for (const [year, rows] of seedYears) {
+    await client.query(
+      `INSERT INTO pohoya_calendar (year, rows, image_url) VALUES ($1, $2, NULL)
+       ON CONFLICT (year) DO NOTHING;`,
+      [year, JSON.stringify(rows)]
+    );
+  }
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar.');
   await client.end();
 }
 

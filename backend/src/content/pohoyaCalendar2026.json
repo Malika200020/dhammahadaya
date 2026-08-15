@@ -1,0 +1,302 @@
+[
+  {
+    "month_si_en": "දුරුතු – ජනවාරි",
+    "date": "03",
+    "weekday": "සෙනසුරාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "10",
+    "weekday": "සෙනසුරාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "18",
+    "weekday": "ඉරිදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "26",
+    "weekday": "බදාදා",
+    "poya": "පුර අටවක (නවම්)"
+  },
+  {
+    "month_si_en": "නවම් – පෙබරවාරි",
+    "date": "01",
+    "weekday": "ඉරිදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "09",
+    "weekday": "සඳුදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "16",
+    "weekday": "සඳුදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "24",
+    "weekday": "අඟහරුවාදා",
+    "poya": "පුර අටවක (මැදින්)"
+  },
+  {
+    "month_si_en": "මැදින් – මාර්තු",
+    "date": "02",
+    "weekday": "සඳුදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "11",
+    "weekday": "බදාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "18",
+    "weekday": "බදාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "25",
+    "weekday": "බදාදා",
+    "poya": "පුර අටවක (බක්)"
+  },
+  {
+    "month_si_en": "බක් – අප්‍රේල්",
+    "date": "01",
+    "weekday": "බදාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "10",
+    "weekday": "සිකුරාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "17",
+    "weekday": "සිකුරාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "24",
+    "weekday": "සිකුරාදා",
+    "poya": "පුර අටවක (වෙසක්)"
+  },
+  {
+    "month_si_en": "වෙසක් – මැයි",
+    "date": "01",
+    "weekday": "සිකුරාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "09",
+    "weekday": "සෙනසුරාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "16",
+    "weekday": "සෙනසුරාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "23",
+    "weekday": "සෙනසුරාදා",
+    "poya": "පුර අටවක (අධි පොසොන්)"
+  },
+  {
+    "month_si_en": null,
+    "date": "30",
+    "weekday": "සෙනසුරාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "පොසොන් – ජුනි",
+    "date": "08",
+    "weekday": "සඳුදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "14",
+    "weekday": "ඉරිදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "21",
+    "weekday": "ඉරිදා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "29",
+    "weekday": "සඳුදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "ඇසළ – ජූලි",
+    "date": "07",
+    "weekday": "අඟහරුවාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "14",
+    "weekday": "අඟහරුවාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "21",
+    "weekday": "අඟහරුවාදා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "29",
+    "weekday": "බදාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "නිකිනි – අගෝස්තු",
+    "date": "06",
+    "weekday": "බ්‍රහස්පතින්දා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "12",
+    "weekday": "බදාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "20",
+    "weekday": "බ්‍රහස්පතින්දා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "27",
+    "weekday": "බ්‍රහස්පතින්දා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "බිනර – සැප්තැම්බර්",
+    "date": "04",
+    "weekday": "සිකුරාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "10",
+    "weekday": "බ්‍රහස්පතින්දා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "18",
+    "weekday": "සිකුරාදා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "26",
+    "weekday": "සෙනසුරාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "වප් – ඔක්තෝම්බර්",
+    "date": "03",
+    "weekday": "සෙනසුරාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "10",
+    "weekday": "සෙනසුරාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "18",
+    "weekday": "ඉරිදා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "25",
+    "weekday": "ඉරිදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "ඉල් – නොවැම්බර්",
+    "date": "01",
+    "weekday": "ඉරිදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "08",
+    "weekday": "ඉරිදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "17",
+    "weekday": "අඟහරුවාදා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "24",
+    "weekday": "අඟහරුවාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": "උඳුවප් – දෙසැම්බර්",
+    "date": "01",
+    "weekday": "අඟහරුවාදා",
+    "poya": "අව අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "08",
+    "weekday": "අඟහරුවාදා",
+    "poya": "අමාවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "17",
+    "weekday": "බ්‍රහස්පතින්දා",
+    "poya": "පුර අටවක"
+  },
+  {
+    "month_si_en": null,
+    "date": "23",
+    "weekday": "බදාදා",
+    "poya": "පුර පසළොස්වක"
+  },
+  {
+    "month_si_en": null,
+    "date": "30",
+    "weekday": "බදාදා",
+    "poya": "අව අටවක"
+  }
+]

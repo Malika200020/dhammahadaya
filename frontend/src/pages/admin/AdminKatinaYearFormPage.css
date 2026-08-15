@@ -1,0 +1,48 @@
+.admin-katina-form h1 {
+  color: var(--color-text-accent);
+}
+
+.admin-katina-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.admin-katina-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: var(--color-text-accent);
+}
+
+.admin-katina-form input,
+.admin-katina-form textarea {
+  font-weight: 400;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.admin-katina-form__error {
+  color: #b00020;
+}
+
+.admin-katina-form button[type='submit'] {
+  align-self: flex-start;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-accent);
+  cursor: pointer;
+}
+
+.admin-katina-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
