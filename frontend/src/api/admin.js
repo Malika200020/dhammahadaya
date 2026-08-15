@@ -137,6 +137,37 @@ export const updatePohoyaCalendarYear = (year, data) =>
 export const deletePohoyaCalendarYear = (year) =>
   request(`/api/admin/pohoya-calendar/${year}`, { method: 'DELETE' });
 
+// --- special thanks ---
+export const listAdminSpecialThanks = () => request('/api/admin/special-thanks');
+
+export const getAdminSpecialThanks = (id) => request(`/api/admin/special-thanks/${id}`);
+
+export const createSpecialThanks = (section) =>
+  request('/api/admin/special-thanks', { method: 'POST', ...jsonBody(section) });
+
+export const updateSpecialThanks = (id, section) =>
+  request(`/api/admin/special-thanks/${id}`, { method: 'PUT', ...jsonBody(section) });
+
+export const deleteSpecialThanks = (id) =>
+  request(`/api/admin/special-thanks/${id}`, { method: 'DELETE' });
+
+// --- static documents ---
+export const getAdminStaticDocument = (slug) => request(`/api/admin/static-documents/${slug}`);
+
+export const updateStaticDocument = (slug, doc) =>
+  request(`/api/admin/static-documents/${slug}`, { method: 'PUT', ...jsonBody(doc) });
+
+// --- inquiries ---
+export const listAdminInquiries = () => request('/api/admin/inquiries');
+
+export const deleteInquiry = (id) => request(`/api/admin/inquiries/${id}`, { method: 'DELETE' });
+
+// --- newsletter subscribers ---
+export const listAdminNewsletterSubscribers = () => request('/api/admin/newsletter-subscribers');
+
+export const deleteNewsletterSubscriber = (id) =>
+  request(`/api/admin/newsletter-subscribers/${id}`, { method: 'DELETE' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

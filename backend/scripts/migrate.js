@@ -239,7 +239,111 @@ async function main() {
     );
   }
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar.');
+  // special_thanks (build-spec §17.2). `donors` is a flat name list, same
+  // reasoning as katina_year.organizers — no structure beyond a name is
+  // given for any donor. Seeded from the source table's Section/Purpose
+  // columns; `donors` seeds empty because the source only lists notable
+  // donor names as "repeated across sections" without saying which donor
+  // belongs to which specific section — inventing that mapping would
+  // misattribute real people's real contributions, so it's left for admin
+  // to fill in correctly.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS special_thanks (
+      id SERIAL PRIMARY KEY,
+      section_en TEXT,
+      section_si TEXT NOT NULL,
+      purpose TEXT,
+      donors TEXT[] NOT NULL DEFAULT '{}',
+      "order" INTEGER NOT NULL DEFAULT 0
+    );
+  `);
+  const SPECIAL_THANKS_SECTIONS = [
+    ['Offering of Dhammahadaya Senasanaya to the Maha Sanga', 'ධම්මහදය සේනාසනය පූජා කිරීම', 'Land/monastery offering'],
+    ['Sima Malakaya & Vihara Puja Ceremony', 'සිමා මාලකය සහ විහාරය පූජා කිරීම', 'Sīmā & vihāra ceremony'],
+    ['Supply of Drinking Water', 'පානිය ජලය ලබාදීම', 'Drinking water'],
+    ['Donation of Vehicle', 'වාහනය පූජා කිරීම', 'Vehicle donation'],
+    ['Residential two-storied Kuti with Buddha Kuti', 'බුදු කුටිය සහිත නේවාසික දෙමහල් කුටිය', 'Residential kuti'],
+    ['Offering the Statue', 'පිළිම වහන්සේ පූජා කිරීම', 'Buddha statue'],
+    [null, 'ආගන්තුක ස්වාමීන් වහන්සේලා සඳහා කුටිය', "Guest monks' kuti"],
+  ];
+  const existingSpecialThanks = await client.query('SELECT count(*) FROM special_thanks;');
+  if (Number(existingSpecialThanks.rows[0].count) === 0) {
+    for (let i = 0; i < SPECIAL_THANKS_SECTIONS.length; i++) {
+      const [sectionEn, sectionSi, purpose] = SPECIAL_THANKS_SECTIONS[i];
+      await client.query(
+        `INSERT INTO special_thanks (section_en, section_si, purpose, "order") VALUES ($1, $2, $3, $4);`,
+        [sectionEn, sectionSi, purpose, i]
+      );
+    }
+  }
+
+  // static_document (build-spec §17.3/§17.4) — a generic single-record
+  // rich-text page, reused for both Honorable Tribute and Siri Sugatha
+  // Sasana Bandumathi rather than two near-identical tables. Seeded with
+  // only the known structured facts (recipient, honor, date, issuer) as a
+  // plain placeholder, NOT a fabricated formal letter/certificate — the
+  // source note only summarizes these documents, it doesn't contain their
+  // actual verbatim prose, so admin needs to supply the real text.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS static_document (
+      slug TEXT PRIMARY KEY,
+      title_en TEXT NOT NULL,
+      title_si TEXT NOT NULL,
+      body TEXT NOT NULL DEFAULT '',
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+  const STATIC_DOCUMENTS = [
+    [
+      'honorable-tribute',
+      'Honorable tribute',
+      'ගෞරව උපහාරයයි',
+      '<p><em>Full tribute text pending — to be supplied by the monastery.</em></p>' +
+        '<p>Recipient: Most Venerable Karagoda Uyangoda Maitreya Murthi Maha Nayaka Thero (Amarapura Maha Nikaya)</p>',
+    ],
+    [
+      'siri-sugatha-sasana-bandumathi',
+      'Siri Sugatha Sasana Bandumathi',
+      'සිරි සුගත ශාසන බන්දුමතී',
+      '<p><em>Full certificate text pending — to be supplied by the monastery.</em></p>' +
+        '<p>Recipient: Dr. Shiryani Abeysuriya, Rajagiriya</p>' +
+        '<p>Honor: Siri Sugatha Sasana Bandumathi</p>' +
+        '<p>Date/place: 3 May 2025, Dhammahadaya Senasanaya, Balangoda</p>' +
+        '<p>Conferred by: Most Ven. Agalabada Piyasiri Maha Nayaka Thero and Most Ven. Galpatha Sumana Anunayaka Thero</p>',
+    ],
+  ];
+  for (const [slug, titleEn, titleSi, body] of STATIC_DOCUMENTS) {
+    await client.query(
+      `INSERT INTO static_document (slug, title_en, title_si, body) VALUES ($1, $2, $3, $4)
+       ON CONFLICT (slug) DO NOTHING;`,
+      [slug, titleEn, titleSi, body]
+    );
+  }
+
+  // inquiry_message + newsletter_subscriber (build-spec §4.10/§4.11) — the
+  // Contact Us page's inquiry form and newsletter signup. These don't exist
+  // anywhere yet (the home page they were originally specced on hasn't been
+  // built), so they're built fresh here as the first real implementation;
+  // the home page will reuse the same components/endpoints later.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS inquiry_message (
+      id SERIAL PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT,
+      message TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS newsletter_subscriber (
+      id SERIAL PRIMARY KEY,
+      email TEXT NOT NULL UNIQUE,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber.');
   await client.end();
 }
 

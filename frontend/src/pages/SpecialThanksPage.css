@@ -1,0 +1,40 @@
+.special-thanks {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.special-thanks h1 {
+  color: var(--color-text-accent);
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 0.5rem;
+}
+
+.special-thanks__section {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+}
+
+.special-thanks__section h2 {
+  color: var(--color-text-accent);
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.special-thanks__purpose {
+  color: #8a7a63;
+  font-style: italic;
+  margin-top: 0;
+}
+
+.special-thanks__donors {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.special-thanks__error {
+  color: #b00020;
+}

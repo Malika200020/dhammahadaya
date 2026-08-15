@@ -14,6 +14,11 @@ import { KatinaCeremonyPage } from './pages/KatinaCeremonyPage';
 import { ProgramsLandingPage } from './pages/ProgramsLandingPage';
 import { SatharaPohoyaCalendarIndexPage } from './pages/SatharaPohoyaCalendarIndexPage';
 import { PohoyaCalendarYearPage } from './pages/PohoyaCalendarYearPage';
+import { AboutPage } from './pages/AboutPage';
+import { ContactUsPage } from './pages/ContactUsPage';
+import { DevelopmentPage } from './pages/DevelopmentPage';
+import { SpecialThanksPage } from './pages/SpecialThanksPage';
+import { StaticDocumentPage } from './pages/StaticDocumentPage';
 import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminEntriesListPage } from './pages/admin/AdminEntriesListPage';
 import { AdminEntryFormPage } from './pages/admin/AdminEntryFormPage';
@@ -31,6 +36,11 @@ import { AdminKatinaYearFormPage } from './pages/admin/AdminKatinaYearFormPage';
 import { AdminKatinaGalleryPage } from './pages/admin/AdminKatinaGalleryPage';
 import { AdminPohoyaCalendarListPage } from './pages/admin/AdminPohoyaCalendarListPage';
 import { AdminPohoyaCalendarFormPage } from './pages/admin/AdminPohoyaCalendarFormPage';
+import { AdminSpecialThanksListPage } from './pages/admin/AdminSpecialThanksListPage';
+import { AdminSpecialThanksFormPage } from './pages/admin/AdminSpecialThanksFormPage';
+import { AdminStaticDocumentFormPage } from './pages/admin/AdminStaticDocumentFormPage';
+import { AdminInquiriesPage } from './pages/admin/AdminInquiriesPage';
+import { AdminNewsletterSubscribersPage } from './pages/admin/AdminNewsletterSubscribersPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
@@ -91,6 +101,15 @@ export function App() {
         <Route path="/kathina-ceremony/" element={<KatinaCeremonyPage />} />
         <Route path="/programs/" element={<ProgramsLandingPage />} />
         <Route path="/sathara-pohoya-calendar/" element={<SatharaPohoyaCalendarIndexPage />} />
+        <Route path="/about/" element={<AboutPage />} />
+        <Route path="/contact-us/" element={<ContactUsPage />} />
+        <Route path="/development/" element={<DevelopmentPage />} />
+        <Route path="/special-thanks/" element={<SpecialThanksPage />} />
+        <Route path="/honorable-tribute/" element={<StaticDocumentPage slug="honorable-tribute" />} />
+        <Route
+          path="/siri-sugatha-sasana-bandumathi/"
+          element={<StaticDocumentPage slug="siri-sugatha-sasana-bandumathi" />}
+        />
 
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<RequireAdminAuth />}>
@@ -119,6 +138,7 @@ export function App() {
               path="/admin/galleries/buddha-puja"
               element={<AdminGalleryPage gallery="buddha-puja" title="Buddha Puja Photo Gallery" />}
             />
+            <Route path="/admin/galleries/about" element={<AdminGalleryPage gallery="about" title="About Photo Gallery" />} />
 
             <Route path="/admin/sponsorship" element={<AdminSponsorshipListPage />} />
 
@@ -132,6 +152,19 @@ export function App() {
             <Route path="/admin/pohoya-calendar" element={<AdminPohoyaCalendarListPage />} />
             <Route path="/admin/pohoya-calendar/new" element={<AdminPohoyaCalendarFormPage />} />
             <Route path="/admin/pohoya-calendar/:year/edit" element={<AdminPohoyaCalendarFormPage />} />
+
+            <Route path="/admin/special-thanks" element={<AdminSpecialThanksListPage />} />
+            <Route path="/admin/special-thanks/new" element={<AdminSpecialThanksFormPage />} />
+            <Route path="/admin/special-thanks/:id/edit" element={<AdminSpecialThanksFormPage />} />
+
+            <Route path="/admin/honorable-tribute" element={<AdminStaticDocumentFormPage slug="honorable-tribute" />} />
+            <Route
+              path="/admin/siri-sugatha-sasana-bandumathi"
+              element={<AdminStaticDocumentFormPage slug="siri-sugatha-sasana-bandumathi" />}
+            />
+
+            <Route path="/admin/inquiries" element={<AdminInquiriesPage />} />
+            <Route path="/admin/newsletter-subscribers" element={<AdminNewsletterSubscribersPage />} />
           </Route>
         </Route>
 

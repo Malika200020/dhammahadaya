@@ -33,6 +33,13 @@ export function AdminLayout() {
           <Link to="/admin/meditation-applications">Meditation Applications</Link>
           <Link to="/admin/katina">Katina Ceremony Years</Link>
           <Link to="/admin/pohoya-calendar">Pohoya Calendars</Link>
+          <hr />
+          <Link to="/admin/galleries/about">About Gallery</Link>
+          <Link to="/admin/special-thanks">Special Thanks</Link>
+          <Link to="/admin/honorable-tribute">Honorable Tribute</Link>
+          <Link to="/admin/siri-sugatha-sasana-bandumathi">Siri Sugatha Sasana Bandumathi</Link>
+          <Link to="/admin/inquiries">Inquiries</Link>
+          <Link to="/admin/newsletter-subscribers">Newsletter Subscribers</Link>
         </nav>
         <div className="admin-layout__account">
           <span>{session?.email}</span>

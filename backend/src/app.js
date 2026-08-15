@@ -24,6 +24,14 @@ const katinaRouter = require('./routes/katina');
 const adminKatinaRouter = require('./routes/admin-katina');
 const pohoyaCalendarRouter = require('./routes/pohoya-calendar');
 const adminPohoyaCalendarRouter = require('./routes/admin-pohoya-calendar');
+const specialThanksRouter = require('./routes/special-thanks');
+const adminSpecialThanksRouter = require('./routes/admin-special-thanks');
+const staticDocumentsRouter = require('./routes/static-documents');
+const adminStaticDocumentsRouter = require('./routes/admin-static-documents');
+const inquiriesRouter = require('./routes/inquiries');
+const adminInquiriesRouter = require('./routes/admin-inquiries');
+const newsletterRouter = require('./routes/newsletter');
+const adminNewsletterRouter = require('./routes/admin-newsletter');
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -45,6 +53,10 @@ app.use('/api/sponsorship', sponsorshipRouter);
 app.use('/api/meditation-applications', meditationRouter);
 app.use('/api/katina', katinaRouter);
 app.use('/api/pohoya-calendar', pohoyaCalendarRouter);
+app.use('/api/special-thanks', specialThanksRouter);
+app.use('/api/static-documents', staticDocumentsRouter);
+app.use('/api/inquiries', inquiriesRouter);
+app.use('/api/newsletter-subscribers', newsletterRouter);
 
 app.use('/api/admin/auth', adminAuthRouter);
 app.use('/api/admin/entries', requireAdminAuth, adminEntriesRouter);
@@ -57,6 +69,10 @@ app.use('/api/admin/sponsorship', requireAdminAuth, adminSponsorshipRouter);
 app.use('/api/admin/meditation-applications', requireAdminAuth, adminMeditationRouter);
 app.use('/api/admin/katina', requireAdminAuth, adminKatinaRouter);
 app.use('/api/admin/pohoya-calendar', requireAdminAuth, adminPohoyaCalendarRouter);
+app.use('/api/admin/special-thanks', requireAdminAuth, adminSpecialThanksRouter);
+app.use('/api/admin/static-documents', requireAdminAuth, adminStaticDocumentsRouter);
+app.use('/api/admin/inquiries', requireAdminAuth, adminInquiriesRouter);
+app.use('/api/admin/newsletter-subscribers', requireAdminAuth, adminNewsletterRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

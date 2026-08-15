@@ -1,0 +1,36 @@
+.admin-inquiries h1 {
+  color: var(--color-text-accent);
+  margin: 0 0 1rem;
+}
+
+.admin-inquiries__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: 0.85rem;
+}
+
+.admin-inquiries__table th,
+.admin-inquiries__table td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-inquiries__table button {
+  background: none;
+  border: none;
+  color: #b00020;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.admin-inquiries__empty {
+  color: #8a7a63;
+  text-align: center;
+}
+
+.admin-inquiries__error {
+  color: #b00020;
+}

@@ -1,0 +1,51 @@
+.admin-static-document-form h1 {
+  color: var(--color-text-accent);
+}
+
+.admin-static-document-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 720px;
+}
+
+.admin-static-document-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: var(--color-text-accent);
+}
+
+.admin-static-document-form input {
+  font-weight: 400;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.admin-static-document-form__error {
+  color: #b00020;
+}
+
+.admin-static-document-form__success {
+  color: #1b5e20;
+}
+
+.admin-static-document-form button[type='submit'] {
+  align-self: flex-start;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-accent);
+  cursor: pointer;
+}
+
+.admin-static-document-form button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
