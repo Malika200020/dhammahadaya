@@ -1,0 +1,32 @@
+.asu-maha {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.asu-maha h1 {
+  color: var(--color-text-accent);
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.asu-maha__image {
+  display: block;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.asu-maha__body {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.asu-maha__body p {
+  line-height: 1.7;
+  margin: 0.75rem 0;
+}

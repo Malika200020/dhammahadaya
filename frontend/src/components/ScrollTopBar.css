@@ -1,0 +1,29 @@
+.scroll-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  background: var(--color-text-accent);
+  color: var(--color-white);
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+}
+
+.scroll-top-bar--visible {
+  transform: translateY(0);
+}
+
+.scroll-top-bar a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.scroll-top-bar a:hover {
+  text-decoration: underline;
+}

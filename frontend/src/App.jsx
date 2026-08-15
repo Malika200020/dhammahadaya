@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { AsuMahaSrawakayanPage } from './pages/AsuMahaSrawakayanPage';
+import { TripitakaSearchPage } from './pages/TripitakaSearchPage';
+import { ScrollTopBar } from './components/ScrollTopBar';
 import { DictionaryPage } from './pages/DictionaryPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
@@ -68,6 +72,7 @@ function CatchAllRoute() {
 export function App() {
   return (
     <BrowserRouter>
+      <ScrollTopBar />
       <Routes>
         <Route
           path="/pali-sinhalese-dictionary/"
@@ -168,7 +173,9 @@ export function App() {
           </Route>
         </Route>
 
-        <Route path="/" element={<Navigate to="/sinhala-dictionary/" replace />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/asu-maha-srawakayan-wahansela/" element={<AsuMahaSrawakayanPage />} />
+        <Route path="/tripitaka/" element={<TripitakaSearchPage />} />
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </BrowserRouter>

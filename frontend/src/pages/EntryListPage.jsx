@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { listEntries } from '../api/entries';
+import { EntryCard } from '../components/EntryCard';
 import './EntryListPage.css';
 
 // The Article-list pattern (build-spec §3): cards (title + excerpt + Read
@@ -46,16 +46,7 @@ export function EntryListPage({ slug }) {
 
       <div className="entry-list__cards">
         {(data?.entries ?? []).map((entry) => (
-          <article key={entry.id} className="entry-card">
-            {entry.cover_image ? (
-              <img src={entry.cover_image} alt="" className="entry-card__image" />
-            ) : null}
-            <h2 className="entry-card__title">{entry.title_si}</h2>
-            <p className="entry-card__excerpt">{entry.excerpt}</p>
-            <Link to={`${basePath}${entry.id}/`} className="entry-card__read-more">
-              Read More »
-            </Link>
-          </article>
+          <EntryCard key={entry.id} entry={entry} basePath={basePath} />
         ))}
         {!loading && data && data.entries.length === 0 ? <p>No entries yet.</p> : null}
       </div>
