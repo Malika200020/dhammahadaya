@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage';
 import { AsuMahaSrawakayanPage } from './pages/AsuMahaSrawakayanPage';
 import { TripitakaSearchPage } from './pages/TripitakaSearchPage';
 import { ScrollTopBar } from './components/ScrollTopBar';
+import { NavBar } from './components/NavBar';
 import { DictionaryPage } from './pages/DictionaryPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
@@ -72,10 +73,18 @@ function CatchAllRoute() {
   return <p style={{ padding: '2rem' }}>Page not found.</p>;
 }
 
+// NavBar is public-only (build-spec §2.2) — AdminLayout has its own nav.
+function GlobalNavBar() {
+  const { pathname } = useLocation();
+  if (pathname.startsWith('/admin')) return null;
+  return <NavBar />;
+}
+
 export function App() {
   return (
     <BrowserRouter>
       <ScrollTopBar />
+      <GlobalNavBar />
       <Routes>
         <Route
           path="/pali-sinhalese-dictionary/"
