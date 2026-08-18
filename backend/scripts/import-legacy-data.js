@@ -67,6 +67,14 @@ const TABLES = [
     // it has no discriminating power as a search column.
     trgmColumns: ['sutta_name', 'nikaya', 'vagga'],
     expectedRows: 268,
+    // Unlike the four dictionaries below (read-only — no admin CRUD writes
+    // to them anywhere in the app), the Tripitaka Catalogue now has admin
+    // CRUD (build-spec §6, "under ongoing proofreading"). `guarded: true`
+    // makes importTable() refuse to touch this table at all if any
+    // source='admin' row exists, instead of the plain DROP+CREATE the
+    // other tables use — see the `guarded` branch below. The table's
+    // schema itself is owned by scripts/migrate.js, not this script.
+    guarded: true,
   },
 ];
 
@@ -80,7 +88,7 @@ function loadOriginalRows(jsonFile) {
 }
 
 async function importTable(client, table) {
-  const { jsonFile, tableName, destColumns, trgmColumns, expectedRows } = table;
+  const { jsonFile, tableName, destColumns, trgmColumns, expectedRows, guarded } = table;
   const { sourceKeys, rows } = loadOriginalRows(jsonFile);
 
   if (sourceKeys.length !== destColumns.length) {
@@ -90,17 +98,37 @@ async function importTable(client, table) {
     );
   }
 
-  const columnDefs = destColumns.map((c) => `${c} TEXT`).join(',\n      ');
-  await client.query(`DROP TABLE IF EXISTS ${tableName};`);
-  await client.query(`
-    CREATE TABLE ${tableName} (
-      id SERIAL PRIMARY KEY,
-      ${columnDefs}
-    );
-  `);
+  if (guarded) {
+    // This table's schema is owned by scripts/migrate.js (run that first),
+    // and it may already hold admin-added/edited rows this script must not
+    // touch — refuse outright rather than risk silently overwriting them.
+    const adminRows = await client.query(`SELECT count(*) FROM ${tableName} WHERE source = 'admin';`);
+    const adminRowCount = Number(adminRows.rows[0].count);
+    if (adminRowCount > 0) {
+      return {
+        tableName,
+        importedRows: null,
+        expectedRows,
+        matches: null,
+        normalizedFieldCount: 0,
+        skipped: true,
+        skipReason: `${adminRowCount} admin-added/edited row(s) present (source='admin') — refusing to overwrite.`,
+      };
+    }
+    await client.query(`DELETE FROM ${tableName} WHERE source = 'legacy_import';`);
+  } else {
+    const columnDefs = destColumns.map((c) => `${c} TEXT`).join(',\n      ');
+    await client.query(`DROP TABLE IF EXISTS ${tableName};`);
+    await client.query(`
+      CREATE TABLE ${tableName} (
+        id SERIAL PRIMARY KEY,
+        ${columnDefs}
+      );
+    `);
+  }
 
   let normalizedFieldCount = 0;
-  const colList = destColumns.join(', ');
+  const colList = guarded ? [...destColumns, 'source'].join(', ') : destColumns.join(', ');
 
   for (let i = 0; i < rows.length; i += BATCH_SIZE) {
     const batch = rows.slice(i, i + BATCH_SIZE);
@@ -114,6 +142,7 @@ async function importTable(client, table) {
         if (normalized !== raw) normalizedFieldCount++;
         return normalized;
       });
+      if (guarded) rowValues.push('legacy_import');
       const placeholders = rowValues.map((_, idx) => `$${params.length + idx + 1}`);
       valueRows.push(`(${placeholders.join(', ')})`);
       params.push(...rowValues);
@@ -124,14 +153,18 @@ async function importTable(client, table) {
     );
   }
 
-  for (const col of trgmColumns) {
-    await client.query(
-      `CREATE INDEX idx_${tableName}_${col}_trgm ON ${tableName} USING GIN (${col} gin_trgm_ops);`
-    );
+  if (!guarded) {
+    for (const col of trgmColumns) {
+      await client.query(
+        `CREATE INDEX idx_${tableName}_${col}_trgm ON ${tableName} USING GIN (${col} gin_trgm_ops);`
+      );
+    }
   }
   await client.query(`ANALYZE ${tableName};`);
 
-  const countRes = await client.query(`SELECT count(*) FROM ${tableName};`);
+  const countRes = await client.query(
+    guarded ? `SELECT count(*) FROM ${tableName} WHERE source = 'legacy_import';` : `SELECT count(*) FROM ${tableName};`
+  );
   const importedRows = Number(countRes.rows[0].count);
 
   return {
@@ -171,7 +204,13 @@ async function main() {
     + 'normalized_fields'.padStart(20)
   );
   let allMatch = true;
+  let anySkipped = false;
   for (const r of results) {
+    if (r.skipped) {
+      anySkipped = true;
+      console.log(`${r.tableName.padEnd(28)}${'SKIPPED'.padStart(10)} — ${r.skipReason}`);
+      continue;
+    }
     if (!r.matches) allMatch = false;
     console.log(
       r.tableName.padEnd(28)
@@ -181,7 +220,8 @@ async function main() {
       + String(r.normalizedFieldCount).padStart(20)
     );
   }
-  console.log(allMatch ? '\nAll tables reconcile against expected counts.' : '\nMISMATCH — do not build on top of this until resolved.');
+  console.log(allMatch ? '\nAll imported tables reconcile against expected counts.' : '\nMISMATCH — do not build on top of this until resolved.');
+  if (anySkipped) console.log('One or more tables were left untouched — see SKIPPED reason(s) above.');
   if (!allMatch) process.exitCode = 1;
 }
 

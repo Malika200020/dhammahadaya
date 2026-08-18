@@ -170,6 +170,24 @@ export const listAdminNewsletterSubscribers = () => request('/api/admin/newslett
 export const deleteNewsletterSubscriber = (id) =>
   request(`/api/admin/newsletter-subscribers/${id}`, { method: 'DELETE' });
 
+// --- tripitaka catalogue ---
+export const listAdminCatalogueRows = (q, page = 1, pageSize = 20) => {
+  const params = new URLSearchParams({ page, pageSize });
+  if (q) params.set('q', q);
+  return request(`/api/admin/tripitaka-catalogue?${params.toString()}`);
+};
+
+export const getAdminCatalogueRow = (id) => request(`/api/admin/tripitaka-catalogue/${id}`);
+
+export const createCatalogueRow = (row) =>
+  request('/api/admin/tripitaka-catalogue', { method: 'POST', ...jsonBody(row) });
+
+export const updateCatalogueRow = (id, row) =>
+  request(`/api/admin/tripitaka-catalogue/${id}`, { method: 'PUT', ...jsonBody(row) });
+
+export const deleteCatalogueRow = (id) =>
+  request(`/api/admin/tripitaka-catalogue/${id}`, { method: 'DELETE' });
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

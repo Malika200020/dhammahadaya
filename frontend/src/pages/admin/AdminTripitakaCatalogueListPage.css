@@ -1,0 +1,122 @@
+.admin-catalogue__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.admin-catalogue__header h1 {
+  color: var(--color-text-accent);
+  margin: 0;
+}
+
+.admin-catalogue__new {
+  background: var(--color-primary);
+  color: var(--color-text-accent);
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.admin-catalogue__search {
+  width: 100%;
+  max-width: 420px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.admin-catalogue__scroll {
+  overflow-x: auto;
+}
+
+.admin-catalogue__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: 0.85rem;
+}
+
+.admin-catalogue__table th,
+.admin-catalogue__table td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.admin-catalogue__source {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.admin-catalogue__source--admin {
+  background: #fff3d6;
+  color: #7a5a00;
+}
+
+.admin-catalogue__source--legacy_import {
+  background: #f2f2f2;
+  color: #666;
+}
+
+.admin-catalogue__actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.admin-catalogue__actions a {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.admin-catalogue__actions button {
+  background: none;
+  border: none;
+  color: #b00020;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.admin-catalogue__empty {
+  color: #8a7a63;
+  text-align: center;
+}
+
+.admin-catalogue__error {
+  color: #b00020;
+}
+
+.admin-catalogue__hint {
+  color: #8a7a63;
+}
+
+.admin-catalogue__pagination {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.admin-catalogue__pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-primary);
+  background: var(--color-white);
+  color: var(--color-text-accent);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin-catalogue__pagination button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

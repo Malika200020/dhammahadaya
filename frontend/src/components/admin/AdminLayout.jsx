@@ -23,6 +23,7 @@ export function AdminLayout() {
               {c.titleEn}
             </Link>
           ))}
+          <Link to="/admin/tripitaka-catalogue">Tripitaka Catalogue</Link>
           <hr />
           <Link to="/admin/video-series">Dhamma Sermon Series</Link>
           <Link to="/admin/videos/buddha-puja">Buddha Puja Videos</Link>

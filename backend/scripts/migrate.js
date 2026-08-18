@@ -371,7 +371,39 @@ async function main() {
     CREATE INDEX IF NOT EXISTS idx_pdf_books_link_ref ON pdf_books (link_prefix, link_book_code);
   `);
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber, pdf_books.');
+  // tripitaka_catalogue (build-spec §6) — previously owned entirely by
+  // scripts/import-legacy-data.js, which DROPped and recreated it on every
+  // run. Moved here (same reasoning as pdf_books in the admin-security
+  // hardening step): now that admin CRUD writes to this table, the
+  // importer needs a `source` column to tell untouched legacy rows apart
+  // from admin-added/edited ones and refuse to overwrite the latter — see
+  // scripts/import-legacy-data.js. New rows default to 'admin'.
+  await client.query(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`);
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS tripitaka_catalogue (
+      id SERIAL PRIMARY KEY,
+      sutta_name TEXT,
+      pitaka TEXT,
+      nikaya TEXT,
+      vagga TEXT,
+      printed_page_no TEXT,
+      pdf_page_no TEXT,
+      pdf_pali_atthakatha TEXT,
+      sinhala_atthakatha TEXT,
+      pdf_sinhala_atthakatha TEXT,
+      pdf_pali_tika TEXT,
+      pali_sinhala_tika TEXT,
+      source TEXT NOT NULL DEFAULT 'admin'
+    );
+  `);
+  await client.query(`ALTER TABLE tripitaka_catalogue ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'admin';`);
+  for (const col of ['sutta_name', 'nikaya', 'vagga']) {
+    await client.query(
+      `CREATE INDEX IF NOT EXISTS idx_tripitaka_catalogue_${col}_trgm ON tripitaka_catalogue USING GIN (${col} gin_trgm_ops);`
+    );
+  }
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber, pdf_books, tripitaka_catalogue.');
   await client.end();
 }
 
