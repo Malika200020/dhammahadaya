@@ -30,6 +30,7 @@ export function AdminLayout() {
           <Link to="/admin/galleries/buddha-puja">Buddha Puja Gallery</Link>
           <hr />
           <Link to="/admin/sponsorship">Sponsorship Bookings</Link>
+          <Link to="/admin/whatsapp">WhatsApp</Link>
           <hr />
           <Link to="/admin/meditation-applications">Meditation Applications</Link>
           <Link to="/admin/katina">Katina Ceremony Years</Link>

@@ -47,6 +47,7 @@ import { AdminInquiriesPage } from './pages/admin/AdminInquiriesPage';
 import { AdminNewsletterSubscribersPage } from './pages/admin/AdminNewsletterSubscribersPage';
 import { AdminTripitakaCatalogueListPage } from './pages/admin/AdminTripitakaCatalogueListPage';
 import { AdminTripitakaCatalogueFormPage } from './pages/admin/AdminTripitakaCatalogueFormPage';
+import { AdminWhatsappPage } from './pages/admin/AdminWhatsappPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
@@ -176,6 +177,8 @@ export function App() {
             <Route path="/admin/tripitaka-catalogue" element={<AdminTripitakaCatalogueListPage />} />
             <Route path="/admin/tripitaka-catalogue/new" element={<AdminTripitakaCatalogueFormPage />} />
             <Route path="/admin/tripitaka-catalogue/:id/edit" element={<AdminTripitakaCatalogueFormPage />} />
+
+            <Route path="/admin/whatsapp" element={<AdminWhatsappPage />} />
           </Route>
         </Route>
 

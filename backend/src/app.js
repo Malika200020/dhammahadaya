@@ -33,6 +33,7 @@ const adminInquiriesRouter = require('./routes/admin-inquiries');
 const newsletterRouter = require('./routes/newsletter');
 const adminNewsletterRouter = require('./routes/admin-newsletter');
 const adminTripitakaCatalogueRouter = require('./routes/admin-tripitaka-catalogue');
+const adminWhatsappRouter = require('./routes/admin-whatsapp');
 
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
@@ -75,6 +76,7 @@ app.use('/api/admin/static-documents', requireAdminAuth, adminStaticDocumentsRou
 app.use('/api/admin/inquiries', requireAdminAuth, adminInquiriesRouter);
 app.use('/api/admin/newsletter-subscribers', requireAdminAuth, adminNewsletterRouter);
 app.use('/api/admin/tripitaka-catalogue', requireAdminAuth, adminTripitakaCatalogueRouter);
+app.use('/api/admin/whatsapp', requireAdminAuth, adminWhatsappRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

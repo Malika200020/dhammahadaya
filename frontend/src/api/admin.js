@@ -188,6 +188,9 @@ export const updateCatalogueRow = (id, row) =>
 export const deleteCatalogueRow = (id) =>
   request(`/api/admin/tripitaka-catalogue/${id}`, { method: 'DELETE' });
 
+// --- whatsapp ---
+export const getWhatsappStatus = () => request('/api/admin/whatsapp/status');
+
 // --- uploads ---
 export async function uploadImage(file) {
   const formData = new FormData();

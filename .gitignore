@@ -6,3 +6,10 @@ dist/
 build/
 *.log
 backend/uploads/
+
+# WhatsApp session data defaults to outside the repo (~/.dhammahadaya/), but
+# these are ignored defensively in case WHATSAPP_SESSION_DIR is ever pointed
+# inside it, or whatsapp-web.js falls back to its own cwd-relative defaults.
+.wwebjs_auth/
+.wwebjs_cache/
+whatsapp-session/

@@ -1,6 +1,7 @@
 const express = require('express');
 const { pool } = require('../db');
 const { sendEmail } = require('../email');
+const { sendWhatsappMessage } = require('../whatsapp');
 
 const router = express.Router();
 
@@ -58,7 +59,27 @@ router.post('/:id/confirm', async (req, res, next) => {
       emailSent = false;
     }
 
-    res.json({ booking, emailSent });
+    // Best-effort second channel alongside the email above — never allowed
+    // to affect this response either way. sendWhatsappMessage never throws
+    // (returns {sent:false, reason} instead), but this is wrapped anyway in
+    // case whatsapp-web.js itself misbehaves unexpectedly.
+    let whatsappSent = false;
+    try {
+      const result = await sendWhatsappMessage(
+        booking.phone,
+        `Dear ${booking.name},\n\n` +
+          `Your sponsorship booking for ${booking.date} has been confirmed by Dhammahadaya Senasanaya.\n\n` +
+          `Objective: ${booking.objective}\n\n` +
+          `Thank you for your generosity. May the Triple-gem protect you!\n` +
+          `Dhammahadaya Forest Monastery`
+      );
+      whatsappSent = result.sent;
+      if (!result.sent) console.log(`WhatsApp confirmation not sent for booking ${booking.id}: ${result.reason}`);
+    } catch (waErr) {
+      console.error('Failed to send sponsorship confirmation WhatsApp message:', waErr);
+    }
+
+    res.json({ booking, emailSent, whatsappSent });
   } catch (err) {
     next(err);
   }
