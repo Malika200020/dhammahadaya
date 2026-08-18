@@ -1,5 +1,6 @@
 const express = require('express');
 const { pool } = require('../db');
+const { sendEmail } = require('../email');
 
 const router = express.Router();
 
@@ -55,7 +56,29 @@ router.post('/bookings', async (req, res, next) => {
        RETURNING *;`,
       [date, name.trim(), email.trim(), phone.trim(), objective.trim(), mailing_address ? mailing_address.trim() : null]
     );
-    res.status(201).json({ booking: result.rows[0] });
+    const booking = result.rows[0];
+    res.status(201).json({ booking });
+
+    // Best-effort "notify the monastery on submission" (build-spec §10) —
+    // fired after responding, and never allowed to fail the booking itself;
+    // the sponsor's own confirmation email (on admin approval) is the one
+    // that matters to them and is handled separately in admin-sponsorship.js.
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+    if (adminEmail) {
+      sendEmail({
+        to: adminEmail,
+        subject: 'New sponsorship booking pending review',
+        text:
+          `A new sponsorship booking needs review.\n\n` +
+          `Date: ${booking.date}\n` +
+          `Name: ${booking.name}\n` +
+          `Email: ${booking.email}\n` +
+          `Phone: ${booking.phone}\n` +
+          `Objective: ${booking.objective}\n` +
+          (booking.mailing_address ? `Mailing address: ${booking.mailing_address}\n` : '') +
+          `\nConfirm or decline it from the admin panel.`,
+      }).catch((err) => console.error('Failed to send admin booking-notification email:', err));
+    }
   } catch (err) {
     // The partial unique index on (date) WHERE status IN ('pending','booked')
     // is the actual double-booking guard — this catches its violation

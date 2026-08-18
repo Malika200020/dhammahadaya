@@ -7,8 +7,10 @@ const driver = process.env.EMAIL_DRIVER || 'console';
 let impl;
 if (driver === 'console') {
   impl = require('./consoleEmail');
+} else if (driver === 'smtp') {
+  impl = require('./smtpEmail');
 } else {
-  throw new Error(`Unknown EMAIL_DRIVER "${driver}" (only "console" is implemented so far)`);
+  throw new Error(`Unknown EMAIL_DRIVER "${driver}" (expected "console" or "smtp")`);
 }
 
 module.exports = impl;
