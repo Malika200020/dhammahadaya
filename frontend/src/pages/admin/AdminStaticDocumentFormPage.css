@@ -1,5 +1,5 @@
 .admin-static-document-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-static-document-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-static-document-form input {
@@ -27,11 +27,11 @@
 }
 
 .admin-static-document-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-static-document-form__success {
-  color: #1b5e20;
+  color: var(--color-success);
 }
 
 .admin-static-document-form button[type='submit'] {

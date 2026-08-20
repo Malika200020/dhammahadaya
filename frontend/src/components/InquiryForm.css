@@ -10,7 +10,7 @@
   flex-direction: column;
   gap: var(--space-1);
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .inquiry-form input,
@@ -39,5 +39,5 @@
 }
 
 .inquiry-form__success {
-  color: #1b5e20;
+  color: var(--color-success);
 }

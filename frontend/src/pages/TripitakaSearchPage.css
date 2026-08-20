@@ -23,7 +23,7 @@
 }
 
 .tripitaka-search__fallback a:hover {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .tripitaka-search__frame {

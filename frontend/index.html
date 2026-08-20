@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/images/Damma-Senasanaya-Logo.ico" />
     <title>Dhammahadaya Senasanaya</title>
+    <script>
+      // Applies any previously-chosen theme before first paint, so there's
+      // no flash of the wrong theme while React boots. With no stored
+      // choice, styles/tokens.css's prefers-color-scheme block handles the
+      // OS-default look on its own — this script only has work to do once
+      // the user has actually picked a side (see hooks/useTheme.js).
+      (function () {
+        try {
+          var stored = localStorage.getItem('dhammahadaya-theme');
+          if (stored === 'dark' || stored === 'light') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

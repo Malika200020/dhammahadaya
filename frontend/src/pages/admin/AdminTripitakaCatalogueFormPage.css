@@ -1,5 +1,5 @@
 .admin-catalogue-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-catalogue-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-catalogue-form input {
@@ -27,7 +27,7 @@
 }
 
 .admin-catalogue-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-catalogue-form button[type='submit'] {

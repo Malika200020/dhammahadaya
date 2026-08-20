@@ -34,7 +34,7 @@
   flex-direction: column;
   gap: var(--space-1);
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .meditation__form input:not([type='checkbox']):not([type='radio']),
@@ -62,7 +62,7 @@
 
 .meditation__fieldset legend {
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   padding: 0 var(--space-1);
 }
 
@@ -99,5 +99,5 @@
 }
 
 .meditation__success {
-  color: #1b5e20;
+  color: var(--color-success);
 }

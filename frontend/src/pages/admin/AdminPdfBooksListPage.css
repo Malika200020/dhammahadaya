@@ -6,7 +6,7 @@
 }
 
 .admin-pdf-books__header h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -22,7 +22,7 @@
 .admin-pdf-books__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
   font-size: 0.9rem;
 }
 
@@ -70,7 +70,7 @@
 .admin-pdf-books__actions button {
   background: none;
   border: none;
-  color: #b00020;
+  color: var(--color-danger);
   cursor: pointer;
   font-weight: 600;
   padding: 0;
@@ -82,5 +82,5 @@
 }
 
 .admin-pdf-books__error {
-  color: #b00020;
+  color: var(--color-danger);
 }

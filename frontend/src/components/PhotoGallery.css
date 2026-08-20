@@ -7,7 +7,7 @@
 
 .photo-gallery__item {
   margin: 0;
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;

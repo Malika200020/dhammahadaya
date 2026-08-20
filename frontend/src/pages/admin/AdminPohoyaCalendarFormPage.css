@@ -1,5 +1,5 @@
 .admin-pohoya-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-pohoya-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-pohoya-form input,
@@ -44,7 +44,7 @@
 }
 
 .admin-pohoya-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-pohoya-form button[type='submit'] {

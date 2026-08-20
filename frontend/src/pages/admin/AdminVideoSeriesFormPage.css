@@ -1,5 +1,5 @@
 .admin-video-series-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-video-series-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-video-series-form input {
@@ -31,7 +31,7 @@
 }
 
 .admin-video-series-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-video-series-form button[type='submit'] {

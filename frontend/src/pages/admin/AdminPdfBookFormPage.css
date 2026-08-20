@@ -1,5 +1,5 @@
 .admin-pdf-book-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-pdf-book-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-pdf-book-form input,
@@ -28,7 +28,7 @@
 }
 
 .admin-pdf-book-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-pdf-book-form button[type='submit'] {

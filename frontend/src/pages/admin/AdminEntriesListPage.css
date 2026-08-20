@@ -17,7 +17,7 @@
 .admin-entries__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;

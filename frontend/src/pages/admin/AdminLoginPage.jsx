@@ -52,6 +52,8 @@ export function AdminLoginPage() {
   if (otpRequired) {
     return (
       <div className="admin-login">
+        <div className="admin-login__glow" aria-hidden="true" />
+        <img src="/images/Damma-Senasanaya-Logo.png" alt="Dhammahadaya Senasanaya" className="admin-login__logo" />
         <form className="admin-login__form" onSubmit={handleOtpSubmit}>
           <h1>Enter your login code</h1>
           <p className="admin-login__hint">We sent a 6-digit code to {email}.</p>
@@ -77,6 +79,8 @@ export function AdminLoginPage() {
 
   return (
     <div className="admin-login">
+      <div className="admin-login__glow" aria-hidden="true" />
+      <img src="/images/Damma-Senasanaya-Logo.png" alt="Dhammahadaya Senasanaya" className="admin-login__logo" />
       <form className="admin-login__form" onSubmit={handlePasswordSubmit}>
         <h1>Admin Login</h1>
         <label>

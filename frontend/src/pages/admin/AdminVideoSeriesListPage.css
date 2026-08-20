@@ -6,7 +6,7 @@
 }
 
 .admin-video-series__header h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -22,7 +22,7 @@
 .admin-video-series__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
 }
 
 .admin-video-series__table th,
@@ -46,12 +46,12 @@
 .admin-video-series__actions button {
   background: none;
   border: none;
-  color: #b00020;
+  color: var(--color-danger);
   cursor: pointer;
   font-weight: 600;
   padding: 0;
 }
 
 .admin-video-series__error {
-  color: #b00020;
+  color: var(--color-danger);
 }

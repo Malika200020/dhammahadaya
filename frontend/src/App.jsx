@@ -54,6 +54,7 @@ import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
 import { DHAMMA_SERMON_SERIES_SLUGS } from './config/dhammaSermonSeries';
+import { useTheme } from './hooks/useTheme';
 
 // Article-list pattern (build-spec §3) routes: same two components, one
 // per entry-type slug — see frontend/src/config/entryTypes.js.
@@ -75,10 +76,14 @@ function CatchAllRoute() {
 }
 
 // NavBar is public-only (build-spec §2.2) — AdminLayout has its own nav.
-function GlobalNavBar() {
+// The theme toggle lives in NavBar, but the theme itself (via useTheme in
+// App, below) applies to the whole document regardless of which page —
+// including admin pages, which don't render NavBar and so have no toggle
+// of their own, but still reflect whatever theme was last chosen.
+function GlobalNavBar({ theme, toggleTheme }) {
   const { pathname } = useLocation();
   if (pathname.startsWith('/admin')) return null;
-  return <NavBar />;
+  return <NavBar theme={theme} toggleTheme={toggleTheme} />;
 }
 
 // Footer (build-spec §2.3) mirrors NavBar's public-only mount.
@@ -89,10 +94,12 @@ function GlobalFooter() {
 }
 
 export function App() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <BrowserRouter>
       <ScrollTopBar />
-      <GlobalNavBar />
+      <GlobalNavBar theme={theme} toggleTheme={toggleTheme} />
       <Routes>
         <Route
           path="/pali-sinhalese-dictionary/"

@@ -1,5 +1,5 @@
 .admin-special-thanks-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-special-thanks-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-special-thanks-form input,
@@ -28,7 +28,7 @@
 }
 
 .admin-special-thanks-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-special-thanks-form button[type='submit'] {

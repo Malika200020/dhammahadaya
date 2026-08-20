@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '../config/navItems';
 import { listPohoyaCalendarYears } from '../api/pohoyaCalendar';
+import { ThemeToggle } from './ThemeToggle';
 import './NavBar.css';
 
 // Public NavBar (build-spec §2.2) — global hierarchical menu, up to 3
@@ -10,7 +11,7 @@ import './NavBar.css';
 // The one dynamic piece is the Sathara Pohoya Calendar year list (admins
 // add years over time), fetched here the same way the calendar's own
 // index page does.
-export function NavBar() {
+export function NavBar({ theme, toggleTheme }) {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openTop, setOpenTop] = useState(null);
@@ -61,21 +62,25 @@ export function NavBar() {
 
   return (
     <nav className="navbar" ref={navRef}>
-      <div className="navbar__bar">
-        <NavLink to="/" end className="navbar__brand">
-          Dhammahadaya Senasanaya
-        </NavLink>
-        <button
-          type="button"
-          className="navbar__hamburger"
-          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={mobileOpen}
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+      <div className="navbar__brand-row">
+        <span className="navbar__brand-spacer" aria-hidden="true" />
+        <Link to="/" className="navbar__logo-link" aria-label="Dhammahadaya Senasanaya — home">
+          <img src="/images/Damma-Senasanaya-Logo.png" alt="Dhammahadaya Senasanaya" className="navbar__logo" />
+        </Link>
+        <div className="navbar__brand-actions">
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          <button
+            type="button"
+            className="navbar__hamburger"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       <ul className={`navbar__list${mobileOpen ? ' navbar__list--open' : ''}`}>

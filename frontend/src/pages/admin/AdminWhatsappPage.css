@@ -1,5 +1,5 @@
 .admin-whatsapp h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin: 0 0 1rem;
 }
 
@@ -8,7 +8,7 @@
   font-weight: 600;
   padding: 0.3rem 0.7rem;
   border-radius: 4px;
-  background: var(--color-white);
+  background: var(--color-surface);
 }
 
 .admin-whatsapp__status--linked {
@@ -18,7 +18,7 @@
 .admin-whatsapp__status--qr,
 .admin-whatsapp__status--disconnected,
 .admin-whatsapp__status--auth-failure {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-whatsapp__hint {
@@ -34,9 +34,9 @@
   width: 260px;
   height: 260px;
   border: 1px solid var(--color-border);
-  background: var(--color-white);
+  background: var(--color-surface);
 }
 
 .admin-whatsapp__error {
-  color: #b00020;
+  color: var(--color-danger);
 }

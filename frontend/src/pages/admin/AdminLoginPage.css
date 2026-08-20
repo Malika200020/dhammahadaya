@@ -1,51 +1,107 @@
 .admin-login {
+  position: relative;
+  overflow: hidden;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-5);
   background: var(--color-background);
 }
 
+/* Same restrained orange-glow language as the home hero (see
+   pages/HomePage.css's .home__hero-glow) — two soft, slowly drifting
+   blobs rather than a single centered halo, since there's no hero image
+   to anchor it to here. Purely decorative (aria-hidden) and
+   compositor-only (transform/opacity), so it can't delay the login form
+   becoming usable, and is collapsed to a static frame by the sitewide
+   prefers-reduced-motion rule in styles/base.css. */
+.admin-login__glow {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 28% 32%, rgba(253, 160, 66, 0.55) 0%, rgba(253, 160, 66, 0) 55%),
+    radial-gradient(circle at 74% 68%, rgba(253, 160, 66, 0.4) 0%, rgba(253, 160, 66, 0) 50%);
+  filter: blur(50px);
+  animation: admin-login-glow-drift 10s ease-in-out infinite alternate;
+}
+
+@keyframes admin-login-glow-drift {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1.12) translate(2%, -2%);
+    opacity: 1;
+  }
+}
+
+.admin-login__logo {
+  position: relative;
+  z-index: 1;
+  height: 64px;
+  width: auto;
+}
+
 .admin-login__form {
-  background: var(--color-white);
+  position: relative;
+  z-index: 1;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
   width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .admin-login__form h1 {
-  margin: 0 0 0.5rem;
-  font-size: 1.4rem;
-  color: var(--color-text-accent);
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-size-lg);
 }
 
 .admin-login__form label {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-size: 0.9rem;
-  color: var(--color-text-accent);
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-ink);
 }
 
 .admin-login__form input {
-  padding: 0.5rem;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.admin-login__form input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-tint);
 }
 
 .admin-login__form button {
   background: var(--color-primary);
   border: none;
-  border-radius: 6px;
-  padding: 0.6rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
   font-weight: 700;
   color: var(--color-text-accent);
   cursor: pointer;
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.admin-login__form button:hover:not(:disabled) {
+  background: var(--color-primary-dark);
 }
 
 .admin-login__form button:disabled {
@@ -54,13 +110,13 @@
 }
 
 .admin-login__error {
-  color: #b00020;
+  color: var(--color-danger);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .admin-login__hint {
-  margin: -0.5rem 0 0;
-  font-size: 0.85rem;
-  color: #6b5a44;
+  margin: calc(var(--space-2) * -1) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }

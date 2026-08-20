@@ -17,8 +17,8 @@
 
 .about__toggle-btn {
   border: 1px solid var(--color-border);
-  background: var(--color-white);
-  color: var(--color-text-accent);
+  background: var(--color-surface);
+  color: var(--color-ink);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -33,6 +33,7 @@
 .about__toggle-btn--active {
   background: var(--color-primary);
   border-color: var(--color-primary-dark);
+  color: var(--color-text-accent);
 }
 
 .about__toggle-btn--active:hover {
@@ -46,7 +47,7 @@
 
 .about__reg-no {
   font-weight: 700;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .about__text p {

@@ -11,7 +11,7 @@
   flex-direction: column;
   gap: var(--space-1);
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   flex: 1 1 220px;
 }
 
@@ -36,6 +36,6 @@
 }
 
 .newsletter-signup__success {
-  color: #1b5e20;
+  color: var(--color-success);
   width: 100%;
 }

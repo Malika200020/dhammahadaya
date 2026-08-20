@@ -6,7 +6,7 @@
 }
 
 .admin-sponsorship__header h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -18,8 +18,8 @@
 
 .admin-sponsorship__tab {
   border: 1px solid var(--color-border);
-  background: var(--color-white);
-  color: var(--color-text-accent);
+  background: var(--color-surface);
+  color: var(--color-ink);
   padding: 0.4rem 0.9rem;
   border-radius: 6px;
   cursor: pointer;
@@ -29,12 +29,13 @@
 .admin-sponsorship__tab--active {
   background: var(--color-primary);
   border-color: var(--color-primary-dark);
+  color: var(--color-text-accent);
 }
 
 .admin-sponsorship__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
   font-size: 0.9rem;
 }
 
@@ -59,7 +60,7 @@
 
 .admin-sponsorship__status--booked {
   background: #dff2df;
-  color: #1b5e20;
+  color: var(--color-success);
 }
 
 .admin-sponsorship__status--declined {
@@ -92,5 +93,5 @@
 }
 
 .admin-sponsorship__error {
-  color: #b00020;
+  color: var(--color-danger);
 }

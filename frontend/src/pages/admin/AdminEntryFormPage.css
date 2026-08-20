@@ -1,5 +1,5 @@
 .admin-entry-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-entry-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-entry-form input,
@@ -41,7 +41,7 @@
 }
 
 .admin-entry-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-entry-form button[type='submit'] {

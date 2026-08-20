@@ -26,7 +26,7 @@
 }
 
 .contact-us__map-link:hover {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .contact-us__section {
@@ -54,6 +54,6 @@
 }
 
 .contact-us__table th {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   font-weight: 600;
 }

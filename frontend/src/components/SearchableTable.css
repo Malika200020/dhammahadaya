@@ -28,8 +28,8 @@
   margin: var(--space-5) 0;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
-  color: var(--color-text-accent);
-  background: var(--color-white);
+  color: var(--color-ink);
+  background: var(--color-surface);
   transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
 }
 
@@ -42,7 +42,7 @@
 .searchable-table__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -58,7 +58,7 @@
 
 .searchable-table__table th {
   background: var(--color-primary-tint);
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   font-weight: 700;
   font-size: var(--font-size-xs);
   text-transform: uppercase;
@@ -113,5 +113,5 @@
 }
 
 .searchable-table__cell-segment a:hover {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }

@@ -1,12 +1,12 @@
 .admin-gallery h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-gallery__upload {
   display: flex;
   gap: 1rem;
   align-items: flex-end;
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1rem;
@@ -19,7 +19,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   font-size: 0.9rem;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .admin-gallery__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-gallery__grid {
@@ -47,7 +47,7 @@
 
 .admin-gallery__item {
   margin: 0;
-  background: var(--color-white);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   overflow: hidden;
@@ -63,7 +63,7 @@
 .admin-gallery__item figcaption {
   padding: 0.35rem 0.5rem;
   font-size: 0.8rem;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-gallery__item button {
@@ -71,7 +71,7 @@
   background: none;
   border: none;
   border-top: 1px solid var(--color-border);
-  color: #b00020;
+  color: var(--color-danger);
   cursor: pointer;
   font-weight: 600;
   padding: 0.4rem;

@@ -34,6 +34,6 @@
 }
 
 .entry-card__read-more:hover {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   transform: translateX(3px);
 }

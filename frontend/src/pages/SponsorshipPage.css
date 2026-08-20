@@ -23,7 +23,7 @@
 }
 
 .sponsorship__note h4 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin-bottom: var(--space-1);
 }
 
@@ -40,8 +40,8 @@
 
 .sponsorship__toggle-btn {
   border: 1px solid var(--color-border);
-  background: var(--color-white);
-  color: var(--color-text-accent);
+  background: var(--color-surface);
+  color: var(--color-ink);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -56,6 +56,7 @@
 .sponsorship__toggle-btn--active {
   background: var(--color-primary);
   border-color: var(--color-primary-dark);
+  color: var(--color-text-accent);
 }
 
 .sponsorship__toggle-btn--active:hover {
@@ -74,7 +75,7 @@
   flex-direction: column;
   gap: var(--space-1);
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .sponsorship__form input,
@@ -103,5 +104,5 @@
 }
 
 .sponsorship__success {
-  color: #1b5e20;
+  color: var(--color-success);
 }

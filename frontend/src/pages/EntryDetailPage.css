@@ -21,7 +21,7 @@
 }
 
 .entry-detail__body {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .entry-detail__nav {
@@ -42,7 +42,7 @@
 }
 
 .entry-detail__nav a:hover {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   text-decoration: underline;
 }
 

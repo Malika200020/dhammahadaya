@@ -19,7 +19,7 @@
 .programs__card {
   display: inline-block;
   padding: var(--space-4) var(--space-6);
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   font-weight: 700;
   text-decoration: none;
 }

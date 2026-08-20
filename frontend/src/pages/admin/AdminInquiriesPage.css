@@ -1,12 +1,12 @@
 .admin-inquiries h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   margin: 0 0 1rem;
 }
 
 .admin-inquiries__table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-white);
+  background: var(--color-surface);
   font-size: 0.85rem;
 }
 
@@ -20,7 +20,7 @@
 .admin-inquiries__table button {
   background: none;
   border: none;
-  color: #b00020;
+  color: var(--color-danger);
   cursor: pointer;
   font-weight: 600;
   padding: 0;
@@ -32,5 +32,5 @@
 }
 
 .admin-inquiries__error {
-  color: #b00020;
+  color: var(--color-danger);
 }

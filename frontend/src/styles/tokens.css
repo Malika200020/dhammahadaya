@@ -1,5 +1,12 @@
 /* Brand palette — build-spec §1 "Design tokens" */
 :root {
+  /* --color-white and --color-text-accent are intentionally frozen (never
+     redefined by theme below): --color-white is literal white, used for
+     text sitting on permanently-dark bars (Footer, admin sidebar,
+     ScrollTopBar); --color-text-accent is the brand brown, used for text
+     sitting on the orange brand fill (buttons, badges, active pills) —
+     that pairing needs to stay dark-on-orange in both themes. General
+     page text uses --color-ink instead, which does flip per theme. */
   --color-white: #ffffff;
   --color-primary: #fda042;
   --color-primary-dark: #fd9939;
@@ -8,6 +15,13 @@
   --color-border: #f0d9bd;
   --color-background: #fffaf3;
 
+  /* Surface = card/table/nav backgrounds; Ink = general text. Named
+     separately from --color-white/--color-text-accent so dark mode can
+     redefine "the page's neutral surface/text" without disturbing the two
+     frozen on-brand-orange pairings above. */
+  --color-surface: #ffffff;
+  --color-ink: #45311c;
+
   /* Refined color usage — built from the same four brand colors, not new
      hues, so the palette stays disciplined. */
   --color-primary-tint: #fff3e2;
@@ -15,6 +29,8 @@
   --color-text-soft: #8a7a63;
   --color-danger: #b3261e;
   --color-danger-tint: #fbe9e7;
+  --color-success: #1b5e20;
+  --color-success-tint: #e6f4ea;
 
   /* Spacing scale — 4px rhythm, used for every margin/padding/gap so
      vertical/horizontal spacing stays consistent across the site. */
@@ -66,6 +82,58 @@
   /* Layout widths */
   --container-max-width: 1100px;
   --content-max-width: 720px;
+
+  color-scheme: light;
+}
+
+/* --- Dark theme ---
+   Three-state model: an explicit toggle stamps [data-theme] on <html> (see
+   hooks/useTheme.js); with no explicit choice, prefers-color-scheme alone
+   decides. The orange brand identity (--color-primary/-dark) is
+   deliberately left unchanged in both blocks below — only backgrounds,
+   surfaces, borders, and general text shift for contrast. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-background: #1b140f;
+    --color-surface: #2a2019;
+    --color-border: #4a3a2a;
+    --color-ink: #f2e6d3;
+
+    --color-primary-tint: rgba(253, 160, 66, 0.16);
+    --color-text-muted: #c2ab8c;
+    --color-text-soft: #a68f72;
+    --color-danger: #ff6b5c;
+    --color-danger-tint: rgba(255, 107, 92, 0.16);
+    --color-success: #6fcf7d;
+    --color-success-tint: rgba(111, 207, 125, 0.16);
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-background: #1b140f;
+  --color-surface: #2a2019;
+  --color-border: #4a3a2a;
+  --color-ink: #f2e6d3;
+
+  --color-primary-tint: rgba(253, 160, 66, 0.16);
+  --color-text-muted: #c2ab8c;
+  --color-text-soft: #a68f72;
+  --color-danger: #ff6b5c;
+  --color-danger-tint: rgba(255, 107, 92, 0.16);
+  --color-success: #6fcf7d;
+  --color-success-tint: rgba(111, 207, 125, 0.16);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
 }
 
 * {
@@ -76,8 +144,9 @@ body {
   margin: 0;
   font-family: 'Noto Sans Sinhala', 'Iskoola Pota', system-ui, sans-serif;
   background: var(--color-background);
-  color: var(--color-text-accent);
+  color: var(--color-ink);
   line-height: var(--line-height-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--duration-base) var(--ease-standard), color var(--duration-base) var(--ease-standard);
 }

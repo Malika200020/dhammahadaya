@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Users, MessageCircle, PlaySquare, ThumbsUp, MapPin, Phone } from 'lucide-react';
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
 import { getSponsorshipCalendar } from '../api/sponsorship';
@@ -209,31 +210,62 @@ export function HomePage() {
 
       {/* 4.11 Newsletter signup — reuses the step-10 NewsletterSignup as-is */}
       <Reveal as="section" className="home__section">
-        <NewsletterSignup />
+        <div className="home__connect-group card">
+          <NewsletterSignup />
+        </div>
       </Reveal>
 
       {/* 4.12 Social + contact links */}
-      <Reveal as="section" className="home__section home__social">
-        <a href="https://chat.whatsapp.com/By2DvSjmiaK23Wmw90Jj5D" target="_blank" rel="noreferrer">
-          WhatsApp Group
-        </a>
-        <a href="https://api.whatsapp.com/send/?phone=702164642&text&type=phone_number&app_absent=0" target="_blank" rel="noreferrer">
-          WhatsApp
-        </a>
-        <a href="https://www.youtube.com/channel/UCJCpaizlVHxNzWi3tvEmsaw" target="_blank" rel="noreferrer">
-          YouTube
-        </a>
-        <a href="https://www.facebook.com/dhammahadaya.net/" target="_blank" rel="noreferrer">
-          Facebook
-        </a>
+      <Reveal as="section" className="home__section">
+        <div className="home__social card">
+          <a
+            className="home__social-link"
+            href="https://chat.whatsapp.com/By2DvSjmiaK23Wmw90Jj5D"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Users size={20} aria-hidden="true" />
+            <span>WhatsApp Group</span>
+          </a>
+          <a
+            className="home__social-link"
+            href="https://api.whatsapp.com/send/?phone=702164642&text&type=phone_number&app_absent=0"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MessageCircle size={20} aria-hidden="true" />
+            <span>WhatsApp</span>
+          </a>
+          <a
+            className="home__social-link"
+            href="https://www.youtube.com/channel/UCJCpaizlVHxNzWi3tvEmsaw"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <PlaySquare size={20} aria-hidden="true" />
+            <span>YouTube</span>
+          </a>
+          <a className="home__social-link" href="https://www.facebook.com/dhammahadaya.net/" target="_blank" rel="noreferrer">
+            <ThumbsUp size={20} aria-hidden="true" />
+            <span>Facebook</span>
+          </a>
+        </div>
       </Reveal>
 
       {/* 4.13 Static contact block */}
-      <Reveal as="section" className="home__section home__static-contact">
-        <address>{contactPostalAddressLines.join(', ')}</address>
-        <p>
-          Office phone: {phoneFor('Phone 2')}, {phoneFor('Phone 1')}
-        </p>
+      <Reveal as="section" className="home__section">
+        <div className="home__static-contact card">
+          <div className="home__static-contact-row">
+            <MapPin size={18} aria-hidden="true" />
+            <address>{contactPostalAddressLines.join(', ')}</address>
+          </div>
+          <div className="home__static-contact-row">
+            <Phone size={18} aria-hidden="true" />
+            <p>
+              Office phone: {phoneFor('Phone 2')}, {phoneFor('Phone 1')}
+            </p>
+          </div>
+        </div>
       </Reveal>
     </div>
   );

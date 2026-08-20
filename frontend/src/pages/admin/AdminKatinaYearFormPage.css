@@ -1,5 +1,5 @@
 .admin-katina-form h1 {
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-katina-form form {
@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: 0.3rem;
   font-weight: 600;
-  color: var(--color-text-accent);
+  color: var(--color-ink);
 }
 
 .admin-katina-form input,
@@ -28,7 +28,7 @@
 }
 
 .admin-katina-form__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .admin-katina-form button[type='submit'] {
