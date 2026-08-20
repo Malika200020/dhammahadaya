@@ -4,6 +4,7 @@ import { AsuMahaSrawakayanPage } from './pages/AsuMahaSrawakayanPage';
 import { TripitakaSearchPage } from './pages/TripitakaSearchPage';
 import { ScrollTopBar } from './components/ScrollTopBar';
 import { NavBar } from './components/NavBar';
+import { Footer } from './components/Footer';
 import { DictionaryPage } from './pages/DictionaryPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
@@ -78,6 +79,13 @@ function GlobalNavBar() {
   const { pathname } = useLocation();
   if (pathname.startsWith('/admin')) return null;
   return <NavBar />;
+}
+
+// Footer (build-spec §2.3) mirrors NavBar's public-only mount.
+function GlobalFooter() {
+  const { pathname } = useLocation();
+  if (pathname.startsWith('/admin')) return null;
+  return <Footer />;
 }
 
 export function App() {
@@ -196,6 +204,7 @@ export function App() {
         <Route path="/tripitaka/" element={<TripitakaSearchPage />} />
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
+      <GlobalFooter />
     </BrowserRouter>
   );
 }

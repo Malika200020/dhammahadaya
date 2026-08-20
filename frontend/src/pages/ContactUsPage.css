@@ -1,46 +1,45 @@
 .contact-us {
-  max-width: 700px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
 .contact-us h1 {
-  color: var(--color-text-accent);
   border-bottom: 3px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--space-3);
 }
 
 .contact-us__map {
   width: 100%;
   height: 300px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
 }
 
 .contact-us__map-link {
   display: inline-block;
-  margin: 0.5rem 0 1.5rem;
+  margin: var(--space-2) 0 var(--space-6);
   color: var(--color-primary-dark);
   font-weight: 600;
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.contact-us__map-link:hover {
+  color: var(--color-text-accent);
 }
 
 .contact-us__section {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-5);
 }
 
 .contact-us__section h2 {
-  color: var(--color-text-accent);
   margin-top: 0;
 }
 
 .contact-us__section address {
   font-style: normal;
-  line-height: 1.6;
 }
 
 .contact-us__table {
@@ -50,7 +49,7 @@
 .contact-us__table th,
 .contact-us__table td {
   text-align: left;
-  padding: 0.35rem 0.75rem 0.35rem 0;
+  padding: var(--space-2) var(--space-3) var(--space-2) 0;
   border-bottom: 1px solid var(--color-border);
 }
 

@@ -1,8 +1,12 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useAdminSession } from '../../hooks/useAdminSession';
 import { ENTRY_TYPES } from '../../config/entryTypes';
 import { PDF_BOOK_CATEGORIES } from '../../config/pdfBookCategories';
 import './AdminLayout.css';
+
+function navLinkClass({ isActive }) {
+  return `admin-layout__link${isActive ? ' admin-layout__link--active' : ''}`;
+}
 
 export function AdminLayout() {
   const { session, logout } = useAdminSession();
@@ -13,39 +17,69 @@ export function AdminLayout() {
         <h2>Admin</h2>
         <nav className="admin-layout__nav">
           {ENTRY_TYPES.map((t) => (
-            <Link key={t.type} to={`/admin/entries/${t.type}`}>
+            <NavLink key={t.type} to={`/admin/entries/${t.type}`} className={navLinkClass}>
               {t.label}
-            </Link>
+            </NavLink>
           ))}
           <hr />
           {PDF_BOOK_CATEGORIES.map((c) => (
-            <Link key={c.slug} to={`/admin/pdf-books/${c.slug}`}>
+            <NavLink key={c.slug} to={`/admin/pdf-books/${c.slug}`} className={navLinkClass}>
               {c.titleEn}
-            </Link>
+            </NavLink>
           ))}
-          <Link to="/admin/tripitaka-catalogue">Tripitaka Catalogue</Link>
+          <NavLink to="/admin/tripitaka-catalogue" className={navLinkClass}>
+            Tripitaka Catalogue
+          </NavLink>
           <hr />
-          <Link to="/admin/video-series">Dhamma Sermon Series</Link>
-          <Link to="/admin/videos/buddha-puja">Buddha Puja Videos</Link>
-          <Link to="/admin/galleries/buddha-puja">Buddha Puja Gallery</Link>
+          <NavLink to="/admin/video-series" className={navLinkClass}>
+            Dhamma Sermon Series
+          </NavLink>
+          <NavLink to="/admin/videos/buddha-puja" className={navLinkClass}>
+            Buddha Puja Videos
+          </NavLink>
+          <NavLink to="/admin/galleries/buddha-puja" className={navLinkClass}>
+            Buddha Puja Gallery
+          </NavLink>
           <hr />
-          <Link to="/admin/sponsorship">Sponsorship Bookings</Link>
-          <Link to="/admin/whatsapp">WhatsApp</Link>
+          <NavLink to="/admin/sponsorship" className={navLinkClass}>
+            Sponsorship Bookings
+          </NavLink>
+          <NavLink to="/admin/whatsapp" className={navLinkClass}>
+            WhatsApp
+          </NavLink>
           <hr />
-          <Link to="/admin/meditation-applications">Meditation Applications</Link>
-          <Link to="/admin/katina">Katina Ceremony Years</Link>
-          <Link to="/admin/pohoya-calendar">Pohoya Calendars</Link>
+          <NavLink to="/admin/meditation-applications" className={navLinkClass}>
+            Meditation Applications
+          </NavLink>
+          <NavLink to="/admin/katina" className={navLinkClass}>
+            Katina Ceremony Years
+          </NavLink>
+          <NavLink to="/admin/pohoya-calendar" className={navLinkClass}>
+            Pohoya Calendars
+          </NavLink>
           <hr />
-          <Link to="/admin/galleries/about">About Gallery</Link>
-          <Link to="/admin/special-thanks">Special Thanks</Link>
-          <Link to="/admin/honorable-tribute">Honorable Tribute</Link>
-          <Link to="/admin/siri-sugatha-sasana-bandumathi">Siri Sugatha Sasana Bandumathi</Link>
-          <Link to="/admin/inquiries">Inquiries</Link>
-          <Link to="/admin/newsletter-subscribers">Newsletter Subscribers</Link>
+          <NavLink to="/admin/galleries/about" className={navLinkClass}>
+            About Gallery
+          </NavLink>
+          <NavLink to="/admin/special-thanks" className={navLinkClass}>
+            Special Thanks
+          </NavLink>
+          <NavLink to="/admin/honorable-tribute" className={navLinkClass}>
+            Honorable Tribute
+          </NavLink>
+          <NavLink to="/admin/siri-sugatha-sasana-bandumathi" className={navLinkClass}>
+            Siri Sugatha Sasana Bandumathi
+          </NavLink>
+          <NavLink to="/admin/inquiries" className={navLinkClass}>
+            Inquiries
+          </NavLink>
+          <NavLink to="/admin/newsletter-subscribers" className={navLinkClass}>
+            Newsletter Subscribers
+          </NavLink>
         </nav>
         <div className="admin-layout__account">
-          <span>{session?.email}</span>
-          <button type="button" onClick={logout}>
+          <span className="admin-layout__email">{session?.email}</span>
+          <button type="button" className="btn btn--primary btn--sm" onClick={logout}>
             Log out
           </button>
         </div>

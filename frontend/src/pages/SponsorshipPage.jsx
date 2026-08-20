@@ -66,7 +66,7 @@ export function SponsorshipPage() {
     <div className="sponsorship">
       <h1>{sponsorshipHeader}</h1>
 
-      <div className="sponsorship__note">
+      <div className="sponsorship__note card">
         <div className="sponsorship__toggle">
           <button
             type="button"
@@ -136,7 +136,7 @@ export function SponsorshipPage() {
         {error ? <p className="sponsorship__error">{error}</p> : null}
         {success ? <p className="sponsorship__success">{success}</p> : null}
 
-        <button type="submit" disabled={submitting}>
+        <button type="submit" className="btn btn--primary" disabled={submitting}>
           {submitting ? 'Sending...' : 'Send'}
         </button>
       </form>

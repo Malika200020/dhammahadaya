@@ -48,7 +48,7 @@ export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange
   return (
     <div className="video-gallery">
       {activeVideo ? (
-        <div className="video-gallery__player">
+        <div className="video-gallery__player card">
           <iframe
             key={activeVideo.id}
             src={`https://www.youtube.com/embed/${activeVideo.youtube_id}`}
@@ -75,13 +75,23 @@ export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange
 
       {totalPages > 1 ? (
         <div className="video-gallery__pagination">
-          <button type="button" disabled={page <= 1 || loading} onClick={() => onPageChange(page - 1)}>
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm"
+            disabled={page <= 1 || loading}
+            onClick={() => onPageChange(page - 1)}
+          >
             Previous
           </button>
           <span>
             Page {page} of {totalPages} ({totalRows.toLocaleString()} videos)
           </span>
-          <button type="button" disabled={page >= totalPages || loading} onClick={() => onPageChange(page + 1)}>
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm"
+            disabled={page >= totalPages || loading}
+            onClick={() => onPageChange(page + 1)}
+          >
             Next
           </button>
         </div>

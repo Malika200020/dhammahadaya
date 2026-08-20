@@ -7,6 +7,65 @@
 
   --color-border: #f0d9bd;
   --color-background: #fffaf3;
+
+  /* Refined color usage — built from the same four brand colors, not new
+     hues, so the palette stays disciplined. */
+  --color-primary-tint: #fff3e2;
+  --color-text-muted: #7a6852;
+  --color-text-soft: #8a7a63;
+  --color-danger: #b3261e;
+  --color-danger-tint: #fbe9e7;
+
+  /* Spacing scale — 4px rhythm, used for every margin/padding/gap so
+     vertical/horizontal spacing stays consistent across the site. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* Typography scale */
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.9rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.375rem;
+  --font-size-xl: 1.75rem;
+  --font-size-2xl: 2.25rem;
+  --font-size-3xl: 2.75rem;
+
+  /* Sinhala combining characters need more vertical room than Latin text
+     to avoid crowding — line-height-sinhala is the default for body copy
+     on this Sinhala-first site; line-height-base is for tighter UI text. */
+  --line-height-tight: 1.25;
+  --line-height-base: 1.7;
+  --line-height-sinhala: 1.95;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Shadows — all tinted with the text-accent brown rather than pure
+     black, so elevation reads warm instead of harsh. */
+  --shadow-sm: 0 1px 3px rgba(69, 49, 28, 0.08);
+  --shadow-md: 0 6px 18px rgba(69, 49, 28, 0.10);
+  --shadow-lg: 0 16px 40px rgba(69, 49, 28, 0.16);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 420ms;
+
+  /* Layout widths */
+  --container-max-width: 1100px;
+  --content-max-width: 720px;
 }
 
 * {
@@ -18,4 +77,7 @@ body {
   font-family: 'Noto Sans Sinhala', 'Iskoola Pota', system-ui, sans-serif;
   background: var(--color-background);
   color: var(--color-text-accent);
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

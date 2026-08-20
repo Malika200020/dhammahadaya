@@ -37,7 +37,7 @@ export function AdminEntriesListPage() {
     <div className="admin-entries">
       <header className="admin-entries__header">
         <h1>{label}</h1>
-        <Link to={`/admin/entries/${type}/new`} className="admin-entries__new">
+        <Link to={`/admin/entries/${type}/new`} className="btn btn--primary">
           + New entry
         </Link>
       </header>
@@ -58,8 +58,10 @@ export function AdminEntriesListPage() {
               <td>{e.title_si}</td>
               <td>{new Date(e.published_at).toLocaleDateString()}</td>
               <td className="admin-entries__actions">
-                <Link to={`/admin/entries/${type}/${e.id}/edit`}>Edit</Link>
-                <button type="button" onClick={() => handleDelete(e.id)}>
+                <Link to={`/admin/entries/${type}/${e.id}/edit`} className="btn btn--secondary btn--sm">
+                  Edit
+                </Link>
+                <button type="button" className="btn btn--danger btn--sm" onClick={() => handleDelete(e.id)}>
                   Delete
                 </button>
               </td>

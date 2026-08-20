@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { NAV_ITEMS } from '../config/navItems';
 import { listPohoyaCalendarYears } from '../api/pohoyaCalendar';
 import './NavBar.css';
@@ -62,9 +62,9 @@ export function NavBar() {
   return (
     <nav className="navbar" ref={navRef}>
       <div className="navbar__bar">
-        <Link to="/" className="navbar__brand">
+        <NavLink to="/" end className="navbar__brand">
           Dhammahadaya Senasanaya
-        </Link>
+        </NavLink>
         <button
           type="button"
           className="navbar__hamburger"
@@ -86,9 +86,13 @@ export function NavBar() {
             <li key={item.label} className="navbar__item">
               <div className="navbar__item-row">
                 {item.to ? (
-                  <Link to={item.to} className="navbar__link">
+                  <NavLink
+                    to={item.to}
+                    end={item.to === '/'}
+                    className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}
+                  >
                     {item.label}
-                  </Link>
+                  </NavLink>
                 ) : (
                   <span
                     className="navbar__link navbar__link--label-only"
@@ -118,9 +122,12 @@ export function NavBar() {
                     return (
                       <li key={child.label} className="navbar__dropdown-item">
                         <div className="navbar__item-row">
-                          <Link to={child.to} className="navbar__dropdown-link">
+                          <NavLink
+                            to={child.to}
+                            className={({ isActive }) => `navbar__dropdown-link${isActive ? ' navbar__dropdown-link--active' : ''}`}
+                          >
                             {child.label}
-                          </Link>
+                          </NavLink>
                           {hasGrandchildren ? (
                             <button
                               type="button"
@@ -137,9 +144,12 @@ export function NavBar() {
                           <ul className={`navbar__subdropdown${isNestedOpen ? ' navbar__subdropdown--open' : ''}`}>
                             {child.children.map((grand) => (
                               <li key={grand.label}>
-                                <Link to={grand.to} className="navbar__subdropdown-link">
+                                <NavLink
+                                  to={grand.to}
+                                  className={({ isActive }) => `navbar__subdropdown-link${isActive ? ' navbar__subdropdown-link--active' : ''}`}
+                                >
                                   {grand.label}
-                                </Link>
+                                </NavLink>
                               </li>
                             ))}
                           </ul>

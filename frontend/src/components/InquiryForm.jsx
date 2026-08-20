@@ -55,7 +55,7 @@ export function InquiryForm() {
       {error ? <p className="inquiry-form__error">{error}</p> : null}
       {success ? <p className="inquiry-form__success">Thank you — your message has been sent.</p> : null}
 
-      <button type="submit" disabled={submitting}>
+      <button type="submit" className="btn btn--primary" disabled={submitting}>
         {submitting ? 'Sending...' : 'Send'}
       </button>
     </form>

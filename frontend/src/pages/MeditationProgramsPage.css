@@ -1,44 +1,38 @@
 .meditation {
-  max-width: 900px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
 .meditation h1 {
-  color: var(--color-text-accent);
   border-bottom: 3px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--space-3);
 }
 
 .meditation__section-heading {
-  color: var(--color-text-accent);
-  margin-top: 2rem;
+  margin-top: var(--space-7);
 }
 
 .meditation__rules {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin: 1rem 0 1.5rem;
+  padding: var(--space-5) var(--space-6);
+  margin: var(--space-4) 0 var(--space-6);
 }
 
 .meditation__rules p {
-  margin: 0.5rem 0;
-  line-height: 1.6;
+  margin: var(--space-2) 0;
 }
 
 .meditation__form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
   max-width: 560px;
 }
 
 .meditation__form label {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: var(--space-1);
   font-weight: 600;
   color: var(--color-text-accent);
 }
@@ -46,66 +40,62 @@
 .meditation__form input:not([type='checkbox']):not([type='radio']),
 .meditation__form textarea {
   font-family: inherit;
-  font-size: 1rem;
-  padding: 0.5rem;
+  font-size: var(--font-size-base);
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.meditation__form input:focus,
+.meditation__form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-tint);
 }
 
 .meditation__fieldset {
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
 }
 
 .meditation__fieldset legend {
   font-weight: 600;
   color: var(--color-text-accent);
-  padding: 0 0.3rem;
+  padding: 0 var(--space-1);
 }
 
 .meditation__radio {
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   font-weight: 400;
 }
 
 .meditation__field-error {
-  color: #b00020;
-  margin: -0.5rem 0 0;
+  color: var(--color-danger);
+  margin: calc(var(--space-2) * -1) 0 0;
 }
 
 .meditation__agree {
   flex-direction: row;
   align-items: flex-start;
-  gap: 0.6rem;
+  gap: var(--space-3);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: var(--line-height-base);
 }
 
 .meditation__agree input {
-  margin-top: 0.3rem;
+  margin-top: var(--space-1);
 }
 
 .meditation__form button[type='submit'] {
   align-self: flex-start;
-  background: var(--color-primary);
-  color: var(--color-text-accent);
-  font-weight: 700;
-  border: none;
-  padding: 0.6rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.meditation__form button[type='submit']:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .meditation__error {
-  color: #b00020;
+  color: var(--color-danger);
 }
 
 .meditation__success {

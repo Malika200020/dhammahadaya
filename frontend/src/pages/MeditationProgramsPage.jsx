@@ -85,7 +85,7 @@ export function MeditationProgramsPage() {
       <h1>Meditation Programs</h1>
 
       {/* [CONTENT — Sinhala, migrate verbatim] build-spec §13 */}
-      <div className="meditation__rules">
+      <div className="meditation__rules card">
         {meditationRulesParagraphs.map((line, i) => (
           <p key={i}>{line}</p>
         ))}
@@ -172,7 +172,7 @@ export function MeditationProgramsPage() {
         {error ? <p className="meditation__error">{error}</p> : null}
         {success ? <p className="meditation__success">{success}</p> : null}
 
-        <button type="submit" disabled={submitting}>
+        <button type="submit" className="btn btn--primary" disabled={submitting}>
           {submitting ? 'Sending...' : 'Send'}
         </button>
       </form>

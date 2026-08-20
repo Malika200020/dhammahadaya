@@ -14,7 +14,7 @@ export function AsuMahaSrawakayanPage() {
         alt={asuMahaSrawakayanHeader}
       />
       {/* [CONTENT — Sinhala, migrate verbatim] build-spec §5.3 */}
-      <div className="asu-maha__body">
+      <div className="asu-maha__body card">
         {asuMahaSrawakayanParagraphs.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
         ))}

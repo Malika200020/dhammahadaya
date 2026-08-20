@@ -45,7 +45,7 @@ export function BuddhaPujaPage() {
       <h1>Buddha Puja</h1>
 
       {/* [CONTENT — Sinhala, migrate verbatim] build-spec §12 */}
-      <div className="buddha-puja__dedication">
+      <div className="buddha-puja__dedication card">
         {buddhaPujaDedicationParagraphs.map((paragraph, i) => (
           <p key={i}>
             {paragraph.split('\n').map((line, j) => (

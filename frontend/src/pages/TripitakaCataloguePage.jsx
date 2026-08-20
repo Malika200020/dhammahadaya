@@ -15,7 +15,7 @@ import './TripitakaCataloguePage.css';
 // programmatically from docs/Dhammahadaya.net.txt rather than retyped.
 function CatalogueStaticContent() {
   return (
-    <div className="catalogue-static">
+    <div className="catalogue-static card">
       {catalogueIntroParagraphs.map((paragraph, i) => (
         <p key={i} className="catalogue-static__intro-paragraph">
           {paragraph.split('\n').map((line, j) => (

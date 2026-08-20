@@ -27,7 +27,7 @@ export function StaticDocumentPage({ slug }) {
         {doc.title_en} | {doc.title_si}
       </h1>
       {/* eslint-disable-next-line react/no-danger */}
-      <div className="static-document__body" dangerouslySetInnerHTML={{ __html: doc.body }} />
+      <div className="static-document__body card" dangerouslySetInnerHTML={{ __html: doc.body }} />
     </div>
   );
 }

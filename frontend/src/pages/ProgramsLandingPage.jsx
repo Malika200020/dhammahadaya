@@ -7,7 +7,7 @@ export function ProgramsLandingPage() {
     <div className="programs">
       <h1>Programs</h1>
       <div className="programs__cards">
-        <Link to="/sathara-pohoya-calendar/" className="programs__card">
+        <Link to="/sathara-pohoya-calendar/" className="programs__card card card--interactive">
           Sathara Pohoya Calendar
         </Link>
       </div>

@@ -31,7 +31,7 @@ export function NewsletterSignup() {
         Signup for our newsletter
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
       </label>
-      <button type="submit" disabled={submitting}>
+      <button type="submit" className="btn btn--primary" disabled={submitting}>
         {submitting ? 'Subscribing...' : 'Subscribe'}
       </button>
       {error ? <p className="newsletter-signup__error">{error}</p> : null}

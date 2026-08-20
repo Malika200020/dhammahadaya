@@ -19,7 +19,7 @@ export function SpecialThanksPage() {
       {error ? <p className="special-thanks__error">{error.message}</p> : null}
 
       {sections.map((s) => (
-        <section key={s.id} className="special-thanks__section">
+        <section key={s.id} className="special-thanks__section card">
           <h2>
             {s.section_en ? `${s.section_en} | ` : ''}
             {s.section_si}

@@ -53,13 +53,18 @@ export function EntryListPage({ slug }) {
 
       {data && data.totalPages > 1 ? (
         <div className="entry-list__pagination">
-          <button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+          <button type="button" className="btn btn--secondary btn--sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Previous
           </button>
           <span>
             Page {data.page} of {data.totalPages}
           </span>
-          <button type="button" disabled={page >= data.totalPages} onClick={() => setPage((p) => p + 1)}>
+          <button
+            type="button"
+            className="btn btn--secondary btn--sm"
+            disabled={page >= data.totalPages}
+            onClick={() => setPage((p) => p + 1)}
+          >
             Next
           </button>
         </div>

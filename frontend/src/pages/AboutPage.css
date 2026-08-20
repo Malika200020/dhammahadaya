@@ -1,29 +1,33 @@
 .about {
-  max-width: 900px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
 .about h1 {
-  color: var(--color-text-accent);
   border-bottom: 3px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--space-3);
 }
 
 .about__toggle {
   display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
 }
 
 .about__toggle-btn {
   border: 1px solid var(--color-border);
-  background: var(--color-background);
+  background: var(--color-white);
   color: var(--color-text-accent);
-  padding: 0.4rem 0.9rem;
-  border-radius: 6px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 600;
+  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
+}
+
+.about__toggle-btn:hover {
+  border-color: var(--color-primary);
 }
 
 .about__toggle-btn--active {
@@ -31,12 +35,13 @@
   border-color: var(--color-primary-dark);
 }
 
+.about__toggle-btn--active:hover {
+  border-color: var(--color-primary-dark);
+}
+
 .about__text {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
 }
 
 .about__reg-no {
@@ -45,11 +50,9 @@
 }
 
 .about__text p {
-  line-height: 1.7;
-  margin: 0.75rem 0;
+  margin: var(--space-3) 0;
 }
 
 .about__gallery-heading {
-  color: var(--color-text-accent);
-  margin-top: 2rem;
+  margin-top: var(--space-7);
 }

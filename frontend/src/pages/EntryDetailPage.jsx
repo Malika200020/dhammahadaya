@@ -39,7 +39,7 @@ export function EntryDetailPage({ slug }) {
 
   return (
     <div className="entry-detail">
-      <Link to={basePath} className="entry-detail__back">
+      <Link to={basePath} className="btn btn--secondary btn--sm entry-detail__back">
         « Back to list
       </Link>
       <h1>{entry.title_si}</h1>

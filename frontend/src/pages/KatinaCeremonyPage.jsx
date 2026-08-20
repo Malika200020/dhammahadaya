@@ -14,7 +14,7 @@ function YearSection({ year, organizers }) {
   }, [year]);
 
   return (
-    <section className="katina__year">
+    <section className="katina__year card">
       <h2>{year}</h2>
       <h3 className="katina__organizers-heading">Organizers</h3>
       {organizers.length > 0 ? (

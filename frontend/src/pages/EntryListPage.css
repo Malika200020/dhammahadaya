@@ -1,13 +1,12 @@
 .entry-list {
-  max-width: 900px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
 .entry-list__header h1 {
-  color: var(--color-text-accent);
   border-bottom: 3px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--space-3);
 }
 
 .entry-list__title-si {
@@ -18,34 +17,25 @@
 .entry-list__cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.25rem;
-  margin: 1.5rem 0;
+  gap: var(--space-5);
+  margin: var(--space-6) 0;
 }
 
 .entry-list__pagination {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: center;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: var(--space-6);
 }
 
-.entry-list__pagination button {
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--color-primary);
-  background: var(--color-white);
-  color: var(--color-text-accent);
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.entry-list__pagination button:disabled {
-  opacity: 0.5;
-  cursor: default;
+.entry-list__pagination span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
 }
 
 .entry-list__error {
-  color: #b00020;
-  padding: 2rem;
+  color: var(--color-danger);
+  padding: var(--space-6);
   text-align: center;
 }

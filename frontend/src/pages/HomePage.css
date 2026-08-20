@@ -1,28 +1,17 @@
 .home {
-  max-width: 1000px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
-  padding: 1rem;
-}
-
-.home__button {
-  display: inline-block;
-  background: var(--color-primary);
-  color: var(--color-text-accent);
-  font-weight: 700;
-  text-decoration: none;
-  padding: 0.5rem 1.25rem;
-  border-radius: 6px;
-  margin-top: 0.5rem;
+  padding: var(--space-5) var(--space-4);
 }
 
 .home__section {
-  margin: 2.5rem 0;
+  margin: var(--space-9) 0;
 }
 
 .home__section h2 {
-  color: var(--color-text-accent);
   border-bottom: 3px solid var(--color-primary);
-  padding-bottom: 0.5rem;
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-5);
 }
 
 /* 4.1 Hero */
@@ -30,27 +19,65 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.5rem;
-  padding: 2rem 0;
+  gap: var(--space-6);
+  padding: var(--space-6) 0 var(--space-8);
+}
+
+/* Signature hero animation (Home page only) — a slow, breathing orange
+   glow behind the Buddha image, evoking calm radiance rather than any
+   attention-grabbing motion. Purely decorative (aria-hidden, no content
+   change) and compositor-only (opacity/transform), so it can't delay the
+   page becoming interactive. Collapsed to a static frame by the sitewide
+   prefers-reduced-motion rule in styles/base.css (animation-iteration-count
+   forced to 1, duration to ~0) rather than a bespoke override here. */
+.home__hero-image-wrap {
+  position: relative;
+  display: inline-flex;
+  max-width: 320px;
+  width: 100%;
+}
+
+.home__hero-glow {
+  position: absolute;
+  inset: -18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 160, 66, 0.55) 0%, rgba(253, 160, 66, 0.18) 45%, rgba(253, 160, 66, 0) 72%);
+  filter: blur(28px);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: home-hero-glow-breathe 7s ease-in-out infinite alternate;
+}
+
+@keyframes home-hero-glow-breathe {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+
+  100% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
 }
 
 .home__hero-image {
+  position: relative;
+  z-index: 1;
   max-width: 320px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .home__hero-text {
-  flex: 1 1 300px;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
+  flex: 1 1 320px;
+  padding: var(--space-5) var(--space-6);
 }
 
 .home__hero-text p {
-  margin: 0.3rem 0;
-  line-height: 1.6;
+  margin: var(--space-2) 0;
+  line-height: var(--line-height-sinhala);
 }
 
 /* 4.2 Monastery intro */
@@ -58,7 +85,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-6);
+  padding-bottom: var(--space-8);
 }
 
 .home__intro-logo {
@@ -67,43 +95,40 @@
 }
 
 .home__intro-text {
-  flex: 1 1 300px;
+  flex: 1 1 320px;
+  max-width: var(--content-max-width);
 }
 
 .home__intro-text p {
-  line-height: 1.7;
-  margin: 0.75rem 0;
+  margin: var(--space-3) 0;
 }
 
 /* 4.3 Last Newsletters */
 .home__newsletter-cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
-  margin: 1.25rem 0;
+  gap: var(--space-5);
+  margin: var(--space-5) 0;
 }
 
 .home__three-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 /* 4.6/4.7/4.9 image rows */
 .home__image-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
 }
 
 .home__image-item {
   flex: 1 1 260px;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem;
+  padding: var(--space-5);
   text-align: center;
 }
 
@@ -111,26 +136,23 @@
   width: 100%;
   height: 160px;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.75rem;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
 }
 
 .home__caption {
-  font-size: 0.85rem;
-  color: #6b5a44;
-  margin-top: 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
 }
 
 /* 4.8 Sponsorships */
 .home__sponsorship-card {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin-top: 1rem;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  margin-top: var(--space-4);
 }
 
 .home__sponsorship-calendar {
@@ -142,8 +164,7 @@
 }
 
 .home__sponsorship-message p {
-  line-height: 1.6;
-  margin: 0.6rem 0;
+  margin: var(--space-3) 0;
 }
 
 /* 4.10 Contact */
@@ -151,38 +172,45 @@
   width: 100%;
   height: 260px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  margin-top: var(--space-4);
 }
 
 .home__map-link {
   display: inline-block;
-  margin: 0.5rem 0 1.5rem;
+  margin: var(--space-2) 0 var(--space-6);
   color: var(--color-primary-dark);
   font-weight: 600;
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.home__map-link:hover {
+  color: var(--color-text-accent);
 }
 
 /* 4.12 Social links */
 .home__social {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: var(--space-6);
 }
 
 .home__social a {
   color: var(--color-primary-dark);
   font-weight: 700;
   text-decoration: none;
+  transition: color var(--duration-base) var(--ease-standard);
 }
 
 .home__social a:hover {
+  color: var(--color-text-accent);
   text-decoration: underline;
 }
 
 /* 4.13 Static contact block */
 .home__static-contact {
-  color: var(--color-text-accent);
-  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
 }
 
 .home__static-contact address {

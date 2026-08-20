@@ -24,7 +24,7 @@ export function SatharaPohoyaCalendarIndexPage() {
       {error ? <p className="pohoya-index__error">{error.message}</p> : null}
       <div className="pohoya-index__cards">
         {years.map((y) => (
-          <Link key={y.year} to={`/sathara-pohoya-calendar-${y.year}/`} className="pohoya-index__card">
+          <Link key={y.year} to={`/sathara-pohoya-calendar-${y.year}/`} className="pohoya-index__card card card--interactive">
             {y.year}
           </Link>
         ))}

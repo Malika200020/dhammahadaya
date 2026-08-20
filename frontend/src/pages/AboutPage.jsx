@@ -41,7 +41,7 @@ export function AboutPage() {
       </div>
 
       {/* [CONTENT — English/Sinhala, migrate verbatim] build-spec §14 */}
-      <div className="about__text">
+      <div className="about__text card">
         <p className="about__reg-no">{content.registrationNo}</p>
         {content.paragraphs.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>

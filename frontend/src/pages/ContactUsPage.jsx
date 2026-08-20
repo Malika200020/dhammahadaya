@@ -29,7 +29,7 @@ export function ContactUsPage() {
       </a>
 
       {/* [CONTENT — English, migrate verbatim] build-spec §18 */}
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Location</h2>
         <p>{contactLocationEn}</p>
         <ul>
@@ -39,7 +39,7 @@ export function ContactUsPage() {
         </ul>
       </section>
 
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Postal Address</h2>
         <address>
           {contactPostalAddressLines.map((line, i) => (
@@ -51,7 +51,7 @@ export function ContactUsPage() {
         </address>
       </section>
 
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Contact Details</h2>
         <table className="contact-us__table">
           <tbody>
@@ -65,7 +65,7 @@ export function ContactUsPage() {
         </table>
       </section>
 
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Office Phone Hours</h2>
         <table className="contact-us__table">
           <tbody>
@@ -79,12 +79,12 @@ export function ContactUsPage() {
         </table>
       </section>
 
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Send an Inquiry</h2>
         <InquiryForm />
       </section>
 
-      <section className="contact-us__section">
+      <section className="contact-us__section card">
         <h2>Newsletter</h2>
         <NewsletterSignup />
       </section>

@@ -109,6 +109,7 @@ export function SearchableTable({
           <div className="searchable-table__pagination">
             <button
               type="button"
+              className="btn btn--secondary btn--sm"
               disabled={page <= 1 || loading}
               onClick={() => onPageChange(page - 1)}
             >
@@ -119,6 +120,7 @@ export function SearchableTable({
             </span>
             <button
               type="button"
+              className="btn btn--secondary btn--sm"
               disabled={page >= totalPages || loading}
               onClick={() => onPageChange(page + 1)}
             >

@@ -1,0 +1,187 @@
+/* Shared design-system foundations, built on top of tokens.css's palette
+   and scale variables: typography defaults, buttons, cards, layout
+   containers, and motion/reveal utilities. Global (imported once in
+   main.jsx) because CSS custom properties and bare-element defaults can't
+   be meaningfully scoped to one page — component-level classes here
+   (.btn, .card, .reveal, .container) only affect a page once that page's
+   markup actually uses them, so rollout across pages stays opt-in.
+
+   Motion note: every transition in this file (and in NavBar.css /
+   Footer.css) is collapsed to ~0 by the prefers-reduced-motion block
+   below, and .reveal has an explicit reduced-motion fallback so content
+   is never left invisible. */
+
+/* --- Typography defaults --- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text-accent);
+  line-height: var(--line-height-tight);
+  font-weight: 700;
+  margin: 0 0 var(--space-4);
+}
+
+h1 {
+  font-size: var(--font-size-2xl);
+}
+
+h2 {
+  font-size: var(--font-size-xl);
+}
+
+h3 {
+  font-size: var(--font-size-lg);
+}
+
+p {
+  line-height: var(--line-height-sinhala);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* --- Layout containers --- */
+.container {
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* For long-form text blocks — keeps line length readable, which matters
+   more for Sinhala than Latin text. */
+.content-container {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
+
+/* --- Buttons: two variants (primary/secondary) plus a danger accent for
+   destructive admin actions, all sharing one base. --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  border: 2px solid transparent;
+  cursor: pointer;
+  line-height: 1.2;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-accent);
+}
+
+.btn--primary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--secondary {
+  background: var(--color-white);
+  border-color: var(--color-primary);
+  color: var(--color-text-accent);
+}
+
+.btn--secondary:hover {
+  background: var(--color-primary-tint);
+}
+
+.btn--danger {
+  background: var(--color-white);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.btn--danger:hover {
+  background: var(--color-danger-tint);
+}
+
+.btn--sm {
+  padding: 0.4rem 0.9rem;
+  font-size: var(--font-size-xs);
+}
+
+.btn:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* --- Cards --- */
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-standard);
+}
+
+.card--interactive:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* --- Section reveal-on-scroll (see hooks/useReveal.js, components/Reveal.jsx) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--duration-slow) var(--ease-standard),
+    transform var(--duration-slow) var(--ease-standard);
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Respect reduced-motion system setting everywhere --- */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

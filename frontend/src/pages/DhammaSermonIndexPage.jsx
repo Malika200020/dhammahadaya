@@ -21,7 +21,7 @@ export function DhammaSermonIndexPage() {
       <h1>Dhamma Sermons</h1>
       <div className="dhamma-sermon-index__grid">
         {series.map((s) => (
-          <Link key={s.slug} to={`/${s.slug}/`} className="dhamma-sermon-index__card">
+          <Link key={s.slug} to={`/${s.slug}/`} className="dhamma-sermon-index__card card card--interactive">
             {s.name_si}
           </Link>
         ))}
