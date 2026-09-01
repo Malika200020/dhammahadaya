@@ -1,24 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
-import { getSession, logout as apiLogout } from '../api/admin';
+import { useContext } from 'react';
+import { AdminSessionContext } from '../components/admin/AdminSessionProvider';
 
 // session: undefined while checking, null when unauthenticated, {email} when signed in.
+// Reads the shared state from AdminSessionProvider (mounted once around
+// the admin route tree in App.jsx) so every consumer sees the same session.
 export function useAdminSession() {
-  const [session, setSession] = useState(undefined);
-
-  const refresh = useCallback(() => {
-    getSession()
-      .then(setSession)
-      .catch(() => setSession(null));
-  }, []);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
-  const logout = useCallback(async () => {
-    await apiLogout();
-    setSession(null);
-  }, []);
-
-  return { session, loading: session === undefined, refresh, logout };
+  const ctx = useContext(AdminSessionContext);
+  if (!ctx) throw new Error('useAdminSession must be used within an AdminSessionProvider');
+  return ctx;
 }

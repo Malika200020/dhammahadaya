@@ -91,7 +91,7 @@ router.get('/search', async (req, res, next) => {
       slug: CATALOGUE.slug,
       titleEn: CATALOGUE.titleEn,
       titleSi: CATALOGUE.titleSi,
-      columns: columns.map(({ key, label }) => ({ key, label })),
+      columns: columns.map(({ key, label, group, nowrap, sticky }) => ({ key, label, group, nowrap, sticky })),
       query,
       page,
       pageSize,

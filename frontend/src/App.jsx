@@ -52,6 +52,7 @@ import { AdminTripitakaCatalogueFormPage } from './pages/admin/AdminTripitakaCat
 import { AdminWhatsappPage } from './pages/admin/AdminWhatsappPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { AdminSessionProvider } from './components/admin/AdminSessionProvider';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
 import { DHAMMA_SERMON_SERIES_SLUGS } from './config/dhammaSermonSeries';
 import { useTheme } from './hooks/useTheme';
@@ -144,7 +145,13 @@ export function App() {
         />
 
         <Route path="/admin/login" element={<AdminLoginPage />} />
-        <Route element={<RequireAdminAuth />}>
+        <Route
+          element={
+            <AdminSessionProvider>
+              <RequireAdminAuth />
+            </AdminSessionProvider>
+          }
+        >
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Navigate to="/admin/entries/newsletter" replace />} />
             <Route path="/admin/entries/:type" element={<AdminEntriesListPage />} />

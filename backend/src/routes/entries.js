@@ -24,7 +24,7 @@ router.get('/:slug', async (req, res, next) => {
     const [countResult, pageResult] = await Promise.all([
       pool.query('SELECT count(*) FROM entries WHERE type = $1;', [entryType.type]),
       pool.query(
-        `SELECT id, title_si, title_en, excerpt, cover_image, published_at
+        `SELECT id, title_si, title_en, excerpt, cover_image, published_at, "order"
          FROM entries WHERE type = $1
          ORDER BY published_at DESC, id DESC
          LIMIT $2 OFFSET $3;`,
@@ -60,7 +60,7 @@ router.get('/:slug/:id', async (req, res, next) => {
     if (!Number.isInteger(id)) return res.status(400).json({ error: 'Invalid id' });
 
     const entryResult = await pool.query(
-      `SELECT id, title_si, title_en, excerpt, body, cover_image, published_at
+      `SELECT id, title_si, title_en, excerpt, body, cover_image, published_at, "order"
        FROM entries WHERE type = $1 AND id = $2;`,
       [entryType.type, id]
     );

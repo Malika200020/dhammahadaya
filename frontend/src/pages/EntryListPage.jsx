@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
+import { apeBuduHamuduruwoHeader, apeBuduHamuduruwoIntroParagraphs } from '../content/apeBuduHamuduruwoContent';
 import './EntryListPage.css';
 
 // The Article-list pattern (build-spec §3): cards (title + excerpt + Read
 // More), configured only by `slug` — the same component drives
 // Newsletters/Posts, Ape Budu Hamuduruwo, and Important Articles. All the
-// per-type difference (title, ordering) comes from the API response.
+// per-type difference (title, ordering) comes from the API response. Ape
+// Budu Hamuduruwo is the one slug of the three with its own static
+// devotional intro block required by build-spec §5.1 (Posts/§5.2 and
+// Important Articles/§5.4 don't have one) — rendered above the list only
+// for that slug.
 export function EntryListPage({ slug }) {
   const basePath = `/${slug}/`;
   const [page, setPage] = useState(1);
@@ -37,6 +42,15 @@ export function EntryListPage({ slug }) {
 
   return (
     <div className="entry-list">
+      {slug === 'ape-budu-hamuduruwo-all' ? (
+        <div className="entry-list__intro card">
+          <h2>{apeBuduHamuduruwoHeader}</h2>
+          {apeBuduHamuduruwoIntroParagraphs.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
+      ) : null}
+
       <header className="entry-list__header">
         <h1>
           {data?.titleEn ?? ''}

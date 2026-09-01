@@ -7,6 +7,17 @@
 .searchable-table__scroll {
   overflow-x: auto;
   border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+/* Wide tables (e.g. the 11-column Tripitaka catalogue) always have more
+   content than fits on screen — a plain, always-visible hint above the
+   table beats a scroll-position-tracking fade effect. */
+.searchable-table__scroll-hint {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
 }
 
 .searchable-table__header h1 {
@@ -43,9 +54,6 @@
   width: 100%;
   border-collapse: collapse;
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
 }
 
 .searchable-table__table th,
@@ -63,18 +71,107 @@
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Grouped (e.g. catalogue) tables: the group row sits visually "above"
+   the column-label row — bigger letter-spacing, centered, slightly
+   deeper tint — so the two header tiers read as a hierarchy rather than
+   two rows of equally-weighted text. */
+.searchable-table__group-row th {
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-align: center;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--color-primary-dark);
+}
+
+.searchable-table__table--grouped thead tr:last-child th {
+  text-align: center;
+}
+
+.searchable-table__table--grouped thead tr:last-child th:first-child {
+  text-align: left;
+}
+
+.searchable-table__table--grouped tbody td:not(.searchable-table__col--sticky) {
+  text-align: center;
+}
+
+/* Vertical rule at the end of each column group, carried down through
+   every row, so a group's boundary stays visible while scrolling
+   vertically through many rows — not just in the header. */
+.searchable-table__col--group-end {
+  border-right: 2px solid var(--color-primary);
+}
+
+.searchable-table__col--nowrap {
+  white-space: nowrap;
+}
+
+/* The primary lookup column (sutta name / dictionary word) stays put
+   while the rest of a wide table scrolls horizontally, so a row never
+   loses its identity mid-scroll. Needs an opaque background to occlude
+   the columns passing underneath it. */
+.searchable-table__col--sticky {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--color-surface);
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Sticky-column backgrounds must stay fully opaque, since they occlude
+   other columns scrolling underneath — --color-primary-tint carries alpha
+   in dark mode (rgba), so mixing it in here would let the scrolled column
+   ghost through. Mixed from --color-primary (always opaque) instead. */
+thead .searchable-table__col--sticky {
+  z-index: 2;
+  background: color-mix(in srgb, var(--color-primary) 20%, var(--color-surface));
+}
+
+.searchable-table__group-row .searchable-table__col--sticky {
+  background: var(--color-primary);
 }
 
 .searchable-table__table tbody tr {
   transition: background-color var(--duration-base) var(--ease-standard);
 }
 
+/* Zebra striping so the eye can track a single row across many columns —
+   the more columns a table has, the more this matters. */
+.searchable-table__table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-primary-tint) 45%, var(--color-surface));
+}
+
+.searchable-table__table tbody tr:nth-child(even) .searchable-table__col--sticky {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+
 .searchable-table__table tbody tr:hover {
   background: var(--color-primary-tint);
 }
 
+.searchable-table__table tbody tr:hover .searchable-table__col--sticky {
+  background: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface));
+}
+
 .searchable-table__table tbody tr:last-child td {
   border-bottom: none;
+}
+
+.searchable-table__pdf-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-white);
+  background: var(--color-primary-dark);
+  border-radius: var(--radius-sm);
+  padding: 0.1rem 0.3rem;
+  margin-right: var(--space-2);
+  vertical-align: middle;
 }
 
 .searchable-table__empty {

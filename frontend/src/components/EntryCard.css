@@ -12,6 +12,20 @@
   margin-bottom: var(--space-3);
 }
 
+.entry-card__episode {
+  display: inline-block;
+  align-self: flex-start;
+  background: var(--color-primary-tint);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-2);
+}
+
 .entry-card__title {
   font-size: var(--font-size-md);
   margin: 0 0 var(--space-2);

@@ -4,6 +4,19 @@
   padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
+.entry-list__intro {
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.entry-list__intro h2 {
+  margin-bottom: var(--space-3);
+}
+
+.entry-list__intro p {
+  margin: var(--space-2) 0;
+}
+
 .entry-list__header h1 {
   border-bottom: 3px solid var(--color-primary);
   padding-bottom: var(--space-3);

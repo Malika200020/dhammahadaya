@@ -36,12 +36,14 @@ export function EntryDetailPage({ slug }) {
   if (!data) return null;
 
   const { entry, prev, next } = data;
+  const showEpisodeNumber = slug === 'ape-budu-hamuduruwo-all' && entry.order > 0;
 
   return (
     <div className="entry-detail">
       <Link to={basePath} className="btn btn--secondary btn--sm entry-detail__back">
         « Back to list
       </Link>
+      {showEpisodeNumber ? <span className="entry-detail__episode">Episode {entry.order}</span> : null}
       <h1>{entry.title_si}</h1>
       {entry.cover_image ? <img src={entry.cover_image} alt="" className="entry-detail__image" /> : null}
       {/* Body is admin-authored rich text (behind auth), not user-submitted — rendered trusted, as-is. */}
