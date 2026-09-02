@@ -1,0 +1,13 @@
+# Cloudflare Workers (the newer git-connected "Workers Builds" flow, which
+# is what a *.workers.dev URL means we're on — this replaced the older
+# separate "Pages" product, whose SPA routing used a _redirects file
+# instead; that file doesn't apply here). Serves the built frontend as
+# static assets and falls back to index.html for any route that isn't a
+# real file, so client-side routes like /post/1806/ work on direct
+# navigation/refresh instead of 404ing.
+name = "dhammahadaya"
+compatibility_date = "2026-09-03"
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"

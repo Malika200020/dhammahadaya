@@ -177,13 +177,17 @@ async function importTable(client, table) {
 }
 
 async function main() {
-  const client = new Client({
-    host: process.env.PGHOST,
-    port: Number(process.env.PGPORT),
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE,
-  });
+  // DATABASE_URL (Neon/hosted Postgres) takes priority; falls back to the
+  // discrete PG* vars for local dev — same rule as backend/src/db.js.
+  const client = process.env.DATABASE_URL
+    ? new Client({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
+    : new Client({
+        host: process.env.PGHOST,
+        port: Number(process.env.PGPORT),
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        database: process.env.PGDATABASE,
+      });
   await client.connect();
 
   const results = [];
