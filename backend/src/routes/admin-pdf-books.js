@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
   try {
     const categoryConfig = getPdfBookCategory(req.query.category);
     if (!categoryConfig) {
-      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-book' });
+      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-books' });
     }
     const result = await pool.query(
       `SELECT id, category, section, subsection, title, link_url, link_status
@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
     const { category, section, subsection, title, link_url, link_status } = req.body || {};
     const categoryConfig = getPdfBookCategory(category);
     if (!categoryConfig) {
-      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-book' });
+      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-books' });
     }
     if (!section || !subsection || !title) {
       return res.status(400).json({ error: 'section, subsection, and title are required' });
@@ -70,7 +70,7 @@ router.put('/:id', async (req, res, next) => {
     const { category, section, subsection, title, link_url, link_status } = req.body || {};
     const categoryConfig = getPdfBookCategory(category);
     if (!categoryConfig) {
-      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-book' });
+      return res.status(400).json({ error: 'category must be one of: tripitaka-pdf, atthakatha, tika, other-valuable-books' });
     }
     if (!section || !subsection || !title) {
       return res.status(400).json({ error: 'section, subsection, and title are required' });

@@ -20,11 +20,16 @@ const PDF_BOOK_CATEGORIES = {
     titleEn: 'Tīka (PDF)',
     titleSi: 'ටීකා (PDF)',
   },
-  'other-valuable-book': {
-    slug: 'other-valuable-book',
+  'other-valuable-books': {
+    slug: 'other-valuable-books',
     category: 'Other Valuable Books',
     titleEn: 'Other Valuable Books',
     titleSi: 'වෙනත් වැදගත් පොත්',
+    // The live site presents this category as tabs across its top-level
+    // sections (Abhidhamma / Rerukane Chandawimala Thero / Other) rather
+    // than the Vinaya/Sutta/Abhidhamma pitaka split the other 3 PDF Books
+    // categories use — see classifySectionTabs in routes/pdf-books.js.
+    tabsBySection: true,
   },
 };
 

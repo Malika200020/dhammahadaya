@@ -2,6 +2,50 @@ import { useEffect, useState } from 'react';
 import { getPdfBookCategory } from '../api/pdfBooks';
 import './PdfBookCategoryPage.css';
 
+function Subsections({ subsections }) {
+  return subsections.map((sub) => (
+    <div key={sub.subsection} className="pdf-book-category__subsection">
+      <h3>{sub.subsection}</h3>
+      <ul className="pdf-book-category__entries">
+        {sub.entries.map((entry) => (
+          <PdfEntryRow key={entry.id} entry={entry} />
+        ))}
+      </ul>
+    </div>
+  ));
+}
+
+// The live site presents each Tripitaka edition as three pitaka tabs
+// (Vinaya / Sutta / Abhidhamma) rather than one long scroll — the API
+// only sends `groups` when a section's subsections classify cleanly into
+// that pattern (see classifyPitaka in backend/src/routes/pdf-books.js),
+// so this only activates for sections that actually match; anything else
+// falls back to the flat subsection list below.
+function SectionTabs({ groups }) {
+  const [activeKey, setActiveKey] = useState(groups[0].key);
+  const active = groups.find((g) => g.key === activeKey) ?? groups[0];
+
+  return (
+    <>
+      <div className="pdf-book-category__tabs" role="tablist">
+        {groups.map((g) => (
+          <button
+            key={g.key}
+            type="button"
+            role="tab"
+            aria-selected={g.key === activeKey}
+            className={`pdf-book-category__tab${g.key === activeKey ? ' pdf-book-category__tab--active' : ''}`}
+            onClick={() => setActiveKey(g.key)}
+          >
+            {g.label}
+          </button>
+        ))}
+      </div>
+      <Subsections subsections={active.subsections} />
+    </>
+  );
+}
+
 function PdfEntryRow({ entry }) {
   if (entry.link_status === 'no_link_yet') {
     // Visible placeholder, not a broken link and not hidden — build-spec
@@ -60,21 +104,23 @@ export function PdfBookCategoryPage({ slug }) {
         </h1>
       </header>
 
-      {data.sections.map((section) => (
-        <section key={section.section} className="pdf-book-category__section">
-          <h2>{section.section}</h2>
-          {section.subsections.map((sub) => (
-            <div key={sub.subsection} className="pdf-book-category__subsection">
-              <h3>{sub.subsection}</h3>
-              <ul className="pdf-book-category__entries">
-                {sub.entries.map((entry) => (
-                  <PdfEntryRow key={entry.id} entry={entry} />
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
-      ))}
+      {data.sectionTabs ? (
+        // The live site tabs across the top-level sections themselves for
+        // this category (see backend/src/routes/pdf-books.js) — no
+        // separate per-section heading, the tab strip IS the navigation.
+        <SectionTabs key={data.slug} groups={data.sectionTabs} />
+      ) : (
+        data.sections.map((section) => (
+          <section key={section.section} className="pdf-book-category__section">
+            <h2>{section.section}</h2>
+            {section.groups ? (
+              <SectionTabs groups={section.groups} />
+            ) : (
+              <Subsections subsections={section.subsections} />
+            )}
+          </section>
+        ))
+      )}
     </div>
   );
 }

@@ -51,15 +51,23 @@ export function EntryDetailPage({ slug }) {
 
       <nav className="entry-detail__nav">
         {prev ? (
-          <Link to={`${basePath}${prev.id}/`} className="entry-detail__nav-prev">
-            « {prev.title_si}
+          <Link to={`${basePath}${prev.id}/`} className="entry-detail__nav-link entry-detail__nav-link--prev">
+            <span className="entry-detail__nav-arrow">«</span>
+            <span className="entry-detail__nav-text">
+              <span className="entry-detail__nav-label">Previous</span>
+              <span className="entry-detail__nav-title">{prev.title_si}</span>
+            </span>
           </Link>
         ) : (
           <span />
         )}
         {next ? (
-          <Link to={`${basePath}${next.id}/`} className="entry-detail__nav-next">
-            {next.title_si} »
+          <Link to={`${basePath}${next.id}/`} className="entry-detail__nav-link entry-detail__nav-link--next">
+            <span className="entry-detail__nav-text">
+              <span className="entry-detail__nav-label">Next</span>
+              <span className="entry-detail__nav-title">{next.title_si}</span>
+            </span>
+            <span className="entry-detail__nav-arrow">»</span>
           </Link>
         ) : (
           <span />

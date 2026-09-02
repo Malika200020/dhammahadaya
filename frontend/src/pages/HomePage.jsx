@@ -179,7 +179,7 @@ export function HomePage() {
         <div className="home__image-row">
           <div className="home__image-item card card--interactive">
             <img src="/images/Katina-Img.jpg" alt="" />
-            <Link to="/kathina-ceremony/" className="btn btn--primary">
+            <Link to="/katina-ceremony/" className="btn btn--primary">
               Katina Ceremony
             </Link>
           </div>

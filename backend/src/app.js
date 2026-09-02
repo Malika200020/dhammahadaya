@@ -40,7 +40,11 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '2mb' }));
 app.use(sessionMiddleware);
 
-if ((process.env.STORAGE_DRIVER || 'local') === 'local') {
+// Always mounted, regardless of the active STORAGE_DRIVER: switching away
+// from "local" doesn't retroactively move files already saved under the
+// old driver, and DB rows can still hold /uploads/... URLs from before the
+// switch. Serving this directory costs nothing when it's empty.
+{
   const { UPLOAD_DIR } = require('./storage/localStorage');
   app.use('/uploads', express.static(UPLOAD_DIR));
 }

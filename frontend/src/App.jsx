@@ -104,11 +104,11 @@ export function App() {
       <Routes>
         <Route
           path="/pali-sinhalese-dictionary/"
-          element={<DictionaryPage slug="pali-sinhalese-dictionary" searchPlaceholder="Search Pali word... / පාලි වචනය සොයන්න..." />}
+          element={<DictionaryPage key="pali-sinhalese-dictionary" slug="pali-sinhalese-dictionary" searchPlaceholder="Search Pali word... / පාලි වචනය සොයන්න..." />}
         />
         <Route
           path="/sinhala-dictionary/"
-          element={<DictionaryPage slug="sinhala-dictionary" searchPlaceholder="Search Sinhala word... / වචනය සොයන්න..." />}
+          element={<DictionaryPage key="sinhala-dictionary" slug="sinhala-dictionary" searchPlaceholder="Search Sinhala word... / වචනය සොයන්න..." />}
         />
         <Route path="/tripitaka-catalogs/" element={<TripitakaCataloguePage />} />
 
@@ -131,7 +131,7 @@ export function App() {
         <Route path="/buddha-puja/" element={<BuddhaPujaPage />} />
         <Route path="/sponsorship/" element={<SponsorshipPage />} />
         <Route path="/meditation-programs/" element={<MeditationProgramsPage />} />
-        <Route path="/kathina-ceremony/" element={<KatinaCeremonyPage />} />
+        <Route path="/katina-ceremony/" element={<KatinaCeremonyPage />} />
         <Route path="/programs/" element={<ProgramsLandingPage />} />
         <Route path="/sathara-pohoya-calendar/" element={<SatharaPohoyaCalendarIndexPage />} />
         <Route path="/about/" element={<AboutPage />} />

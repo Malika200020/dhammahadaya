@@ -1,0 +1,58 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Connect this repo on Render ("New +" -> "Blueprint") and it reads this
+# file to create the service below. Vars marked `sync: false` are secrets
+# Render will prompt for once during setup rather than storing here.
+services:
+  - type: web
+    name: dhammahadaya-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    # Runs migrate.js (idempotent — see scripts/migrate.js) before every
+    # boot, so schema changes ship automatically with the code that needs
+    # them, then starts the API.
+    startCommand: npm run migrate && npm start
+    healthCheckPath: /api/entries/post
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "4000"
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: STORAGE_DRIVER
+        value: cloudinary
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: TWO_FACTOR_ENABLED
+        value: "true"
+      - key: EMAIL_DRIVER
+        value: smtp
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: ADMIN_NOTIFICATION_EMAIL
+        sync: false
+      - key: RECAPTCHA_ENABLED
+        value: "false"
+      - key: RECAPTCHA_SECRET_KEY
+        sync: false
+      # Left off deliberately — Render's free tier sleeps the service when
+      # idle, which can't keep a persistent WhatsApp session alive. The
+      # sponsorship confirmation email always sends regardless of this.
+      - key: WHATSAPP_ENABLED
+        value: "false"

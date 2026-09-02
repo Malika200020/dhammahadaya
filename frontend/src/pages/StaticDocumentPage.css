@@ -14,6 +14,29 @@
   color: var(--color-ink);
   margin-top: var(--space-5);
   padding: var(--space-5) var(--space-6);
+  text-align: center;
+  line-height: 1.8;
+}
+
+.static-document__body h1,
+.static-document__body h2 {
+  font-size: var(--font-size-lg);
+  margin: var(--space-5) 0 var(--space-3);
+}
+
+.static-document__body p {
+  margin: var(--space-3) 0;
+}
+
+.static-document__body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--space-5);
+}
+
+.static-document__body td {
+  vertical-align: top;
+  padding: 0 var(--space-4);
 }
 
 .static-document__error {

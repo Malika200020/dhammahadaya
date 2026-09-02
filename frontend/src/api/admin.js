@@ -1,5 +1,7 @@
+import { API_BASE } from './base';
+
 async function request(path, options = {}) {
-  const res = await fetch(path, { credentials: 'include', ...options });
+  const res = await fetch(`${API_BASE}${path}`, { credentials: 'include', ...options });
   if (res.status === 204) return null;
   const body = await res.json().catch(() => null);
   if (!res.ok) {
@@ -195,7 +197,7 @@ export const getWhatsappStatus = () => request('/api/admin/whatsapp/status');
 export async function uploadImage(file) {
   const formData = new FormData();
   formData.append('file', file);
-  const res = await fetch('/api/admin/uploads', {
+  const res = await fetch(`${API_BASE}/api/admin/uploads`, {
     method: 'POST',
     credentials: 'include',
     body: formData,

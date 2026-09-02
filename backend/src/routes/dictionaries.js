@@ -36,7 +36,14 @@ router.get('/:slug/search', async (req, res, next) => {
     const { table, searchColumn, columns } = dictionary;
     const selectColumns = columns.map((c) => c.dbColumn).join(', ');
 
-    const whereClause = query ? `WHERE ${searchColumn} ILIKE $1 ESCAPE '\\'` : '';
+    // Match every column, not just `searchColumn` — the live site's table
+    // widget (DataTables under the hood) searches across all columns by
+    // default, so a query that only appears in e.g. the meaning/
+    // translation text (a reverse lookup) still returns matches there.
+    // Restricting to one column made those searches come back empty here
+    // even though the row exists.
+    const searchClause = columns.map((c) => `${c.dbColumn} ILIKE $1 ESCAPE '\\'`).join(' OR ');
+    const whereClause = query ? `WHERE ${searchClause}` : '';
     const likeParam = query ? `%${escapeLikePattern(query)}%` : null;
 
     const countSql = `SELECT count(*) FROM ${table} ${whereClause};`;

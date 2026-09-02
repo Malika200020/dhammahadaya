@@ -32,7 +32,7 @@ export const NAV_ITEMS = [
       { label: 'Tripitaka (PDF)', to: '/tripitaka-pdf/' },
       { label: 'Atthakatha (PDF)', to: '/atthakatha/' },
       { label: 'Tika (PDF)', to: '/tika/' },
-      { label: 'Other Valuable Books', to: '/other-valuable-book/' },
+      { label: 'Other Valuable Books', to: '/other-valuable-books/' },
     ],
   },
   {
@@ -64,7 +64,7 @@ export const NAV_ITEMS = [
       // years intentionally omitted here — NavBar.jsx injects them dynamically
       { label: 'Sathara Pohoya Calendar', to: '/sathara-pohoya-calendar/', dynamicYears: true },
       { label: 'Buddha Puja', to: '/buddha-puja/' },
-      { label: 'Kathina Ceremony', to: '/kathina-ceremony/' },
+      { label: 'Katina Ceremony', to: '/katina-ceremony/' },
       { label: 'Meditation Programs', to: '/meditation-programs/' },
     ],
   },

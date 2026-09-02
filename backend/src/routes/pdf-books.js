@@ -4,6 +4,22 @@ const { getPdfBookCategory } = require('../config/pdfBookCategories');
 
 const router = express.Router();
 
+// The live site (dhammahadaya.net/tripitaka-pdf/) presents each Tripitaka
+// edition as three pitaka tabs (Vinaya / Sutta / Abhidhamma) rather than a
+// flat scroll — this classifies a subsection label into the pitaka it
+// belongs under, purely from naming convention (no stored column), so the
+// same detection works for any edition that follows the pattern.
+const PITAKA_GROUPS = [
+  { key: 'vinaya', label: 'Vinayapitakaya | විනය පිටකය', test: (s) => /Vinayapitakaya/i.test(s) || /Vinaya\s+(Atthakatha|Texts|Tika)/i.test(s) || s === 'Vinaya Texts (older PTS edition)' },
+  { key: 'sutta', label: 'Suttapitakaya | සූත්‍ර පිටකය', test: (s) => /nik[aā]ya/i.test(s) },
+  { key: 'abhidhamma', label: 'Abhidhammapitaka | අභිධර්ම පිටකය', test: (s) => /Abhidhammapitaka/i.test(s) },
+];
+
+function classifyPitaka(subsection) {
+  const match = PITAKA_GROUPS.find((g) => g.test(subsection));
+  return match ? match.key : null;
+}
+
 // Groups a flat, id-ordered row list into section -> subsection ->
 // entries, preserving first-seen order at every level (Map iteration
 // order == insertion order in JS) — the grouping is whatever the source
@@ -21,12 +37,47 @@ function groupBySectionAndSubsection(rows) {
       link_status: row.link_status,
     });
   }
-  return [...bySection.entries()].map(([section, bySubsection]) => ({
-    section,
-    subsections: [...bySubsection.entries()].map(([subsection, entries]) => ({
+  return [...bySection.entries()].map(([section, bySubsection]) => {
+    const subsections = [...bySubsection.entries()].map(([subsection, entries]) => ({
       subsection,
       entries,
-    })),
+    }));
+
+    // Only expose pitaka tabs when every subsection in this section
+    // classifies cleanly into one — a section with any leftover
+    // unrecognized subsection (e.g. a category that doesn't follow the
+    // Vinaya/Sutta/Abhidhamma convention at all) falls back to the flat
+    // `subsections` list instead, so nothing is ever silently dropped.
+    const classified = subsections.map((s) => ({ ...s, pitaka: classifyPitaka(s.subsection) }));
+    const allClassified = classified.every((s) => s.pitaka);
+    let groups = null;
+    if (allClassified && subsections.length > 1) {
+      const byPitaka = new Map();
+      for (const s of classified) {
+        if (!byPitaka.has(s.pitaka)) byPitaka.set(s.pitaka, []);
+        byPitaka.get(s.pitaka).push({ subsection: s.subsection, entries: s.entries });
+      }
+      groups = PITAKA_GROUPS.filter((g) => byPitaka.has(g.key)).map((g) => ({
+        key: g.key,
+        label: g.label,
+        subsections: byPitaka.get(g.key),
+      }));
+    }
+
+    return { section, subsections, groups };
+  });
+}
+
+// For categories flagged `tabsBySection` (currently just Other Valuable
+// Books) the live site tabs across the top-level sections themselves —
+// Abhidhamma / Rerukane Chandawimala Thero / Other — rather than nesting
+// pitaka tabs inside each section. Reuses the exact {key, label,
+// subsections} shape SectionTabs already renders for pitaka groups.
+function buildSectionTabs(sections) {
+  return sections.map((s) => ({
+    key: s.section.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    label: s.section,
+    subsections: s.subsections,
   }));
 }
 
@@ -42,11 +93,14 @@ router.get('/:slug', async (req, res, next) => {
       [categoryConfig.category]
     );
 
+    const sections = groupBySectionAndSubsection(result.rows);
+
     res.json({
       slug: categoryConfig.slug,
       titleEn: categoryConfig.titleEn,
       titleSi: categoryConfig.titleSi,
-      sections: groupBySectionAndSubsection(result.rows),
+      sections,
+      sectionTabs: categoryConfig.tabsBySection ? buildSectionTabs(sections) : null,
     });
   } catch (err) {
     next(err);

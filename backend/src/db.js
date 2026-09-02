@@ -10,12 +10,20 @@ const { Pool, types } = require('pg');
 // UTC+5:30). Keep DATE columns as plain 'YYYY-MM-DD' strings instead.
 types.setTypeParser(1082, (val) => val);
 
-const pool = new Pool({
-  host: process.env.PGHOST,
-  port: Number(process.env.PGPORT),
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
-});
+// DATABASE_URL (what Neon and most hosted Postgres providers hand you as a
+// single connection string) takes priority when set; falls back to the
+// discrete PG* vars for local dev against a plain local Postgres. Hosted
+// Postgres providers require TLS and commonly present a cert not in the
+// default trust store, so `rejectUnauthorized: false` is needed — the
+// connection itself is still encrypted, this only skips CA verification.
+const pool = process.env.DATABASE_URL
+  ? new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
+  : new Pool({
+      host: process.env.PGHOST,
+      port: Number(process.env.PGPORT),
+      user: process.env.PGUSER,
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE,
+    });
 
 module.exports = { pool };

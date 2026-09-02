@@ -1,5 +1,8 @@
-// Imports backend/previous_system_files/pdf-books.csv (293 PDF download
-// links) into Postgres, deriving a (link_prefix, link_book_code) pair from
+// Imports backend/previous_system_files/pdf-books.csv (301 PDF download
+// links — 293 from the original export, plus one AP De Zoysa Abhidhamma
+// volume and 7 Pali & Sinhala Khuddaka Atthakatha entries the export had
+// missed/collapsed into placeholder rows, added after cross-checking
+// against the live site) into Postgres, deriving a (link_prefix, link_book_code) pair from
 // each title for cross-referencing against the Tripitaka catalogue's
 // embedded PDF reference codes (see docs/data-notes.md and the catalogue
 // route for how that cross-reference is used).
@@ -120,7 +123,7 @@ async function main() {
   await client.query('ANALYZE pdf_books;');
 
   const countRes = await client.query(`SELECT count(*) FROM pdf_books WHERE source = 'legacy_import';`);
-  console.log('Imported rows:', countRes.rows[0].count, '(expected 293)');
+  console.log('Imported rows:', countRes.rows[0].count, '(expected 301)');
   console.log('Rows with a derived link_prefix/link_book_code:', matchedCodeCount, '(expected 161)');
   console.log('Fields needing NFC normalization:', normalizedFieldCount);
 

@@ -1,5 +1,7 @@
+import { API_BASE } from './base';
+
 async function request(path, options = {}) {
-  const res = await fetch(path, { credentials: 'include', ...options });
+  const res = await fetch(`${API_BASE}${path}`, { credentials: 'include', ...options });
   const body = await res.json().catch(() => null);
   if (!res.ok) {
     const message = body?.error || `Request failed (${res.status})`;

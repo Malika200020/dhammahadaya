@@ -3,12 +3,15 @@ const { pool } = require('../db');
 
 const router = express.Router();
 
-// GET /api/katina — every year's organizer list, newest first. Photo
-// galleries are fetched separately via GET /api/galleries/katina?key=<year>
-// (the reusable gallery from step 7), same two-fetch pattern as Buddha Puja.
+// GET /api/katina — every year's organizer list, chronological (matches
+// the live site's tab order: past years then upcoming years, both
+// ascending — this is a yearly ceremony history/schedule, not a news feed,
+// so "newest first" reads backwards here). Photo galleries are fetched
+// separately via GET /api/galleries/katina?key=<year> (the reusable
+// gallery from step 7), same two-fetch pattern as Buddha Puja.
 router.get('/', async (req, res, next) => {
   try {
-    const result = await pool.query('SELECT year, organizers FROM katina_year ORDER BY year DESC;');
+    const result = await pool.query('SELECT year, organizers FROM katina_year ORDER BY year ASC;');
     res.json({ years: result.rows });
   } catch (err) {
     next(err);
