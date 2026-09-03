@@ -142,6 +142,14 @@
 
 body {
   margin: 0;
+  /* Safety net against horizontal scroll/viewport-widening on narrow
+     screens — e.g. decorative glow effects (home hero, admin login) use
+     `inset: -42%` to intentionally bleed past their own box, which is
+     invisible slack on desktop but overflows the actual screen edge on
+     mobile otherwise. Clipping at the body edge doesn't affect how any of
+     these look, since they fade to transparent well before their full
+     bounding box anyway. */
+  overflow-x: hidden;
   font-family: 'Noto Sans Sinhala', 'Iskoola Pota', system-ui, sans-serif;
   background: var(--color-background);
   color: var(--color-ink);

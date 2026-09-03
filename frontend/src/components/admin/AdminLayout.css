@@ -3,6 +3,13 @@
   min-height: 100vh;
 }
 
+/* Hidden on desktop — the sidebar is always visible there, same as before. */
+.admin-layout__topbar,
+.admin-layout__hamburger,
+.admin-layout__backdrop {
+  display: none;
+}
+
 .admin-layout__sidebar {
   width: 240px;
   flex-shrink: 0;
@@ -78,6 +85,95 @@
 
 .admin-layout__content {
   flex: 1;
+  min-width: 0;
   padding: var(--space-7);
   background: var(--color-background);
+}
+
+/* --- Mobile: sidebar becomes a slide-in drawer, opened via a top bar --- */
+@media (max-width: 860px) {
+  .admin-layout {
+    display: block;
+  }
+
+  .admin-layout__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--color-text-accent);
+    color: var(--color-white);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .admin-layout__topbar-title {
+    color: var(--color-primary);
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+  }
+
+  .admin-layout__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .admin-layout__hamburger span {
+    display: block;
+    height: 2px;
+    margin: 0 7px;
+    background: var(--color-white);
+  }
+
+  .admin-layout__backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .admin-layout__sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1002;
+    width: min(80vw, 300px);
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform var(--duration-base) var(--ease-standard);
+    box-shadow: var(--shadow-md);
+  }
+
+  .admin-layout__sidebar--open {
+    transform: translateX(0);
+  }
+
+  .admin-layout__content {
+    padding: var(--space-4);
+  }
+
+  /* Every admin list page's table is wider than a phone screen once you
+     count in an actions column (Edit/Delete buttons that don't wrap) —
+     scope the scroll to the table itself rather than letting it drag the
+     whole page sideways. `display: block` is what actually makes a
+     <table> a scrollable box; cell text still wraps normally inside it. */
+  .admin-layout__content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }

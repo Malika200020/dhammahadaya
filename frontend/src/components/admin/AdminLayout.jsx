@@ -1,4 +1,5 @@
-import { Outlet, NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAdminSession } from '../../hooks/useAdminSession';
 import { ENTRY_TYPES } from '../../config/entryTypes';
 import { PDF_BOOK_CATEGORIES } from '../../config/pdfBookCategories';
@@ -10,10 +11,42 @@ function navLinkClass({ isActive }) {
 
 export function AdminLayout() {
   const { session, logout } = useAdminSession();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  // Close the drawer automatically on navigation — otherwise picking a
+  // section from the mobile menu would leave it covering the new page.
+  useEffect(() => {
+    setSidebarOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="admin-layout">
-      <aside className="admin-layout__sidebar">
+      <header className="admin-layout__topbar">
+        <span className="admin-layout__topbar-title">Admin</span>
+        <button
+          type="button"
+          className="admin-layout__hamburger"
+          aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={sidebarOpen}
+          onClick={() => setSidebarOpen((v) => !v)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </header>
+
+      {sidebarOpen ? (
+        <button
+          type="button"
+          className="admin-layout__backdrop"
+          aria-label="Close menu"
+          onClick={() => setSidebarOpen(false)}
+        />
+      ) : null}
+
+      <aside className={`admin-layout__sidebar${sidebarOpen ? ' admin-layout__sidebar--open' : ''}`}>
         <h2>Admin</h2>
         <nav className="admin-layout__nav">
           {ENTRY_TYPES.map((t) => (
