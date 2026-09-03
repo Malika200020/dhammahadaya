@@ -36,6 +36,14 @@ const adminTripitakaCatalogueRouter = require('./routes/admin-tripitaka-catalogu
 const adminWhatsappRouter = require('./routes/admin-whatsapp');
 
 const app = express();
+// Render (and its own edge/CDN layer) terminates TLS and forwards to this
+// app over plain HTTP internally — without trusting the proxy, Express has
+// no way to know the original request was HTTPS, so the session cookie's
+// `secure: true` (required for SameSite=None in production — see
+// session.js) makes express-session silently refuse to ever set the
+// cookie at all, breaking every login. `1` trusts exactly one hop, which
+// matches Render's setup.
+app.set('trust proxy', 1);
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '2mb' }));
 app.use(sessionMiddleware);
