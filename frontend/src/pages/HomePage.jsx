@@ -5,6 +5,7 @@ import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
 import { getSponsorshipCalendar } from '../api/sponsorship';
 import { BookingCalendar, getSponsorshipCalendarRange } from '../components/BookingCalendar';
+import { LoadingState } from '../components/LoadingState';
 import { InquiryForm } from '../components/InquiryForm';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
@@ -28,19 +29,26 @@ function phoneFor(label) {
 export function HomePage() {
   const navigate = useNavigate();
   const [newsletters, setNewsletters] = useState([]);
+  const [newslettersLoading, setNewslettersLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
+  // See SponsorshipPage.jsx — bookings default to "all available" until
+  // real data arrives, so the preview calendar below must not render until
+  // this resolves either.
+  const [calendarLoading, setCalendarLoading] = useState(true);
 
   useEffect(() => {
     listEntries('post', { page: 1, pageSize: 4 })
       .then((d) => setNewsletters(d.entries))
-      .catch(() => setNewsletters([]));
+      .catch(() => setNewsletters([]))
+      .finally(() => setNewslettersLoading(false));
   }, []);
 
   useEffect(() => {
     const { from, to } = getSponsorshipCalendarRange();
     getSponsorshipCalendar(from, to)
       .then((d) => setBookings(d.bookings))
-      .catch(() => setBookings([]));
+      .catch(() => setBookings([]))
+      .finally(() => setCalendarLoading(false));
   }, []);
 
   return (
@@ -77,12 +85,16 @@ export function HomePage() {
       {/* 4.3 Last Newsletters — newest 4 via the same /api/entries used by /post/ */}
       <Reveal as="section" className="home__section">
         <h2>Last Newsletters</h2>
-        <div className="home__newsletter-cards">
-          {newsletters.map((entry) => (
-            <EntryCard key={entry.id} entry={entry} basePath="/post/" />
-          ))}
-          {newsletters.length === 0 ? <p>No newsletters yet.</p> : null}
-        </div>
+        {newslettersLoading ? (
+          <LoadingState message="Loading newsletters…" />
+        ) : (
+          <div className="home__newsletter-cards">
+            {newsletters.map((entry) => (
+              <EntryCard key={entry.id} entry={entry} basePath="/post/" />
+            ))}
+            {newsletters.length === 0 ? <p>No newsletters yet.</p> : null}
+          </div>
+        )}
 
         {/* 4.4 Posts button */}
         <Link to="/post/" className="btn btn--primary">
@@ -160,7 +172,11 @@ export function HomePage() {
         <h2>Sponsorships</h2>
         <div className="home__sponsorship-card card">
           <div className="home__sponsorship-calendar">
-            <BookingCalendar bookings={bookings} selectedDate={null} onSelectDate={() => navigate('/sponsorship/')} />
+            {calendarLoading ? (
+              <LoadingState message="Loading availability…" />
+            ) : (
+              <BookingCalendar bookings={bookings} selectedDate={null} onSelectDate={() => navigate('/sponsorship/')} />
+            )}
           </div>
           <div className="home__sponsorship-message">
             {[sponsorshipNoteEn.paragraphs[0], sponsorshipNoteEn.paragraphs[1], sponsorshipNoteEn.paragraphs[3]].map((p, i) => (

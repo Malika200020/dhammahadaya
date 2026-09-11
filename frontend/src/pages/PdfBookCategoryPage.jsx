@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getPdfBookCategory } from '../api/pdfBooks';
+import { LoadingState } from '../components/LoadingState';
 import './PdfBookCategoryPage.css';
 
 function Subsections({ subsections }) {
@@ -76,16 +77,21 @@ function PdfEntryRow({ entry }) {
 // API, which preserves the source data's row order.
 export function PdfBookCategoryPage({ slug }) {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
     getPdfBookCategory(slug)
       .then((d) => {
         if (!cancelled) setData(d);
       })
       .catch((e) => {
         if (!cancelled) setError(e);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
     return () => {
       cancelled = true;
@@ -93,6 +99,7 @@ export function PdfBookCategoryPage({ slug }) {
   }, [slug]);
 
   if (error) return <p className="pdf-book-category__error">Failed to load: {error.message}</p>;
+  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
   if (!data) return null;
 
   return (

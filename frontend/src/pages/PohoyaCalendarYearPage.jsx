@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getPohoyaCalendarYear } from '../api/pohoyaCalendar';
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryImage';
+import { LoadingState } from '../components/LoadingState';
 import './PohoyaCalendarYearPage.css';
 
 // build-spec §16.3/§16.4 — one page for every year (2025, 2026, and any
@@ -12,17 +14,21 @@ export function PohoyaCalendarYearPage() {
   const { pathname } = useLocation();
   const year = pathname.match(/sathara-pohoya-calendar-([^/]+)/)?.[1];
   const [calendar, setCalendar] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setCalendar(null);
     setError(null);
+    setLoading(true);
     getPohoyaCalendarYear(year)
       .then((d) => setCalendar(d.calendar))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, [year]);
 
   if (error) return <p className="pohoya-year__error">{error.status === 404 ? `No calendar published for ${year}.` : error.message}</p>;
+  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
   if (!calendar) return null;
 
   return (
@@ -51,7 +57,7 @@ export function PohoyaCalendarYearPage() {
       </table>
 
       {calendar.image_url ? (
-        <img className="pohoya-year__image" src={calendar.image_url} alt={`Sathara Pohoya Calendar ${calendar.year}`} />
+        <img className="pohoya-year__image" src={optimizeCloudinaryUrl(calendar.image_url)} alt={`Sathara Pohoya Calendar ${calendar.year}`} />
       ) : (
         <p className="pohoya-year__no-image">Calendar image not yet uploaded.</p>
       )}

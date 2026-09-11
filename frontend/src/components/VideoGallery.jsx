@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { LoadingState } from './LoadingState';
 import './VideoGallery.css';
 
 function VideoThumbnail({ video, active, onClick }) {
@@ -42,6 +43,13 @@ export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange
   }, [videos]);
 
   if (error) return <p className="video-gallery__error">Failed to load: {error.message}</p>;
+  if (loading && videos.length === 0) {
+    return (
+      <div className="video-gallery">
+        <LoadingState message="Loading videos… the first load of the day can take up to a minute while the server wakes up." />
+      </div>
+    );
+  }
 
   const activeVideo = videos.find((v) => v.id === activeId) ?? videos[0];
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { listAdminBookings, confirmBooking, declineBooking } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminSponsorshipListPage.css';
 
 const TABS = [
@@ -16,14 +17,17 @@ function formatDate(d) {
 export function AdminSponsorshipListPage() {
   const [status, setStatus] = useState('pending');
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [busyId, setBusyId] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminBookings(status)
       .then((d) => setBookings(d.bookings))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, [status]);
 
   useEffect(() => {
@@ -81,52 +85,56 @@ export function AdminSponsorshipListPage() {
 
       {error ? <p className="admin-sponsorship__error">{error.message || error}</p> : null}
 
-      <table className="admin-sponsorship__table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Objective</th>
-            <th>Status</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b.id}>
-              <td>{formatDate(b.date)}</td>
-              <td>{b.name}</td>
-              <td>{b.email}</td>
-              <td>{b.phone}</td>
-              <td>{b.objective}</td>
-              <td>
-                <span className={`admin-sponsorship__status admin-sponsorship__status--${b.status}`}>{b.status}</span>
-              </td>
-              <td className="admin-sponsorship__actions">
-                {b.status === 'pending' ? (
-                  <>
-                    <button type="button" disabled={busyId === b.id} onClick={() => handleConfirm(b.id)}>
-                      Confirm
-                    </button>
-                    <button type="button" disabled={busyId === b.id} onClick={() => handleDecline(b.id)}>
-                      Decline
-                    </button>
-                  </>
-                ) : null}
-              </td>
-            </tr>
-          ))}
-          {bookings.length === 0 ? (
+      {loading && bookings.length === 0 ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <table className="admin-sponsorship__table">
+          <thead>
             <tr>
-              <td colSpan={7} className="admin-sponsorship__empty">
-                No bookings.
-              </td>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Objective</th>
+              <th>Status</th>
+              <th />
             </tr>
-          ) : null}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {bookings.map((b) => (
+              <tr key={b.id}>
+                <td>{formatDate(b.date)}</td>
+                <td>{b.name}</td>
+                <td>{b.email}</td>
+                <td>{b.phone}</td>
+                <td>{b.objective}</td>
+                <td>
+                  <span className={`admin-sponsorship__status admin-sponsorship__status--${b.status}`}>{b.status}</span>
+                </td>
+                <td className="admin-sponsorship__actions">
+                  {b.status === 'pending' ? (
+                    <>
+                      <button type="button" disabled={busyId === b.id} onClick={() => handleConfirm(b.id)}>
+                        Confirm
+                      </button>
+                      <button type="button" disabled={busyId === b.id} onClick={() => handleDecline(b.id)}>
+                        Decline
+                      </button>
+                    </>
+                  ) : null}
+                </td>
+              </tr>
+            ))}
+            {!loading && bookings.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="admin-sponsorship__empty">
+                  No bookings.
+                </td>
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

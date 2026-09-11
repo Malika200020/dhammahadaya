@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getStaticDocument } from '../api/staticDocuments';
+import { LoadingState } from '../components/LoadingState';
 import './StaticDocumentPage.css';
 
 // One page for both single-record formal documents (build-spec §17.3
@@ -8,17 +9,21 @@ import './StaticDocumentPage.css';
 // sermon-series pages.
 export function StaticDocumentPage({ slug }) {
   const [doc, setDoc] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setDoc(null);
     setError(null);
+    setLoading(true);
     getStaticDocument(slug)
       .then((d) => setDoc(d.document))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, [slug]);
 
   if (error) return <p className="static-document__error">{error.message}</p>;
+  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
   if (!doc) return null;
 
   return (

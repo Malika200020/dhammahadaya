@@ -9,8 +9,10 @@ if (driver === 'console') {
   impl = require('./consoleEmail');
 } else if (driver === 'smtp') {
   impl = require('./smtpEmail');
+} else if (driver === 'brevo') {
+  impl = require('./brevoEmail');
 } else {
-  throw new Error(`Unknown EMAIL_DRIVER "${driver}" (expected "console" or "smtp")`);
+  throw new Error(`Unknown EMAIL_DRIVER "${driver}" (expected "console", "smtp", or "brevo")`);
 }
 
 module.exports = impl;

@@ -31,10 +31,23 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+      # Matches what's actually running in production — Render blocks
+      # outbound SMTP, which also blocks the OTP email this gates, so this
+      # stays off until an operator deliberately re-enables it.
       - key: TWO_FACTOR_ENABLED
-        value: "true"
+        value: "false"
+      # smtp is kept configured below (unused while EMAIL_DRIVER=brevo) as a
+      # fallback driver — see backend/src/email/. Render blocks outbound SMTP
+      # ports (25/465/587), so smtp cannot actually send from this host;
+      # brevo sends over HTTPS instead and is what production uses.
       - key: EMAIL_DRIVER
-        value: smtp
+        value: brevo
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BREVO_FROM_EMAIL
+        value: dhammahadayasenasanaya@gmail.com
+      - key: BREVO_FROM_NAME
+        value: Dhammahadaya Senasanaya
       - key: SMTP_HOST
         value: smtp.gmail.com
       - key: SMTP_PORT

@@ -10,11 +10,13 @@ import './AboutPage.css';
 export function AboutPage() {
   const [language, setLanguage] = useState('en');
   const [images, setImages] = useState([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   useEffect(() => {
     getGallery('about')
       .then((d) => setImages(d.images))
-      .catch(() => setImages([]));
+      .catch(() => setImages([]))
+      .finally(() => setImagesLoading(false));
   }, []);
 
   const content = language === 'en' ? aboutEn : aboutSi;
@@ -49,7 +51,7 @@ export function AboutPage() {
       </div>
 
       <h2 className="about__gallery-heading">Photo Gallery</h2>
-      <PhotoGallery images={images} />
+      <PhotoGallery images={images} loading={imagesLoading} />
     </div>
   );
 }

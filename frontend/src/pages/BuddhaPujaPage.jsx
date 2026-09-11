@@ -14,6 +14,7 @@ export function BuddhaPujaPage() {
   const [videoError, setVideoError] = useState(null);
   const [videoLoading, setVideoLoading] = useState(true);
   const [images, setImages] = useState([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,7 +38,8 @@ export function BuddhaPujaPage() {
   useEffect(() => {
     getGallery('buddha-puja')
       .then((d) => setImages(d.images))
-      .catch(() => setImages([]));
+      .catch(() => setImages([]))
+      .finally(() => setImagesLoading(false));
   }, []);
 
   return (
@@ -69,7 +71,7 @@ export function BuddhaPujaPage() {
       />
 
       <h2 className="buddha-puja__gallery-heading">Photo Gallery</h2>
-      <PhotoGallery images={images} />
+      <PhotoGallery images={images} loading={imagesLoading} />
     </div>
   );
 }

@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import { listKatinaYears } from '../api/katina';
 import { getGallery } from '../api/galleries';
 import { PhotoGallery } from '../components/PhotoGallery';
+import { LoadingState } from '../components/LoadingState';
 import './KatinaCeremonyPage.css';
 
 function YearSection({ year, organizers }) {
   const [images, setImages] = useState([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
 
   useEffect(() => {
     getGallery('katina', year)
       .then((d) => setImages(d.images))
-      .catch(() => setImages([]));
+      .catch(() => setImages([]))
+      .finally(() => setImagesLoading(false));
   }, [year]);
 
   return (
@@ -26,7 +29,7 @@ function YearSection({ year, organizers }) {
       ) : (
         <p className="katina__no-organizers">Organizers to be announced.</p>
       )}
-      <PhotoGallery images={images} />
+      <PhotoGallery images={images} loading={imagesLoading} />
     </section>
   );
 }
@@ -36,19 +39,22 @@ function YearSection({ year, organizers }) {
 // gallery_key=<year>, exactly what that per-year scoping was built for.
 export function KatinaCeremonyPage() {
   const [years, setYears] = useState([]);
+  const [yearsLoading, setYearsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     listKatinaYears()
       .then((d) => setYears(d.years))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setYearsLoading(false));
   }, []);
 
   return (
     <div className="katina">
       <h1>Katina Ceremony</h1>
       {error ? <p className="katina__error">{error.message}</p> : null}
-      {years.length === 0 ? <p className="katina__empty">No Katina years published yet.</p> : null}
+      {yearsLoading ? <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." /> : null}
+      {!yearsLoading && years.length === 0 ? <p className="katina__empty">No Katina years published yet.</p> : null}
       {years.map((y) => (
         <YearSection key={y.year} year={y.year} organizers={y.organizers} />
       ))}

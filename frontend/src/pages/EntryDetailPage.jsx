@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getEntry } from '../api/entries';
+import { optimizeCloudinaryUrl, optimizeCloudinaryUrlsInHtml } from '../utils/cloudinaryImage';
+import { LoadingState } from '../components/LoadingState';
 import './EntryDetailPage.css';
 
 // Full entry + previous/next navigation (build-spec §3). Same component
@@ -31,7 +33,7 @@ export function EntryDetailPage({ slug }) {
     };
   }, [slug, id]);
 
-  if (loading) return null;
+  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
   if (error) return <p className="entry-detail__error">Failed to load: {error.message}</p>;
   if (!data) return null;
 
@@ -45,9 +47,9 @@ export function EntryDetailPage({ slug }) {
       </Link>
       {showEpisodeNumber ? <span className="entry-detail__episode">Episode {entry.order}</span> : null}
       <h1>{entry.title_si}</h1>
-      {entry.cover_image ? <img src={entry.cover_image} alt="" className="entry-detail__image" /> : null}
+      {entry.cover_image ? <img src={optimizeCloudinaryUrl(entry.cover_image)} alt="" className="entry-detail__image" /> : null}
       {/* Body is admin-authored rich text (behind auth), not user-submitted — rendered trusted, as-is. */}
-      <div className="entry-detail__body" dangerouslySetInnerHTML={{ __html: entry.body }} />
+      <div className="entry-detail__body" dangerouslySetInnerHTML={{ __html: optimizeCloudinaryUrlsInHtml(entry.body) }} />
 
       <nav className="entry-detail__nav">
         {prev ? (

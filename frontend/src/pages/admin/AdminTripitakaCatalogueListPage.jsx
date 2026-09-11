@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { listAdminCatalogueRows, deleteCatalogueRow } from '../../api/admin';
 import { usePaginatedSearch, MIN_QUERY_LENGTH } from '../../hooks/usePaginatedSearch';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminTripitakaCatalogueListPage.css';
 
 // Admin CRUD for the Tripitaka Catalogue (build-spec §6) — "under ongoing
@@ -44,8 +45,11 @@ export function AdminTripitakaCatalogueListPage() {
 
       {error ? <p className="admin-catalogue__error">Search failed: {error.message}</p> : null}
       {tooShort ? <p className="admin-catalogue__hint">Type at least {MIN_QUERY_LENGTH} characters to search.</p> : null}
+      {!error && !tooShort && loading && !data ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : null}
 
-      {!error && !tooShort ? (
+      {!error && !tooShort && (data || !loading) ? (
         <>
           <div className="admin-catalogue__scroll">
             <table className="admin-catalogue__table">

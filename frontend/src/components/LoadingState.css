@@ -1,0 +1,26 @@
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.loading-state__spinner {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  animation: loading-state-spin 0.7s linear infinite;
+}
+
+@keyframes loading-state-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

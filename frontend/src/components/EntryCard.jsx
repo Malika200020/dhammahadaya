@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryImage';
 import './EntryCard.css';
 
 // The Article-list pattern's card (build-spec §3) — shared by EntryListPage
@@ -18,7 +19,7 @@ export function EntryCard({ entry, basePath }) {
   const showEpisodeNumber = basePath === '/ape-budu-hamuduruwo-all/' && entry.order > 0;
   return (
     <article className="entry-card card card--interactive">
-      {entry.cover_image ? <img src={entry.cover_image} alt="" className="entry-card__image" /> : null}
+      {entry.cover_image ? <img src={optimizeCloudinaryUrl(entry.cover_image)} alt="" className="entry-card__image" /> : null}
       {showEpisodeNumber ? <span className="entry-card__episode">Episode {entry.order}</span> : null}
       <h2 className="entry-card__title">{entry.title_si}</h2>
       <p className="entry-card__excerpt">{entry.excerpt}</p>

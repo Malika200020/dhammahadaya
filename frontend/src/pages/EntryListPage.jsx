@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
+import { LoadingState } from '../components/LoadingState';
 import { apeBuduHamuduruwoHeader, apeBuduHamuduruwoIntroParagraphs } from '../content/apeBuduHamuduruwoContent';
 import './EntryListPage.css';
 
@@ -58,12 +59,16 @@ export function EntryListPage({ slug }) {
         </h1>
       </header>
 
-      <div className="entry-list__cards">
-        {(data?.entries ?? []).map((entry) => (
-          <EntryCard key={entry.id} entry={entry} basePath={basePath} />
-        ))}
-        {!loading && data && data.entries.length === 0 ? <p>No entries yet.</p> : null}
-      </div>
+      {loading && !data ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <div className="entry-list__cards">
+          {(data?.entries ?? []).map((entry) => (
+            <EntryCard key={entry.id} entry={entry} basePath={basePath} />
+          ))}
+          {!loading && data && data.entries.length === 0 ? <p>No entries yet.</p> : null}
+        </div>
+      )}
 
       {data && data.totalPages > 1 ? (
         <div className="entry-list__pagination">

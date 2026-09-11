@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listAdminVideoSeries, deleteVideoSeries } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminVideoSeriesListPage.css';
 
 export function AdminVideoSeriesListPage() {
   const [series, setSeries] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminVideoSeries()
       .then((d) => setSeries(d.series))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -39,32 +43,36 @@ export function AdminVideoSeriesListPage() {
 
       {error ? <p className="admin-video-series__error">{error.message}</p> : null}
 
-      <table className="admin-video-series__table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Slug</th>
-            <th>Order</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {series.map((s) => (
-            <tr key={s.slug}>
-              <td>{s.name_si}</td>
-              <td>{s.slug}</td>
-              <td>{s.order}</td>
-              <td className="admin-video-series__actions">
-                <Link to={`/admin/video-series/${s.slug}/edit`}>Edit</Link>
-                <Link to={`/admin/videos/dhamma-sermon/${s.slug}`}>Videos</Link>
-                <button type="button" onClick={() => handleDelete(s.slug)}>
-                  Delete
-                </button>
-              </td>
+      {loading && series.length === 0 ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <table className="admin-video-series__table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Slug</th>
+              <th>Order</th>
+              <th />
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {series.map((s) => (
+              <tr key={s.slug}>
+                <td>{s.name_si}</td>
+                <td>{s.slug}</td>
+                <td>{s.order}</td>
+                <td className="admin-video-series__actions">
+                  <Link to={`/admin/video-series/${s.slug}/edit`}>Edit</Link>
+                  <Link to={`/admin/videos/dhamma-sermon/${s.slug}`}>Videos</Link>
+                  <button type="button" onClick={() => handleDelete(s.slug)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

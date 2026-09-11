@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listAdminSpecialThanks, deleteSpecialThanks } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminSpecialThanksListPage.css';
 
 export function AdminSpecialThanksListPage() {
   const [sections, setSections] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminSpecialThanks()
       .then((d) => setSections(d.sections))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -35,42 +39,46 @@ export function AdminSpecialThanksListPage() {
 
       {error ? <p className="admin-special-thanks__error">{error.message}</p> : null}
 
-      <table className="admin-special-thanks__table">
-        <thead>
-          <tr>
-            <th>Section (EN)</th>
-            <th>Section (SI)</th>
-            <th>Purpose</th>
-            <th>Donors</th>
-            <th>Order</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {sections.map((s) => (
-            <tr key={s.id}>
-              <td>{s.section_en ?? ''}</td>
-              <td>{s.section_si}</td>
-              <td>{s.purpose ?? ''}</td>
-              <td>{s.donors.join(', ')}</td>
-              <td>{s.order}</td>
-              <td className="admin-special-thanks__actions">
-                <Link to={`/admin/special-thanks/${s.id}/edit`}>Edit</Link>
-                <button type="button" onClick={() => handleDelete(s.id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-          {sections.length === 0 ? (
+      {loading && sections.length === 0 ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <table className="admin-special-thanks__table">
+          <thead>
             <tr>
-              <td colSpan={6} className="admin-special-thanks__empty">
-                No sections yet.
-              </td>
+              <th>Section (EN)</th>
+              <th>Section (SI)</th>
+              <th>Purpose</th>
+              <th>Donors</th>
+              <th>Order</th>
+              <th />
             </tr>
-          ) : null}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sections.map((s) => (
+              <tr key={s.id}>
+                <td>{s.section_en ?? ''}</td>
+                <td>{s.section_si}</td>
+                <td>{s.purpose ?? ''}</td>
+                <td>{s.donors.join(', ')}</td>
+                <td>{s.order}</td>
+                <td className="admin-special-thanks__actions">
+                  <Link to={`/admin/special-thanks/${s.id}/edit`}>Edit</Link>
+                  <button type="button" onClick={() => handleDelete(s.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {!loading && sections.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="admin-special-thanks__empty">
+                  No sections yet.
+                </td>
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

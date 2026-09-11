@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listAdminPohoyaCalendarYears, deletePohoyaCalendarYear } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminPohoyaCalendarListPage.css';
 
 export function AdminPohoyaCalendarListPage() {
   const [years, setYears] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminPohoyaCalendarYears()
       .then((d) => setYears(d.years))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -35,38 +39,42 @@ export function AdminPohoyaCalendarListPage() {
 
       {error ? <p className="admin-pohoya__error">{error.message}</p> : null}
 
-      <table className="admin-pohoya__table">
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Rows</th>
-            <th>Image</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {years.map((y) => (
-            <tr key={y.year}>
-              <td>{y.year}</td>
-              <td>{y.rows.length}</td>
-              <td>{y.image_url ? 'Uploaded' : 'Not yet uploaded'}</td>
-              <td className="admin-pohoya__actions">
-                <Link to={`/admin/pohoya-calendar/${y.year}/edit`}>Edit</Link>
-                <button type="button" onClick={() => handleDelete(y.year)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-          {years.length === 0 ? (
+      {loading && years.length === 0 ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <table className="admin-pohoya__table">
+          <thead>
             <tr>
-              <td colSpan={4} className="admin-pohoya__empty">
-                No calendars yet.
-              </td>
+              <th>Year</th>
+              <th>Rows</th>
+              <th>Image</th>
+              <th />
             </tr>
-          ) : null}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {years.map((y) => (
+              <tr key={y.year}>
+                <td>{y.year}</td>
+                <td>{y.rows.length}</td>
+                <td>{y.image_url ? 'Uploaded' : 'Not yet uploaded'}</td>
+                <td className="admin-pohoya__actions">
+                  <Link to={`/admin/pohoya-calendar/${y.year}/edit`}>Edit</Link>
+                  <button type="button" onClick={() => handleDelete(y.year)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {!loading && years.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="admin-pohoya__empty">
+                  No calendars yet.
+                </td>
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

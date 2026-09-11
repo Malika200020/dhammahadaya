@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { listAdminVideos, deleteVideo } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminVideosListPage.css';
 
 // One list page for both video sections — `section` prop selects Dhamma
@@ -8,13 +9,16 @@ import './AdminVideosListPage.css';
 export function AdminVideosListPage({ section }) {
   const { seriesSlug } = useParams();
   const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminVideos(section, seriesSlug)
       .then((d) => setVideos(d.videos))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, [section, seriesSlug]);
 
   useEffect(() => {
@@ -41,42 +45,46 @@ export function AdminVideosListPage({ section }) {
 
       {error ? <p className="admin-videos__error">{error.message}</p> : null}
 
-      <table className="admin-videos__table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>YouTube ID</th>
-            <th>Year</th>
-            <th>{section === 'buddha_puja' ? 'Type' : 'Speaker'}</th>
-            <th>Order</th>
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {videos.map((v) => (
-            <tr key={v.id}>
-              <td>{v.title_si}</td>
-              <td>{v.youtube_id}</td>
-              <td>{v.year ?? ''}</td>
-              <td>{section === 'buddha_puja' ? v.video_type ?? '' : v.speaker ?? ''}</td>
-              <td>{v.order}</td>
-              <td className="admin-videos__actions">
-                <Link to={`${basePath}/${v.id}/edit`}>Edit</Link>
-                <button type="button" onClick={() => handleDelete(v.id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-          {videos.length === 0 ? (
+      {loading && videos.length === 0 ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <table className="admin-videos__table">
+          <thead>
             <tr>
-              <td colSpan={6} className="admin-videos__empty">
-                No videos yet.
-              </td>
+              <th>Title</th>
+              <th>YouTube ID</th>
+              <th>Year</th>
+              <th>{section === 'buddha_puja' ? 'Type' : 'Speaker'}</th>
+              <th>Order</th>
+              <th />
             </tr>
-          ) : null}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {videos.map((v) => (
+              <tr key={v.id}>
+                <td>{v.title_si}</td>
+                <td>{v.youtube_id}</td>
+                <td>{v.year ?? ''}</td>
+                <td>{section === 'buddha_puja' ? v.video_type ?? '' : v.speaker ?? ''}</td>
+                <td>{v.order}</td>
+                <td className="admin-videos__actions">
+                  <Link to={`${basePath}/${v.id}/edit`}>Edit</Link>
+                  <button type="button" onClick={() => handleDelete(v.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {!loading && videos.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="admin-videos__empty">
+                  No videos yet.
+                </td>
+              </tr>
+            ) : null}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

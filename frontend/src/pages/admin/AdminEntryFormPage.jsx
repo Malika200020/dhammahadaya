@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAdminEntry, createEntry, updateEntry, uploadImage } from '../../api/admin';
 import { RichTextEditor } from '../../components/admin/RichTextEditor';
 import { ENTRY_TYPE_LABELS } from '../../config/entryTypes';
+import { optimizeCloudinaryUrl } from '../../utils/cloudinaryImage';
 import './AdminEntryFormPage.css';
 
 // One form, configured by the `:type` route param, for both create (no
@@ -110,7 +111,7 @@ export function AdminEntryFormPage() {
           <input type="file" accept="image/*" onChange={handleImageChange} disabled={uploading} />
         </label>
         {uploading ? <p className="admin-entry-form__uploading">Uploading...</p> : null}
-        {coverImage ? <img src={coverImage} alt="" className="admin-entry-form__preview" /> : null}
+        {coverImage ? <img src={optimizeCloudinaryUrl(coverImage)} alt="" className="admin-entry-form__preview" /> : null}
         <label>
           Published date
           <input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} />

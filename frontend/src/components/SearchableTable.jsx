@@ -1,3 +1,4 @@
+import { LoadingState } from './LoadingState';
 import './SearchableTable.css';
 
 // Source data for linkable segments carries a literal leading `"PDF"`
@@ -111,6 +112,8 @@ export function SearchableTable({
         <p className="searchable-table__error">Search failed: {error.message}</p>
       ) : tooShort ? (
         <p className="searchable-table__hint">Type at least {minQueryLength} characters to search.</p>
+      ) : loading && rows.length === 0 ? (
+        <LoadingState message="Loading… the first search of the day can take up to a minute while the server wakes up." />
       ) : (
         <>
           {hasGroups ? (

@@ -6,6 +6,7 @@ import {
   updatePohoyaCalendarYear,
   uploadImage,
 } from '../../api/admin';
+import { optimizeCloudinaryUrl } from '../../utils/cloudinaryImage';
 import './AdminPohoyaCalendarFormPage.css';
 
 function rowsToCsv(rows) {
@@ -117,7 +118,7 @@ export function AdminPohoyaCalendarFormPage() {
           <input type="file" accept="image/*" onChange={handleImageChange} disabled={uploading} />
         </label>
         {uploading ? <p className="admin-pohoya-form__uploading">Uploading...</p> : null}
-        {imageUrl ? <img src={imageUrl} alt="" className="admin-pohoya-form__preview" /> : null}
+        {imageUrl ? <img src={optimizeCloudinaryUrl(imageUrl)} alt="" className="admin-pohoya-form__preview" /> : null}
 
         {error ? <p className="admin-pohoya-form__error">{error}</p> : null}
         <button type="submit" disabled={saving || uploading}>

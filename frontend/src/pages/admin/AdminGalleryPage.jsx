@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { listAdminGalleryImages, createGalleryImage, deleteGalleryImage, uploadImage } from '../../api/admin';
+import { optimizeCloudinaryUrl } from '../../utils/cloudinaryImage';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminGalleryPage.css';
 
 // Generic admin photo-gallery manager — configured by `gallery` (+
@@ -8,6 +10,7 @@ import './AdminGalleryPage.css';
 // photo gallery (§11 Katina, §12 Buddha Puja, §14 About).
 export function AdminGalleryPage({ gallery, galleryKey, title }) {
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [imageDate, setImageDate] = useState('');
@@ -15,9 +18,11 @@ export function AdminGalleryPage({ gallery, galleryKey, title }) {
 
   const load = useCallback(() => {
     setError(null);
+    setLoading(true);
     listAdminGalleryImages(gallery, galleryKey)
       .then((d) => setImages(d.images))
-      .catch(setError);
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, [gallery, galleryKey]);
 
   useEffect(() => {
@@ -77,21 +82,25 @@ export function AdminGalleryPage({ gallery, galleryKey, title }) {
 
       {error ? <p className="admin-gallery__error">{error.message}</p> : null}
 
-      <div className="admin-gallery__grid">
-        {images.map((img) => (
-          <figure key={img.id} className="admin-gallery__item">
-            <img src={img.image_url} alt="" />
-            <figcaption>
-              {img.image_date ? new Date(img.image_date).toLocaleDateString() : null}
-              {img.caption ? ` ${img.caption}` : null}
-            </figcaption>
-            <button type="button" onClick={() => handleDelete(img.id)}>
-              Delete
-            </button>
-          </figure>
-        ))}
-        {images.length === 0 ? <p className="admin-gallery__empty">No photos yet.</p> : null}
-      </div>
+      {loading && images.length === 0 ? (
+        <LoadingState message="Loading photos… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
+        <div className="admin-gallery__grid">
+          {images.map((img) => (
+            <figure key={img.id} className="admin-gallery__item">
+              <img src={optimizeCloudinaryUrl(img.image_url)} alt="" />
+              <figcaption>
+                {img.image_date ? new Date(img.image_date).toLocaleDateString() : null}
+                {img.caption ? ` ${img.caption}` : null}
+              </figcaption>
+              <button type="button" onClick={() => handleDelete(img.id)}>
+                Delete
+              </button>
+            </figure>
+          ))}
+          {!loading && images.length === 0 ? <p className="admin-gallery__empty">No photos yet.</p> : null}
+        </div>
+      )}
     </div>
   );
 }

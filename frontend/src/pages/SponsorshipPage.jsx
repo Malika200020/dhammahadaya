@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getSponsorshipCalendar, createSponsorshipBooking } from '../api/sponsorship';
 import { BookingCalendar, getSponsorshipCalendarRange } from '../components/BookingCalendar';
+import { LoadingState } from '../components/LoadingState';
 import { sponsorshipHeader, sponsorshipNoteEn, sponsorshipNoteSi } from '../content/sponsorshipContent';
 import './SponsorshipPage.css';
 
@@ -9,6 +10,14 @@ const EMPTY_FORM = { name: '', email: '', phone: '', objective: '', mailingAddre
 export function SponsorshipPage() {
   const [language, setLanguage] = useState('en');
   const [bookings, setBookings] = useState([]);
+  // Bookings start empty and every date defaults to "available" (see
+  // BookingCalendar) — without this flag, the calendar would render as
+  // fully open the instant the page mounts, before we actually know which
+  // dates are taken. calendarError covers the same gap for a failed fetch
+  // (data never arrived either way), so both block rendering the calendar
+  // itself until real booking data is confirmed in hand.
+  const [calendarLoading, setCalendarLoading] = useState(true);
+  const [calendarError, setCalendarError] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
@@ -17,9 +26,11 @@ export function SponsorshipPage() {
 
   const loadCalendar = useCallback(() => {
     const { from, to } = getSponsorshipCalendarRange();
+    setCalendarError(false);
     getSponsorshipCalendar(from, to)
       .then((d) => setBookings(d.bookings))
-      .catch(() => setBookings([]));
+      .catch(() => setCalendarError(true))
+      .finally(() => setCalendarLoading(false));
   }, []);
 
   useEffect(() => {
@@ -104,7 +115,15 @@ export function SponsorshipPage() {
       </div>
 
       <h2 className="sponsorship__section-heading">Select a date</h2>
-      <BookingCalendar bookings={bookings} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+      {calendarLoading ? (
+        <LoadingState message="Loading availability… the first load of the day can take up to a minute while the server wakes up. Please wait for real dates to appear before choosing one." />
+      ) : calendarError ? (
+        <p className="sponsorship__error">
+          Couldn't load date availability. Please refresh the page before selecting a date, so you don't pick one that's already taken.
+        </p>
+      ) : (
+        <BookingCalendar bookings={bookings} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+      )}
 
       <h2 className="sponsorship__section-heading">Booking form</h2>
       <form className="sponsorship__form" onSubmit={handleSubmit}>

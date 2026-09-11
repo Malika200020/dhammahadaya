@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getWhatsappStatus } from '../../api/admin';
+import { LoadingState } from '../../components/LoadingState';
 import './AdminWhatsappPage.css';
 
 const STATUS_LABELS = {
@@ -39,7 +40,9 @@ export function AdminWhatsappPage() {
       <h1>WhatsApp</h1>
       {error ? <p className="admin-whatsapp__error">{error.message}</p> : null}
 
-      {!data ? null : (
+      {!data ? (
+        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+      ) : (
         <>
           <p className={`admin-whatsapp__status admin-whatsapp__status--${data.status}`}>
             {STATUS_LABELS[data.status] || data.status}
