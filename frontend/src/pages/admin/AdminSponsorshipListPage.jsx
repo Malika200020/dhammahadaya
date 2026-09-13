@@ -82,7 +82,11 @@ function EditBookingRow({ booking, colSpan, onCancel, onSaved }) {
             <input value={form.mailing_address} onChange={(e) => updateField('mailing_address', e.target.value)} />
           </label>
 
-          {error ? <p className="admin-sponsorship__error admin-sponsorship__edit-form-wide">{error}</p> : null}
+          {error ? (
+            <p className="admin-sponsorship__error admin-sponsorship__edit-form-wide" role="alert">
+              {error}
+            </p>
+          ) : null}
 
           <div className="admin-sponsorship__edit-actions admin-sponsorship__edit-form-wide">
             <button type="submit" className="btn btn--primary btn--sm" disabled={saving}>
@@ -211,21 +215,37 @@ export function AdminSponsorshipListPage() {
             {bookings.map((b) => (
               <Fragment key={b.id}>
                 <tr>
-                  <td>{formatDate(b.date)}</td>
-                  <td>{b.name}</td>
-                  <td>{b.email}</td>
-                  <td>{b.phone}</td>
-                  <td>{b.objective}</td>
-                  <td>
+                  <td data-label="Date" className="admin-sponsorship__cell-date">
+                    {formatDate(b.date)}
+                  </td>
+                  <td data-label="Name">{b.name}</td>
+                  <td data-label="Email" className="admin-sponsorship__cell-email">
+                    {b.email}
+                  </td>
+                  <td data-label="Phone">{b.phone}</td>
+                  <td data-label="Objective" className="admin-sponsorship__cell-objective" title={b.objective || ''}>
+                    {b.objective}
+                  </td>
+                  <td data-label="Status">
                     <span className={`admin-sponsorship__status admin-sponsorship__status--${b.status}`}>{b.status}</span>
                   </td>
                   <td className="admin-sponsorship__actions">
                     {b.status === 'pending' ? (
                       <>
-                        <button type="button" disabled={busyId === b.id} onClick={() => handleConfirm(b.id)}>
+                        <button
+                          type="button"
+                          className="btn btn--primary btn--sm"
+                          disabled={busyId === b.id}
+                          onClick={() => handleConfirm(b.id)}
+                        >
                           Confirm
                         </button>
-                        <button type="button" disabled={busyId === b.id} onClick={() => handleDecline(b.id)}>
+                        <button
+                          type="button"
+                          className="btn btn--secondary btn--sm"
+                          disabled={busyId === b.id}
+                          onClick={() => handleDecline(b.id)}
+                        >
                           Decline
                         </button>
                       </>
@@ -234,15 +254,24 @@ export function AdminSponsorshipListPage() {
                       <>
                         <button
                           type="button"
+                          className="btn btn--secondary btn--sm"
                           disabled={busyId === b.id}
                           onClick={() => setEditingId(editingId === b.id ? null : b.id)}
                         >
                           {editingId === b.id ? 'Close' : 'Edit'}
                         </button>
-                        <button type="button" disabled={busyId === b.id} onClick={() => handleCancel(b.id)}>
+                        <button
+                          type="button"
+                          className="btn btn--danger btn--sm"
+                          disabled={busyId === b.id}
+                          onClick={() => handleCancel(b.id)}
+                        >
                           Cancel booking
                         </button>
                       </>
+                    ) : null}
+                    {b.status !== 'pending' && b.status !== 'booked' ? (
+                      <span className="admin-sponsorship__no-actions">—</span>
                     ) : null}
                   </td>
                 </tr>

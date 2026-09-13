@@ -12,6 +12,7 @@
 
 .admin-sponsorship__tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -42,14 +43,44 @@
 .admin-sponsorship__table th,
 .admin-sponsorship__table td {
   text-align: left;
-  padding: 0.5rem 0.6rem;
+  padding: 0.65rem 0.7rem;
   border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.admin-sponsorship__table th {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.admin-sponsorship__table tbody tr:hover {
+  background: var(--color-primary-tint);
+}
+
+/* Date/email/objective are the columns most likely to be either too narrow
+   (date wrapping mid-value) or too wide (a long objective inflating every
+   row's height) — pin the first, cap-and-truncate the other two. Full text
+   for a truncated cell is still available via its `title` tooltip. */
+.admin-sponsorship__cell-date {
+  white-space: nowrap;
+}
+
+.admin-sponsorship__cell-email,
+.admin-sponsorship__cell-objective {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .admin-sponsorship__status {
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
   font-weight: 600;
+  font-size: var(--font-size-xs);
   text-transform: capitalize;
 }
 
@@ -59,7 +90,7 @@
 }
 
 .admin-sponsorship__status--booked {
-  background: #dff2df;
+  background: var(--color-success-tint);
   color: var(--color-success);
 }
 
@@ -75,30 +106,29 @@
 
 .admin-sponsorship__actions {
   display: flex;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.admin-sponsorship__actions button {
-  background: none;
-  border: none;
-  color: var(--color-primary-dark);
-  cursor: pointer;
-  font-weight: 600;
-  padding: 0;
+.admin-sponsorship__actions .btn {
+  white-space: nowrap;
 }
 
-.admin-sponsorship__actions button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.admin-sponsorship__no-actions {
+  color: var(--color-text-soft);
 }
 
 .admin-sponsorship__empty {
-  color: #8a7a63;
+  color: var(--color-text-muted);
   text-align: center;
+  padding: 1.5rem 0.7rem;
 }
 
 .admin-sponsorship__error {
   color: var(--color-danger);
+  background: var(--color-danger-tint);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
 }
 
 .admin-sponsorship__edit-row td {
@@ -139,4 +169,86 @@
 .admin-sponsorship__edit-actions {
   display: flex;
   gap: 0.75rem;
+}
+
+/* Below the admin layout's off-canvas-drawer breakpoint (see
+   AdminLayout.css), this table stops being a horizontally-scrolling strip
+   — with 7 columns and per-row action buttons it's one of the widest
+   tables in the admin panel, and scrolling sideways just to find the
+   Confirm/Decline/Edit buttons is worse than the other (2-4 column) admin
+   lists that rule was written for. Each row becomes a self-contained card
+   instead: labels come from each cell's `data-label` (see the JSX), and
+   the more specific selector here overrides that generic rule. */
+@media (max-width: 860px) {
+  .admin-layout__content .admin-sponsorship__table {
+    display: block;
+    overflow-x: visible;
+  }
+
+  .admin-sponsorship__table thead {
+    display: none;
+  }
+
+  .admin-sponsorship__table tbody {
+    display: block;
+  }
+
+  .admin-sponsorship__table tr {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-4);
+    overflow: hidden;
+  }
+
+  .admin-sponsorship__table td {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    text-align: right;
+    border-bottom: 1px solid var(--color-border);
+    /* Truncation makes sense in a fixed-width table column; a card can
+       just wrap the full value instead. */
+    max-width: none;
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+  }
+
+  .admin-sponsorship__table tr > td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-sponsorship__table td[data-label]::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    text-align: left;
+    font-weight: 600;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+  }
+
+  /* The actions cell has no data-label (a button row is self-explanatory)
+     and reads better left-aligned and wrapping than squeezed to the right. */
+  .admin-sponsorship__actions {
+    justify-content: flex-start;
+    padding-top: var(--space-3);
+  }
+
+  /* colSpan cells (the inline edit form, the "No bookings" empty state)
+     aren't label/value pairs — let them lay out as plain full-width blocks. */
+  .admin-sponsorship__edit-row td,
+  .admin-sponsorship__table td.admin-sponsorship__empty {
+    display: block;
+    text-align: left;
+  }
+
+  .admin-sponsorship__edit-form {
+    grid-template-columns: 1fr;
+  }
 }
