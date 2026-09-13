@@ -106,11 +106,18 @@
 
 .admin-sponsorship__actions {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-.admin-sponsorship__actions .btn {
+/* A short label ("Edit") and a long one ("Cancel booking") sitting side by
+   side with nothing to unify them read as two unrelated buttons rather
+   than a matched pair of actions on the same row — a shared min-width (plus
+   the icon every action button now carries) is what makes them line up as
+   one deliberate group instead of two mismatched blobs of text. */
+.admin-sponsorship__action-btn {
+  min-width: 6.75rem;
   white-space: nowrap;
 }
 

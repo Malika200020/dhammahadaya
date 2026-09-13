@@ -1,4 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Check, X, Pencil, Ban } from 'lucide-react';
 import { listAdminBookings, confirmBooking, declineBooking, cancelBooking, updateBooking } from '../../api/admin';
 import { LoadingState } from '../../components/LoadingState';
 import './AdminSponsorshipListPage.css';
@@ -234,18 +235,20 @@ export function AdminSponsorshipListPage() {
                       <>
                         <button
                           type="button"
-                          className="btn btn--primary btn--sm"
+                          className="btn btn--primary btn--sm admin-sponsorship__action-btn"
                           disabled={busyId === b.id}
                           onClick={() => handleConfirm(b.id)}
                         >
+                          <Check size={14} aria-hidden="true" />
                           Confirm
                         </button>
                         <button
                           type="button"
-                          className="btn btn--secondary btn--sm"
+                          className="btn btn--secondary btn--sm admin-sponsorship__action-btn"
                           disabled={busyId === b.id}
                           onClick={() => handleDecline(b.id)}
                         >
+                          <X size={14} aria-hidden="true" />
                           Decline
                         </button>
                       </>
@@ -254,19 +257,21 @@ export function AdminSponsorshipListPage() {
                       <>
                         <button
                           type="button"
-                          className="btn btn--secondary btn--sm"
+                          className="btn btn--secondary btn--sm admin-sponsorship__action-btn"
                           disabled={busyId === b.id}
                           onClick={() => setEditingId(editingId === b.id ? null : b.id)}
                         >
+                          <Pencil size={14} aria-hidden="true" />
                           {editingId === b.id ? 'Close' : 'Edit'}
                         </button>
                         <button
                           type="button"
-                          className="btn btn--danger btn--sm"
+                          className="btn btn--danger btn--sm admin-sponsorship__action-btn"
                           disabled={busyId === b.id}
                           onClick={() => handleCancel(b.id)}
                         >
-                          Cancel booking
+                          <Ban size={14} aria-hidden="true" />
+                          Cancel
                         </button>
                       </>
                     ) : null}
