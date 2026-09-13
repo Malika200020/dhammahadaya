@@ -32,9 +32,13 @@ function getTransporter() {
   return transporter;
 }
 
-async function sendEmail({ to, subject, text }) {
+async function sendEmail({ to, subject, text, html }) {
   const from = process.env.SMTP_FROM || process.env.SMTP_USER;
-  await getTransporter().sendMail({ from, to, subject, text });
+  // nodemailer sends a proper multipart/alternative message when both
+  // `text` and `html` are given, so clients that can't render HTML still
+  // get the plain-text version — html is optional so existing plain-text
+  // callers (e.g. the 2FA OTP email) are unaffected.
+  await getTransporter().sendMail({ from, to, subject, text, ...(html ? { html } : {}) });
 }
 
 module.exports = { sendEmail };

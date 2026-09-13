@@ -1,6 +1,7 @@
 const express = require('express');
 const { pool } = require('../db');
 const { sendEmail } = require('../email');
+const { bookingReceivedEmail } = require('../email/bookingEmailTemplates');
 
 const router = express.Router();
 
@@ -59,10 +60,18 @@ router.post('/bookings', async (req, res, next) => {
     const booking = result.rows[0];
     res.status(201).json({ booking });
 
+    // Best-effort "let the sponsor know their request is in" email — fired
+    // after responding, never allowed to fail the booking itself. This is
+    // the "received, pending review" stage; separate emails for
+    // confirmed/declined/cancelled/rescheduled are sent from
+    // admin-sponsorship.js as an admin acts on the booking.
+    sendEmail({ to: booking.email, ...bookingReceivedEmail(booking) }).catch((err) =>
+      console.error('Failed to send booking-received email:', err)
+    );
+
     // Best-effort "notify the monastery on submission" (build-spec §10) —
-    // fired after responding, and never allowed to fail the booking itself;
-    // the sponsor's own confirmation email (on admin approval) is the one
-    // that matters to them and is handled separately in admin-sponsorship.js.
+    // same fire-and-forget treatment; the sponsor's own emails above are the
+    // ones that matter to them, this is just an internal heads-up.
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
     if (adminEmail) {
       sendEmail({

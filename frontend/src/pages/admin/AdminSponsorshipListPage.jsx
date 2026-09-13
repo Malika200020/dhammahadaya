@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { listAdminBookings, confirmBooking, declineBooking } from '../../api/admin';
+import { Fragment, useCallback, useEffect, useState } from 'react';
+import { listAdminBookings, confirmBooking, declineBooking, cancelBooking, updateBooking } from '../../api/admin';
 import { LoadingState } from '../../components/LoadingState';
 import './AdminSponsorshipListPage.css';
 
@@ -7,11 +7,95 @@ const TABS = [
   { status: 'pending', label: 'Pending' },
   { status: 'booked', label: 'Booked' },
   { status: 'declined', label: 'Declined' },
+  { status: 'cancelled', label: 'Cancelled' },
   { status: '', label: 'All' },
 ];
 
 function formatDate(d) {
   return typeof d === 'string' ? d.slice(0, 10) : new Date(d).toISOString().slice(0, 10);
+}
+
+// Inline edit form for a 'booked' row — a second <tr> that appears right
+// below the row being edited, rather than a separate form page, since this
+// is the only booking state that's ever editable and keeping it inline
+// means the admin can see the row they're changing while they change it.
+function EditBookingRow({ booking, colSpan, onCancel, onSaved }) {
+  const [form, setForm] = useState({
+    date: booking.date,
+    name: booking.name,
+    email: booking.email,
+    phone: booking.phone,
+    objective: booking.objective || '',
+    mailing_address: booking.mailing_address || '',
+  });
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
+
+  function updateField(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setSaving(true);
+    setError(null);
+    try {
+      const result = await updateBooking(booking.id, form);
+      if (result.emailSent === false) {
+        setError('Booking updated, but the notification email to the sponsor failed to send.');
+        return;
+      }
+      onSaved();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <tr className="admin-sponsorship__edit-row">
+      <td colSpan={colSpan}>
+        <form className="admin-sponsorship__edit-form" onSubmit={handleSubmit}>
+          <label>
+            Date
+            <input type="date" value={form.date} onChange={(e) => updateField('date', e.target.value)} required />
+          </label>
+          <label>
+            Name
+            <input value={form.name} onChange={(e) => updateField('name', e.target.value)} required />
+          </label>
+          <label>
+            Email
+            <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} required />
+          </label>
+          <label>
+            Phone
+            <input value={form.phone} onChange={(e) => updateField('phone', e.target.value)} required />
+          </label>
+          <label className="admin-sponsorship__edit-form-wide">
+            Objective
+            <textarea value={form.objective} onChange={(e) => updateField('objective', e.target.value)} rows={2} />
+          </label>
+          <label className="admin-sponsorship__edit-form-wide">
+            Mailing address
+            <input value={form.mailing_address} onChange={(e) => updateField('mailing_address', e.target.value)} />
+          </label>
+
+          {error ? <p className="admin-sponsorship__error admin-sponsorship__edit-form-wide">{error}</p> : null}
+
+          <div className="admin-sponsorship__edit-actions admin-sponsorship__edit-form-wide">
+            <button type="submit" className="btn btn--primary btn--sm" disabled={saving}>
+              {saving ? 'Saving...' : 'Save changes'}
+            </button>
+            <button type="button" className="btn btn--secondary btn--sm" onClick={onCancel} disabled={saving}>
+              Cancel editing
+            </button>
+          </div>
+        </form>
+      </td>
+    </tr>
+  );
 }
 
 export function AdminSponsorshipListPage() {
@@ -20,6 +104,7 @@ export function AdminSponsorshipListPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [busyId, setBusyId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
 
   const load = useCallback(() => {
     setError(null);
@@ -55,7 +140,10 @@ export function AdminSponsorshipListPage() {
     setBusyId(id);
     setError(null);
     try {
-      await declineBooking(id);
+      const result = await declineBooking(id);
+      if (result.emailSent === false) {
+        setError(`Booking declined, but the notification email failed to send (booking #${id}).`);
+      }
       load();
     } catch (err) {
       setError(err.message);
@@ -63,6 +151,25 @@ export function AdminSponsorshipListPage() {
       setBusyId(null);
     }
   }
+
+  async function handleCancel(id) {
+    if (!window.confirm('Cancel this confirmed booking? This frees the date back to available and emails the sponsor.')) return;
+    setBusyId(id);
+    setError(null);
+    try {
+      const result = await cancelBooking(id);
+      if (result.emailSent === false) {
+        setError(`Booking cancelled, but the cancellation email failed to send (booking #${id}).`);
+      }
+      load();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  const columnCount = 7;
 
   return (
     <div className="admin-sponsorship">
@@ -102,32 +209,59 @@ export function AdminSponsorshipListPage() {
           </thead>
           <tbody>
             {bookings.map((b) => (
-              <tr key={b.id}>
-                <td>{formatDate(b.date)}</td>
-                <td>{b.name}</td>
-                <td>{b.email}</td>
-                <td>{b.phone}</td>
-                <td>{b.objective}</td>
-                <td>
-                  <span className={`admin-sponsorship__status admin-sponsorship__status--${b.status}`}>{b.status}</span>
-                </td>
-                <td className="admin-sponsorship__actions">
-                  {b.status === 'pending' ? (
-                    <>
-                      <button type="button" disabled={busyId === b.id} onClick={() => handleConfirm(b.id)}>
-                        Confirm
-                      </button>
-                      <button type="button" disabled={busyId === b.id} onClick={() => handleDecline(b.id)}>
-                        Decline
-                      </button>
-                    </>
-                  ) : null}
-                </td>
-              </tr>
+              <Fragment key={b.id}>
+                <tr>
+                  <td>{formatDate(b.date)}</td>
+                  <td>{b.name}</td>
+                  <td>{b.email}</td>
+                  <td>{b.phone}</td>
+                  <td>{b.objective}</td>
+                  <td>
+                    <span className={`admin-sponsorship__status admin-sponsorship__status--${b.status}`}>{b.status}</span>
+                  </td>
+                  <td className="admin-sponsorship__actions">
+                    {b.status === 'pending' ? (
+                      <>
+                        <button type="button" disabled={busyId === b.id} onClick={() => handleConfirm(b.id)}>
+                          Confirm
+                        </button>
+                        <button type="button" disabled={busyId === b.id} onClick={() => handleDecline(b.id)}>
+                          Decline
+                        </button>
+                      </>
+                    ) : null}
+                    {b.status === 'booked' ? (
+                      <>
+                        <button
+                          type="button"
+                          disabled={busyId === b.id}
+                          onClick={() => setEditingId(editingId === b.id ? null : b.id)}
+                        >
+                          {editingId === b.id ? 'Close' : 'Edit'}
+                        </button>
+                        <button type="button" disabled={busyId === b.id} onClick={() => handleCancel(b.id)}>
+                          Cancel booking
+                        </button>
+                      </>
+                    ) : null}
+                  </td>
+                </tr>
+                {editingId === b.id ? (
+                  <EditBookingRow
+                    booking={b}
+                    colSpan={columnCount}
+                    onCancel={() => setEditingId(null)}
+                    onSaved={() => {
+                      setEditingId(null);
+                      load();
+                    }}
+                  />
+                ) : null}
+              </Fragment>
             ))}
             {!loading && bookings.length === 0 ? (
               <tr>
-                <td colSpan={7} className="admin-sponsorship__empty">
+                <td colSpan={columnCount} className="admin-sponsorship__empty">
                   No bookings.
                 </td>
               </tr>

@@ -6,7 +6,7 @@
 // — see backend/.env.example).
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-async function sendEmail({ to, subject, text }) {
+async function sendEmail({ to, subject, text, html }) {
   const apiKey = process.env.BREVO_API_KEY;
   const fromEmail = process.env.BREVO_FROM_EMAIL;
   if (!apiKey || !fromEmail) {
@@ -23,11 +23,18 @@ async function sendEmail({ to, subject, text }) {
       'content-type': 'application/json',
       accept: 'application/json',
     },
+    // Brevo's JSON body is sent and parsed as UTF-8 regardless of these
+    // fields' content, so Sinhala text round-trips correctly on its own —
+    // htmlContent's own <meta charset="UTF-8"> (see
+    // bookingEmailTemplates.js) is what makes the *rendered* email client
+    // decode it correctly. textContent is included alongside html as the
+    // plain-text fallback for clients that can't render HTML.
     body: JSON.stringify({
       sender: { email: fromEmail, name: fromName },
       to: [{ email: to }],
       subject,
       textContent: text,
+      ...(html ? { htmlContent: html } : {}),
     }),
   });
 

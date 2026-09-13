@@ -107,6 +107,12 @@ export const confirmBooking = (id) =>
 export const declineBooking = (id) =>
   request(`/api/admin/sponsorship/${id}/decline`, { method: 'POST' });
 
+export const cancelBooking = (id) =>
+  request(`/api/admin/sponsorship/${id}/cancel`, { method: 'POST' });
+
+export const updateBooking = (id, data) =>
+  request(`/api/admin/sponsorship/${id}`, { method: 'PATCH', ...jsonBody(data) });
+
 // --- meditation applications ---
 export const listAdminMeditationApplications = () => request('/api/admin/meditation-applications');
 

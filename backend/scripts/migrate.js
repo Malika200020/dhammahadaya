@@ -164,15 +164,29 @@ async function main() {
     CREATE TABLE IF NOT EXISTS sponsorship_booking (
       id SERIAL PRIMARY KEY,
       date DATE NOT NULL,
-      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'booked', 'declined')),
+      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'booked', 'declined', 'cancelled')),
       name TEXT NOT NULL,
       email TEXT NOT NULL,
       phone TEXT NOT NULL,
       objective TEXT,
       mailing_address TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-      confirmed_at TIMESTAMPTZ
+      confirmed_at TIMESTAMPTZ,
+      cancelled_at TIMESTAMPTZ
     );
+  `);
+  await client.query(`ALTER TABLE sponsorship_booking ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ;`);
+  // 'cancelled' added for admin-cancel-after-confirm (a booked date the
+  // monastery later withdraws) — distinct from 'declined' (a pending
+  // request never confirmed in the first place), so admin reporting and the
+  // sponsor-facing email wording can tell the two apart. Re-applying the
+  // CHECK on every migrate run (drop+recreate, matching the "session" table's
+  // pkey pattern above) is what makes adding 'cancelled' here safe to ship
+  // against an existing database that already has the narrower constraint.
+  await client.query(`ALTER TABLE sponsorship_booking DROP CONSTRAINT IF EXISTS sponsorship_booking_status_check;`);
+  await client.query(`
+    ALTER TABLE sponsorship_booking ADD CONSTRAINT sponsorship_booking_status_check
+      CHECK (status IN ('pending', 'booked', 'declined', 'cancelled'));
   `);
   await client.query(`
     CREATE UNIQUE INDEX IF NOT EXISTS idx_sponsorship_booking_active_date
