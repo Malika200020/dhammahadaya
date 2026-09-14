@@ -7,6 +7,9 @@ import { Footer } from './components/Footer';
 import { DictionaryPage } from './pages/DictionaryPage';
 import { DictionaryLandingPage } from './pages/DictionaryLandingPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
+import { TripitakaLandingPage } from './pages/TripitakaLandingPage';
+import { NewslettersLandingPage } from './pages/NewslettersLandingPage';
+import { SponsorshipLandingPage } from './pages/SponsorshipLandingPage';
 import { EntryListPage } from './pages/EntryListPage';
 import { EntryDetailPage } from './pages/EntryDetailPage';
 import { PdfBooksLandingPage } from './pages/PdfBooksLandingPage';
@@ -111,6 +114,7 @@ export function App() {
           element={<DictionaryPage key="sinhala-dictionary" slug="sinhala-dictionary" searchPlaceholder="Search Sinhala word... / වචනය සොයන්න..." />}
         />
         <Route path="/tripitaka-catalogs/" element={<TripitakaCataloguePage />} />
+        <Route path="/newsletters/" element={<NewslettersLandingPage />} />
 
         {ARTICLE_LIST_SLUGS.map((slug) => (
           <Route key={slug} path={`/${slug}/`} element={<EntryListPage slug={slug} />} />
@@ -129,7 +133,9 @@ export function App() {
           <Route key={slug} path={`/${slug}/`} element={<DhammaSermonSeriesPage seriesSlug={slug} />} />
         ))}
         <Route path="/buddha-puja/" element={<BuddhaPujaPage />} />
-        <Route path="/sponsorship/" element={<SponsorshipPage />} />
+        <Route path="/sponsorship/" element={<SponsorshipLandingPage />} />
+        <Route path="/sponsorship/danaya/" element={<SponsorshipPage category="danaya" />} />
+        <Route path="/sponsorship/development-projects/" element={<SponsorshipPage category="development" />} />
         <Route path="/meditation-programs/" element={<MeditationProgramsPage />} />
         <Route path="/katina-ceremony/" element={<KatinaCeremonyPage />} />
         <Route path="/programs/" element={<ProgramsLandingPage />} />
@@ -215,7 +221,8 @@ export function App() {
 
         <Route path="/" element={<HomePage />} />
         <Route path="/asu-maha-srawakayan-wahansela/" element={<AsuMahaSrawakayanPage />} />
-        <Route path="/tripitaka/" element={<TripitakaSearchPage />} />
+        <Route path="/tripitaka/" element={<TripitakaLandingPage />} />
+        <Route path="/tripitaka-search/" element={<TripitakaSearchPage />} />
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
       <GlobalFooter />

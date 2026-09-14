@@ -136,7 +136,7 @@ export function HomePage() {
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Thripitaka-Search-Img.jpg" alt="" />
-            <Link to="/tripitaka/" className="btn btn--primary">
+            <Link to="/tripitaka-search/" className="btn btn--primary">
               Tripitaka Search
             </Link>
             <p className="home__caption">{tripitakaSearchCaption}</p>
@@ -184,7 +184,7 @@ export function HomePage() {
               bookings={bookings}
               loading={calendarLoading}
               selectedDate={null}
-              onSelectDate={() => navigate('/sponsorship/')}
+              onSelectDate={() => navigate('/sponsorship/danaya/')}
               onMonthChange={handleCalendarMonthChange}
             />
           </div>
@@ -194,7 +194,7 @@ export function HomePage() {
             ))}
           </div>
         </div>
-        <Link to="/sponsorship/" className="btn btn--primary">
+        <Link to="/sponsorship/danaya/" className="btn btn--primary">
           More Sponsorships
         </Link>
       </Reveal>

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './TripitakaSearchPage.css';
 
 // build-spec §7 — a thin wrapper embedding tipitaka.lk; no backend logic.
@@ -6,27 +5,16 @@ import './TripitakaSearchPage.css';
 // header, so it's embeddable — the outbound link stays as the spec's own
 // documented fallback in case that ever changes.
 //
-// Tripitaka Catalogue and PDF Books used to be reachable via this page's
-// nav dropdown; both moved here as on-page links instead (client request,
-// 2026-09: dropdown submenus removed site-wide, and PDF Books specifically
-// moved to live "under Tripitaka" — see navItems.js).
+// Lives at /tripitaka-search/, one card away from the Tripitaka landing
+// page at /tripitaka/ (client request, 2026-09: nav → index → content flow
+// consistent with Dictionary/Programs/Dhamma Sermons) — the on-page links
+// to Tripitaka Catalogue/PDF Books that used to sit above the embed moved
+// to that landing page instead, since this page no longer needs to double
+// as its own mini-index.
 export function TripitakaSearchPage() {
   return (
     <div className="tripitaka-search">
-      <h1>Tripitaka</h1>
-      <div className="tripitaka-search__subnav">
-        <Link to="/tripitaka-catalogs/" className="btn btn--primary btn--sm">
-          Tripitaka Catalogue
-        </Link>
-      </div>
-
-      <h2 className="tripitaka-search__pdf-heading">PDF Books</h2>
-      <div className="tripitaka-search__subnav">
-        <Link to="/pdf-books/" className="btn btn--secondary btn--sm">
-          Browse PDF Books
-        </Link>
-      </div>
-
+      <h1>Tripitaka Search</h1>
       <p className="tripitaka-search__fallback">
         If the page below doesn't load,{' '}
         <a href="https://tipitaka.lk/" target="_blank" rel="noreferrer">

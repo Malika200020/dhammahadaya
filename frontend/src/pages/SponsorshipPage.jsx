@@ -8,17 +8,15 @@ import './SponsorshipPage.css';
 
 const EMPTY_FORM = { name: '', email: '', phone: '', objective: '', mailingAddress: '' };
 
-// Two categories (client request, 2026-09): Danaya is the existing
-// date-booking flow below, unchanged; Development Projects is the bank
-// details that used to live at the standalone /development/ page, which no
-// longer has a menu-bar entry of its own (see navItems.js).
-const CATEGORIES = [
-  { key: 'danaya', label: 'Danaya' },
-  { key: 'development', label: 'Development Projects' },
-];
-
-export function SponsorshipPage() {
-  const [category, setCategory] = useState('danaya');
+// Danaya (the date-booking flow below) and Development Projects (the bank
+// details that used to live at the standalone /development/ page) are now
+// two separate pages — /sponsorship/danaya/ and
+// /sponsorship/development-projects/ — reached via the SponsorshipLandingPage
+// index at /sponsorship/, matching the nav → index → content flow already
+// used by Dictionary/Programs/Dhamma Sermons (client request, 2026-09).
+// `category` picks which one this route renders; no in-page toggle between
+// them any more, for the same reason those other sections don't have one.
+export function SponsorshipPage({ category }) {
   const [language, setLanguage] = useState('en');
   const [bookings, setBookings] = useState([]);
   // Bookings start empty and every date defaults to "available" (see
@@ -89,20 +87,7 @@ export function SponsorshipPage() {
 
   return (
     <div className="sponsorship">
-      <h1>{sponsorshipHeader}</h1>
-
-      <div className="sponsorship__toggle sponsorship__category-toggle">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c.key}
-            type="button"
-            className={category === c.key ? 'sponsorship__toggle-btn sponsorship__toggle-btn--active' : 'sponsorship__toggle-btn'}
-            onClick={() => setCategory(c.key)}
-          >
-            {c.label}
-          </button>
-        ))}
-      </div>
+      <h1>{category === 'development' ? 'Development Projects' : sponsorshipHeader}</h1>
 
       {category === 'development' ? (
         <div className="sponsorship__development">

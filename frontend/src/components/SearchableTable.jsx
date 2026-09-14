@@ -7,12 +7,33 @@ import './SearchableTable.css';
 // columns. Stripped for display only; matching/URLs are unaffected.
 const LEADING_PDF_MARKER = /^["“]PDF["”]\s*/i;
 
+// Dictionary/catalogue source data (migrated from the legacy site) uses a
+// literal "<br>" as its line-break marker within a cell's text — rendered
+// as plain text it shows up as the visible tag itself instead of a break
+// (client-reported bug, 2026-09, e.g. /sinhala-dictionary/). Split on it
+// and render real <br/> elements instead of the handful of other options:
+// not dangerouslySetInnerHTML, since that would also start interpreting
+// anything else that happens to look like a tag in this data, when "<br>"
+// is the only markup these columns are ever known to contain.
+const BR_TAG = /<br\s*\/?>/gi;
+
+function renderCellText(text) {
+  const lines = text.split(BR_TAG);
+  if (lines.length === 1) return text;
+  return lines.map((line, i) => (
+    <span key={i}>
+      {line}
+      {i < lines.length - 1 ? <br /> : null}
+    </span>
+  ));
+}
+
 // A cell value is either a plain string/number (most columns) or an array
 // of { text, url } segments for columns that can contain PDF reference
 // links (e.g. the Tripitaka catalogue's "PDF ..." columns) — some segments
 // resolve to a real link, some don't, both can appear in the same cell.
 function Cell({ value }) {
-  if (!Array.isArray(value)) return value;
+  if (!Array.isArray(value)) return typeof value === 'string' ? renderCellText(value) : value;
   return (
     <>
       {value.map((segment, i) => {
