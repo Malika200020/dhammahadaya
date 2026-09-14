@@ -38,6 +38,21 @@
   margin-bottom: var(--space-4);
 }
 
+.sponsorship__category-toggle {
+  margin-top: var(--space-5);
+}
+
+.sponsorship__development {
+  padding-bottom: var(--space-6);
+}
+
+.sponsorship__development-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
 .sponsorship__toggle-btn {
   border: 1px solid var(--color-border);
   background: var(--color-surface);

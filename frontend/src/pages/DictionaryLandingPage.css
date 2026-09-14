@@ -1,0 +1,28 @@
+.dictionary-landing {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.dictionary-landing h1 {
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: var(--space-3);
+}
+
+.dictionary-landing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+.dictionary-landing__card {
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-decoration: none;
+}

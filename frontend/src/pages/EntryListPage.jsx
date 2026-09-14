@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
 import { LoadingState } from '../components/LoadingState';
 import { apeBuduHamuduruwoHeader, apeBuduHamuduruwoIntroParagraphs } from '../content/apeBuduHamuduruwoContent';
 import './EntryListPage.css';
+
+// The Newsletters ('post') dropdown's former sibling entries — moved here
+// as on-page links (client request, 2026-09: dropdown submenus removed
+// site-wide) instead of living in the nav bar.
+const NEWSLETTER_RELATED_LINKS = [
+  { to: '/ape-budu-hamuduruwo-all/', label: 'Ape Budu Hamuduruwo' },
+  { to: '/asu-maha-srawakayan-wahansela/', label: 'Asu Maha Srawakayan Wahansela' },
+  { to: '/important-articles/', label: 'Important Articles' },
+];
 
 // The Article-list pattern (build-spec §3): cards (title + excerpt + Read
 // More), configured only by `slug` — the same component drives
@@ -59,12 +69,22 @@ export function EntryListPage({ slug }) {
         </h1>
       </header>
 
+      {slug === 'post' ? (
+        <div className="entry-list__related">
+          {NEWSLETTER_RELATED_LINKS.map((l) => (
+            <Link key={l.to} to={l.to} className="btn btn--secondary btn--sm">
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      ) : null}
+
       {loading && !data ? (
         <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
       ) : (
         <div className="entry-list__cards">
           {(data?.entries ?? []).map((entry) => (
-            <EntryCard key={entry.id} entry={entry} basePath={basePath} />
+            <EntryCard key={entry.id} entry={entry} basePath={basePath} catalogue={slug === 'post'} />
           ))}
           {!loading && data && data.entries.length === 0 ? <p>No entries yet.</p> : null}
         </div>

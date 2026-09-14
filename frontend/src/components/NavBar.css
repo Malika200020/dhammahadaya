@@ -73,6 +73,7 @@
 .navbar__list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0 var(--space-4);
@@ -82,14 +83,7 @@
   position: relative;
 }
 
-.navbar__item-row {
-  display: flex;
-  align-items: center;
-}
-
-.navbar__link,
-.navbar__dropdown-link,
-.navbar__subdropdown-link {
+.navbar__link {
   display: block;
   color: var(--color-ink);
   text-decoration: none;
@@ -123,119 +117,20 @@
   transform: scaleX(1);
 }
 
-.navbar__link--label-only {
-  cursor: pointer;
-}
-
 .navbar__link:hover,
-.navbar__link--active,
-.navbar__dropdown-link:hover,
-.navbar__dropdown-link--active,
-.navbar__subdropdown-link:hover,
-.navbar__subdropdown-link--active {
+.navbar__link--active {
   color: var(--color-primary-dark);
 }
 
-.navbar__caret {
-  background: none;
-  border: none;
-  color: var(--color-ink);
-  cursor: pointer;
-  padding: var(--space-2) 0.15rem;
-  font-size: 0.7rem;
-  line-height: 1;
-  transition: transform var(--duration-base) var(--ease-standard), color var(--duration-base) var(--ease-standard);
-}
-
-.navbar__caret:hover {
-  color: var(--color-primary-dark);
-}
-
-.navbar__caret--open {
-  transform: rotate(180deg);
-}
-
-/* --- Desktop dropdown flyouts — animated open/close, not a hard toggle --- */
-.navbar__dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 250px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  list-style: none;
-  margin: var(--space-2) 0 0;
-  padding: var(--space-2) 0;
-  z-index: 901;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  pointer-events: none;
-  transition:
-    opacity var(--duration-base) var(--ease-standard),
-    transform var(--duration-base) var(--ease-standard),
-    visibility var(--duration-base);
-}
-
-.navbar__dropdown--open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.navbar__dropdown-item {
-  position: relative;
-}
-
-.navbar__dropdown-link {
-  padding: 0.6rem var(--space-4);
-  font-size: 0.92rem;
-}
-
-.navbar__dropdown-item .navbar__caret {
-  margin-right: var(--space-2);
-}
-
-.navbar__subdropdown {
-  position: absolute;
-  top: 0;
-  left: 100%;
-  min-width: 170px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  list-style: none;
-  margin: 0 0 0 var(--space-1);
-  padding: var(--space-2) 0;
-  z-index: 902;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-6px);
-  pointer-events: none;
-  transition:
-    opacity var(--duration-base) var(--ease-standard),
-    transform var(--duration-base) var(--ease-standard),
-    visibility var(--duration-base);
-}
-
-.navbar__subdropdown--open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-.navbar__subdropdown-link {
-  padding: 0.55rem var(--space-4);
-  font-size: 0.9rem;
-}
-
-/* --- Mobile --- */
-@media (max-width: 860px) {
+/* --- Mobile / tablet --- */
+/* 1024px, not the more typical ~860px: with dropdowns removed (2026-09) the
+   flat nav is 9 items wide and needs roughly 990px to fit on one row —
+   below that it would wrap into an uneven, off-center two-row mess before
+   falling back to the hamburger. Cutting over to the hamburger earlier
+   (with margin past that 990px measured threshold) keeps every width
+   either one clean centered row or the collapsed menu, never the
+   in-between wrap. */
+@media (max-width: 1024px) {
   .navbar__brand-row {
     padding: var(--space-2) var(--space-4);
   }
@@ -271,11 +166,6 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  .navbar__item-row {
-    justify-content: space-between;
-    padding-right: var(--space-2);
-  }
-
   .navbar__link {
     padding: var(--space-3) var(--space-4);
   }
@@ -283,39 +173,9 @@
   .navbar__link::after {
     display: none;
   }
-
-  .navbar__dropdown,
-  .navbar__subdropdown {
-    position: static;
-    opacity: 1;
-    transform: none;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    background: var(--color-background);
-    min-width: 0;
-    margin: 0;
-    padding-left: var(--space-3);
-    max-height: 0;
-    visibility: hidden;
-    pointer-events: none;
-    overflow: hidden;
-    transition: max-height var(--duration-base) var(--ease-standard), visibility var(--duration-base);
-  }
-
-  .navbar__dropdown--open,
-  .navbar__subdropdown--open {
-    max-height: 900px;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .navbar__subdropdown {
-    padding-left: var(--space-5);
-  }
 }
 
-@media (min-width: 861px) {
+@media (min-width: 1025px) {
   .navbar__list {
     display: flex !important;
   }

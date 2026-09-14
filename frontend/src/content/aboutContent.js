@@ -1,20 +1,57 @@
 // [CONTENT — English/Sinhala, migrate verbatim] About page text
 // (build-spec §14), extracted programmatically from docs/Dhammahadaya.net.txt
 // (lines 1855-1886) — not retyped, to avoid corrupting Sinhala combining
-// characters.
+// characters. aboutEn.paragraphs[2] had a grammar/spelling pass (client
+// request, 2026-09: "make sure the english... is understandable") —
+// bhikkhu/Bikkus/Attakatha standardized to the spelling used elsewhere on
+// the site (bhikkhus, Bhikkhus, Atthakatha); the same inconsistency recurs
+// in paragraphs 3 and 7 below, left as-is since they weren't in scope of
+// what was flagged.
 
 export const aboutEn = {
   registrationNo: "Registration No: BC/TEMPO/20/18/072",
   paragraphs: [
   "Nestled amidst the mountains and the peaceful wilderness off Kalthota, Balangoda is the Dhammahadaya Aranya Senasanaya (Dhammahadaya Monastery) where serenity meets the soul. Dhammahadaya means the Heart of the great teachings of the Buddha.",
   "This Theravada Buddhist monastery began its journey on the 03rd of May 2017, as a branch of Mihindu Aranya, Anuradhapura which is a sector of the Siyam Nikaya, Rohana Parshavaya, Wanavasa sector. The journey began on this great day in the presence and with blessings from Most Ven. Galpatha Sumana Anunayaka Thero of Mihindu Aranya, Most Ven. Mankadawala Sudassana Thero of Labunoruwakanda Aranya Senasanaya and other most venerable Maha Sanga Rathnaya (Most Noble Theros). The chief dayakas present included Dr. Shriyani Abeysuriya, Mrs. Nirma Jayaweera and many others.",
-  "The Aranya is home to Theravada bhikkhu who reside in huts spread in around 3 acres of forest. The Bikkus live a peaceful and noble life guided by the precepts and principles of Buddhist philosophy. Sermons, discourses and discussions are purely and wholly based on the teachings from the Tripitaka and Attakatha.",
+  "The Aranya is home to Theravada bhikkhus who reside in huts spread across around 3 acres of forest. The Bhikkhus live a peaceful and noble life guided by the precepts and principles of Buddhist philosophy. Sermons, discourses and discussions are purely and wholly based on the teachings from the Tripitaka and Atthakatha.",
   "The monastery is located away from the village. The Bikkus mostly visit other temples in the village on full moon poya days to deliver sermons or for dhamma discussions. The bikkus are only visited by people who arrive at the Aranya to offer mid day dana (meals).",
   "The environment in which the Aranya is located is ideal for the Bhikkhus, in their strive towards the development of virtues and wisdom to attain the Supreme Bliss of Nirvana, though meditation and mindfulness.",
   "The day starts with morning dana (meals) prepared at the monastery, followed by cleaning of the surrounding by the monks and the lay people residing at the Aranya.",
   "The afternoon Dana or meal (which is the last meal for the day) is offered by lay people who visit the temple by 10:00 a.m. The lay people, first offer the prepared meal to the Buddha. This is known as offering of the ‘Buddha poojawa’. They then offer the meal or dana to the bikkus generally between 11:00 a.m. and 11:30 a.m. Once the dana is over, the visitors are gifted by the residing monks with the preaching of the most virtuous teaching of the Dhamma from Tripitaka.",
   "The rest of the day is spent by Bhikkhus in seclusion in practicing the Dhamma through meditation, mindfulness, reading of the Suttas from the Tripitaka and attakatta and Dhamma discussions."
 ],
+};
+
+// Visitor guidelines (client-provided, English only, 2026-09) — no Sinhala
+// text was given for this section, so unlike aboutEn/aboutSi above it isn't
+// gated behind the page's language toggle; it renders as-is regardless of
+// which language is selected. The visiting-hour times are published
+// exactly as given, placeholder brackets included, at the client's
+// explicit instruction ("implement it as it is").
+export const visitorGuidelinesEn = {
+  heading: 'Visitor Guidelines',
+  sections: [
+    {
+      heading: 'Dress Code',
+      paragraphs: [
+        'A temple is a place of spiritual reflection, and respectful attire is mandatory for entry. All visitors, regardless of gender, must dress modestly.',
+      ],
+    },
+    {
+      heading: 'Chaperone Requirement',
+      paragraphs: [
+        'Female guests visiting the temple grounds outside of public ceremonies must ensure they are accompanied by a third person, unless it is a public ceremony.',
+      ],
+    },
+    {
+      heading: 'Visiting Hours',
+      paragraphs: ['The temple grounds are open to the public during the following times:'],
+      hours: [
+        'Weekdays (Monday to Friday): Please visit between [00:00 AM] and [00:00 PM].',
+        'Weekends (Saturday and Sunday): Please visit between [00:00 AM] and [00:00 PM].',
+      ],
+    },
+  ],
 };
 
 export const aboutSi = {

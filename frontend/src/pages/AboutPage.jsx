@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getGallery } from '../api/galleries';
 import { PhotoGallery } from '../components/PhotoGallery';
-import { aboutEn, aboutSi } from '../content/aboutContent';
+import { aboutEn, aboutSi, visitorGuidelinesEn } from '../content/aboutContent';
 import './AboutPage.css';
 
 // build-spec §14 — EN/SI toggle static text + a photo gallery reusing the
@@ -47,6 +47,25 @@ export function AboutPage() {
         <p className="about__reg-no">{content.registrationNo}</p>
         {content.paragraphs.map((paragraph, i) => (
           <p key={i}>{paragraph}</p>
+        ))}
+      </div>
+
+      <div className="about__guidelines card">
+        <h2>{visitorGuidelinesEn.heading}</h2>
+        {visitorGuidelinesEn.sections.map((section) => (
+          <div key={section.heading} className="about__guideline-section">
+            <h3>{section.heading}</h3>
+            {section.paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            {section.hours ? (
+              <ul>
+                {section.hours.map((h, i) => (
+                  <li key={i}>{h}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         ))}
       </div>
 

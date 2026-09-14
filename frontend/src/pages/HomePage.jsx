@@ -4,15 +4,21 @@ import { Users, MessageCircle, PlaySquare, ThumbsUp, MapPin, Phone } from 'lucid
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
 import { getSponsorshipCalendar } from '../api/sponsorship';
-import { BookingCalendar, getSponsorshipCalendarRange } from '../components/BookingCalendar';
+import { BookingCalendar, getMonthRange } from '../components/BookingCalendar';
 import { LoadingState } from '../components/LoadingState';
-import { InquiryForm } from '../components/InquiryForm';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
 import { sponsorshipNoteEn } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
-import { contactPostalAddressLines, contactChannels, contactMapEmbedSrc, contactMapLinkUrl } from '../content/contactContent';
-import { heroVerse1, heroVerse2, tripitakaCatalogueCaption, tripitakaSearchCaption, pdfBookCaption } from '../content/homeContent';
+import { contactPostalAddressLines, contactChannels } from '../content/contactContent';
+import {
+  heroConstantLine,
+  heroClosingLine,
+  heroRandomLines,
+  tripitakaCatalogueCaption,
+  tripitakaSearchCaption,
+  pdfBookCaption,
+} from '../content/homeContent';
 import './HomePage.css';
 
 function phoneFor(label) {
@@ -28,6 +34,10 @@ function phoneFor(label) {
 // /about/).
 export function HomePage() {
   const navigate = useNavigate();
+  // Picked once per page load/visit (client request, 2026-09) — a fresh
+  // random line every time a user lands on or refreshes the Home page,
+  // not re-rolled on every re-render while they stay on it.
+  const [heroRandomLine] = useState(() => heroRandomLines[Math.floor(Math.random() * heroRandomLines.length)]);
   const [newsletters, setNewsletters] = useState([]);
   const [newslettersLoading, setNewslettersLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
@@ -43,13 +53,14 @@ export function HomePage() {
       .finally(() => setNewslettersLoading(false));
   }, []);
 
-  useEffect(() => {
-    const { from, to } = getSponsorshipCalendarRange();
+  function handleCalendarMonthChange(year, month) {
+    setCalendarLoading(true);
+    const { from, to } = getMonthRange(year, month);
     getSponsorshipCalendar(from, to)
       .then((d) => setBookings(d.bookings))
       .catch(() => setBookings([]))
       .finally(() => setCalendarLoading(false));
-  }, []);
+  }
 
   return (
     <div className="home">
@@ -60,20 +71,24 @@ export function HomePage() {
           <img src="/images/golden-buddha.jpg" alt="" className="home__hero-image" />
         </div>
         <div className="home__hero-text card">
-          {heroVerse1.split('\n').map((line, i) => (
-            <p key={`v1-${i}`}>{line}</p>
+          <p>{heroConstantLine}</p>
+          {heroRandomLine.split('\n').map((line, i) => (
+            <p key={`random-${i}`}>{line}</p>
           ))}
-          {heroVerse2.split('\n').map((line, i) => (
-            <p key={`v2-${i}`}>{line}</p>
+          {heroClosingLine.split('\n').map((line, i) => (
+            <p key={`closing-${i}`}>{line}</p>
           ))}
         </div>
       </Reveal>
 
-      {/* 4.2 Monastery intro — reuses aboutEn.paragraphs (same text as /about/) */}
+      {/* 4.2 Monastery intro — reuses aboutEn.paragraphs (same text as /about/).
+          Only the 1st and 3rd paragraphs are shown here (client request,
+          2026-09: drop the 2nd from this home-page excerpt) — the full text
+          is unaffected and still shows in full on /about/. */}
       <Reveal as="section" className="home__intro">
         <img src="/images/Damma-Senasanaya-Logo.png" alt="Dhammahadaya Senasanaya" className="home__intro-logo" />
         <div className="home__intro-text">
-          {aboutEn.paragraphs.slice(0, 3).map((p, i) => (
+          {[aboutEn.paragraphs[0], aboutEn.paragraphs[2]].map((p, i) => (
             <p key={i}>{p}</p>
           ))}
           <Link to="/about/" className="btn btn--primary">
@@ -82,37 +97,26 @@ export function HomePage() {
         </div>
       </Reveal>
 
-      {/* 4.3 Last Newsletters — newest 4 via the same /api/entries used by /post/ */}
+      {/* 4.3 Latest Newsletters — newest 4 via the same /api/entries used by
+          /post/. The three sub-category boxes that used to sit under the
+          Posts button moved to the Newsletters page itself (/post/), since
+          that's also where their nav dropdown entries moved to. */}
       <Reveal as="section" className="home__section">
-        <h2>Last Newsletters</h2>
+        <h2>Latest Newsletters</h2>
         {newslettersLoading ? (
           <LoadingState message="Loading newsletters…" />
         ) : (
           <div className="home__newsletter-cards">
             {newsletters.map((entry) => (
-              <EntryCard key={entry.id} entry={entry} basePath="/post/" />
+              <EntryCard key={entry.id} entry={entry} basePath="/post/" catalogue />
             ))}
             {newsletters.length === 0 ? <p>No newsletters yet.</p> : null}
           </div>
         )}
 
-        {/* 4.4 Posts button */}
         <Link to="/post/" className="btn btn--primary">
-          Posts
+          More Newsletters
         </Link>
-
-        {/* 4.5 Three horizontal buttons */}
-        <div className="home__three-buttons">
-          <Link to="/ape-budu-hamuduruwo-all/" className="btn btn--secondary">
-            Ape Budu Hamuduruwo
-          </Link>
-          <Link to="/asu-maha-srawakayan-wahansela/" className="btn btn--secondary">
-            Asu Maha Srawakayan Wahansela
-          </Link>
-          <Link to="/important-articles/" className="btn btn--secondary">
-            Important Articles
-          </Link>
-        </div>
       </Reveal>
 
       {/* 4.6 Tripitaka section */}
@@ -136,7 +140,7 @@ export function HomePage() {
           <div className="home__image-item card card--interactive">
             <img src="/images/Pdf-Book-Img.jpg" alt="" />
             <Link to="/pdf-books/" className="btn btn--primary">
-              PDF Book
+              PDF Books
             </Link>
             <p className="home__caption">{pdfBookCaption}</p>
           </div>
@@ -172,11 +176,13 @@ export function HomePage() {
         <h2>Sponsorships</h2>
         <div className="home__sponsorship-card card">
           <div className="home__sponsorship-calendar">
-            {calendarLoading ? (
-              <LoadingState message="Loading availability…" />
-            ) : (
-              <BookingCalendar bookings={bookings} selectedDate={null} onSelectDate={() => navigate('/sponsorship/')} />
-            )}
+            <BookingCalendar
+              bookings={bookings}
+              loading={calendarLoading}
+              selectedDate={null}
+              onSelectDate={() => navigate('/sponsorship/')}
+              onMonthChange={handleCalendarMonthChange}
+            />
           </div>
           <div className="home__sponsorship-message">
             {[sponsorshipNoteEn.paragraphs[0], sponsorshipNoteEn.paragraphs[1], sponsorshipNoteEn.paragraphs[3]].map((p, i) => (
@@ -185,7 +191,7 @@ export function HomePage() {
           </div>
         </div>
         <Link to="/sponsorship/" className="btn btn--primary">
-          Sponsorships
+          More Sponsorships
         </Link>
       </Reveal>
 
@@ -212,16 +218,6 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-      </Reveal>
-
-      {/* 4.10 Contact Us section — reuses the step-10 InquiryForm as-is */}
-      <Reveal as="section" className="home__section">
-        <h2>Contact Us</h2>
-        <iframe className="home__map" title="Dhammahadaya Senasanaya location" src={contactMapEmbedSrc} loading="lazy" />
-        <a className="home__map-link" href={contactMapLinkUrl} target="_blank" rel="noreferrer">
-          View on Google Maps
-        </a>
-        <InquiryForm />
       </Reveal>
 
       {/* 4.11 Newsletter signup — reuses the step-10 NewsletterSignup as-is */}

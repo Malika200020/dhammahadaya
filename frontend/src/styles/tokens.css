@@ -2,8 +2,8 @@
 :root {
   /* --color-white and --color-text-accent are intentionally frozen (never
      redefined by theme below): --color-white is literal white, used for
-     text sitting on permanently-dark bars (Footer, admin sidebar,
-     ScrollTopBar); --color-text-accent is the brand brown, used for text
+     text sitting on permanently-dark bars (Footer, admin sidebar);
+     --color-text-accent is the brand brown, used for text
      sitting on the orange brand fill (buttons, badges, active pills) —
      that pairing needs to stay dark-on-orange in both themes. General
      page text uses --color-ink instead, which does flip per theme. */

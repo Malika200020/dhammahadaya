@@ -54,6 +54,33 @@
   margin: var(--space-3) 0;
 }
 
+.about__guidelines {
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.about__guideline-section {
+  margin-top: var(--space-5);
+}
+
+.about__guideline-section:first-of-type {
+  margin-top: var(--space-2);
+}
+
+.about__guideline-section h3 {
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-2);
+}
+
+.about__guideline-section p {
+  margin: var(--space-2) 0;
+}
+
+.about__guideline-section ul {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+
 .about__gallery-heading {
   margin-top: var(--space-7);
 }

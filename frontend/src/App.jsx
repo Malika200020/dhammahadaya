@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { HomePage } from './pages/HomePage';
 import { AsuMahaSrawakayanPage } from './pages/AsuMahaSrawakayanPage';
 import { TripitakaSearchPage } from './pages/TripitakaSearchPage';
-import { ScrollTopBar } from './components/ScrollTopBar';
 import { NavBar } from './components/NavBar';
 import { Footer } from './components/Footer';
 import { DictionaryPage } from './pages/DictionaryPage';
+import { DictionaryLandingPage } from './pages/DictionaryLandingPage';
 import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { EntryListPage } from './pages/EntryListPage';
 import { EntryDetailPage } from './pages/EntryDetailPage';
@@ -99,9 +99,9 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <ScrollTopBar />
       <GlobalNavBar theme={theme} toggleTheme={toggleTheme} />
       <Routes>
+        <Route path="/dictionary/" element={<DictionaryLandingPage />} />
         <Route
           path="/pali-sinhalese-dictionary/"
           element={<DictionaryPage key="pali-sinhalese-dictionary" slug="pali-sinhalese-dictionary" searchPlaceholder="Search Pali word... / පාලි වචනය සොයන්න..." />}

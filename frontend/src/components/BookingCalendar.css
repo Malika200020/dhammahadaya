@@ -1,3 +1,33 @@
+.booking-calendar__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.booking-calendar__control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.booking-calendar__control select {
+  font: inherit;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-ink);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.6rem;
+  background: var(--color-surface);
+}
+
 .booking-calendar__legend {
   display: flex;
   gap: var(--space-5);
@@ -33,17 +63,6 @@
 .booking-calendar__legend-item--booked::before {
   background: #f6d9d9;
   border: 1px solid #b00020;
-}
-
-.booking-calendar__months {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-6);
-}
-
-.booking-calendar__month h3 {
-  margin: 0 0 var(--space-2);
-  font-size: var(--font-size-base);
 }
 
 .booking-calendar__grid {
