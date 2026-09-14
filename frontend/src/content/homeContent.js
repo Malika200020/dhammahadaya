@@ -5,16 +5,19 @@
 // aboutEn.paragraphs (the source note gives the exact same three
 // paragraphs for both pages).
 
-// Hero section (client request, 2026-09): the Pali stanza (formerly
-// heroVerse1) is removed entirely. Rendering order is now three fixed
-// parts (see HomePage.jsx): heroConstantLine (top, always shown), one line
-// from heroRandomLines chosen at random each time the Home page loads
-// (instead of always showing the same fixed continuation), then
-// heroClosingLine (bottom, always shown — this is the same closing
-// benediction the old heroVerse2 always ended with). The random lines are
-// the client's own list, copied verbatim — including a few repeated
-// entries and inconsistent trailing punctuation/spacing in the source
-// list — never retyped, to avoid corrupting Sinhala combining characters.
+// Hero section (client request, 2026-09, later amended): rendering order
+// is four fixed parts (see HomePage.jsx) — heroPaliStanza (top, always
+// shown; briefly removed per an earlier version of the request, then
+// reinstated as a constant per client follow-up), heroConstantLine (always
+// shown), one line from heroRandomLines chosen at random each time the
+// Home page loads (instead of always showing the same fixed continuation),
+// then heroClosingLine (bottom, always shown — the same closing benediction
+// the old heroVerse2 always ended with). The random lines are the client's
+// own list, copied verbatim — including a few repeated entries and
+// inconsistent trailing punctuation/spacing in the source list — never
+// retyped, to avoid corrupting Sinhala combining characters.
+export const heroPaliStanza =
+  "නමො තස්ස භගවතො අරහතො\nසබ්බධම්මේසු අප්පටිහතඤාණචාරස්ස\nදසබලධරස්ස චතුවේසාරජ්ජවිසාරදස්ස\nසබ්බසත්තුත්තමස්ස ධම්මිස්සරස්ස ධම්මරාජස්ස ධම්මස්සාමිස්ස\nතථාගතස්ස සබ්බඤ්ඤුනො සම්මාසම්බුද්ධස්ස !!!";
 export const heroConstantLine = "බුදුරජාණන් වහන්සේ,";
 export const heroClosingLine =
   "ඒ සත්‍යානුභාව බලයෙන් යහපතින් යහපතම උදා කරවන තුනුරුවනේ පිහිට ලැබෙනා\nසුභම සුභ දවසක් වේවා.";

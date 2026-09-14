@@ -12,6 +12,7 @@ import { sponsorshipNoteEn } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
 import { contactPostalAddressLines, contactChannels } from '../content/contactContent';
 import {
+  heroPaliStanza,
   heroConstantLine,
   heroClosingLine,
   heroRandomLines,
@@ -71,6 +72,9 @@ export function HomePage() {
           <img src="/images/golden-buddha.jpg" alt="" className="home__hero-image" />
         </div>
         <div className="home__hero-text card">
+          {heroPaliStanza.split('\n').map((line, i) => (
+            <p key={`pali-${i}`}>{line}</p>
+          ))}
           <p>{heroConstantLine}</p>
           {heroRandomLine.split('\n').map((line, i) => (
             <p key={`random-${i}`}>{line}</p>
