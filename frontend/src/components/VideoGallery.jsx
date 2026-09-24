@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { LoadingState } from './LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './VideoGallery.css';
 
 function VideoThumbnail({ video, active, onClick }) {
+  const { t } = useTranslation();
   const [thumbFailed, setThumbFailed] = useState(false);
 
   return (
@@ -16,7 +18,7 @@ function VideoThumbnail({ video, active, onClick }) {
         // URL from YouTube, but it can 404 or serve a generic gray image —
         // either way this row must still render, just visibly degraded,
         // not break the page.
-        <span className="video-gallery__thumb-fallback">Thumbnail unavailable</span>
+        <span className="video-gallery__thumb-fallback">{t('videoGallery.thumbnailUnavailable')}</span>
       ) : (
         <img
           src={`https://img.youtube.com/vi/${video.youtube_id}/hqdefault.jpg`}
@@ -36,17 +38,18 @@ function VideoThumbnail({ video, active, onClick }) {
 // the iframe just shows YouTube's own "Video unavailable" state, which
 // happens naturally without any special-casing on our side.
 export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange, loading, error }) {
+  const { t } = useTranslation();
   const [activeId, setActiveId] = useState(videos[0]?.id ?? null);
 
   useEffect(() => {
     setActiveId(videos[0]?.id ?? null);
   }, [videos]);
 
-  if (error) return <p className="video-gallery__error">Failed to load: {error.message}</p>;
+  if (error) return <p className="video-gallery__error">{t('common.failedToLoad', { message: error.message })}</p>;
   if (loading && videos.length === 0) {
     return (
       <div className="video-gallery">
-        <LoadingState message="Loading videos… the first load of the day can take up to a minute while the server wakes up." />
+        <LoadingState message={t('videoGallery.loading')} />
       </div>
     );
   }
@@ -67,7 +70,7 @@ export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange
           <p className="video-gallery__player-title">{activeVideo.title_si}</p>
         </div>
       ) : !loading ? (
-        <p className="video-gallery__empty">No videos yet.</p>
+        <p className="video-gallery__empty">{t('videoGallery.noVideosYet')}</p>
       ) : null}
 
       <div className="video-gallery__grid">
@@ -89,18 +92,16 @@ export function VideoGallery({ videos, page, totalPages, totalRows, onPageChange
             disabled={page <= 1 || loading}
             onClick={() => onPageChange(page - 1)}
           >
-            Previous
+            {t('common.previous')}
           </button>
-          <span>
-            Page {page} of {totalPages} ({totalRows.toLocaleString()} videos)
-          </span>
+          <span>{t('videoGallery.pageOfVideos', { page, total: totalPages, count: totalRows.toLocaleString() })}</span>
           <button
             type="button"
             className="btn btn--secondary btn--sm"
             disabled={page >= totalPages || loading}
             onClick={() => onPageChange(page + 1)}
           >
-            Next
+            {t('common.next')}
           </button>
         </div>
       ) : null}

@@ -27,11 +27,6 @@
   margin-bottom: var(--space-5);
 }
 
-.searchable-table__title-si {
-  font-weight: normal;
-  color: var(--color-primary-dark);
-}
-
 .searchable-table__search {
   width: 100%;
   font-size: var(--font-size-md);
@@ -85,6 +80,37 @@
   font-size: var(--font-size-xs);
   letter-spacing: 0.06em;
   border-bottom: 1px solid var(--color-primary-dark);
+}
+
+/* Client-reported, 2026-09: with up to 11 columns, the catalogue's default
+   cell size left most of the table cut off even on desktop. Horizontal
+   scroll (see .searchable-table__scroll) is unavoidable for a table this
+   wide, but shrinking font/padding meaningfully cuts how much scrolling is
+   needed — scoped to grouped tables only (the catalogue), so the
+   dictionaries' plain 2-column tables keep their normal, larger, easier
+   to read size. */
+.searchable-table__table--grouped th,
+.searchable-table__table--grouped td {
+  padding: var(--space-2) var(--space-3);
+}
+
+.searchable-table__table--grouped td {
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 600px) {
+  .searchable-table__table--grouped th,
+  .searchable-table__table--grouped td {
+    padding: 0.4rem 0.55rem;
+  }
+
+  .searchable-table__table--grouped td {
+    font-size: var(--font-size-xs);
+  }
+
+  .searchable-table__table--grouped th {
+    font-size: 0.7rem;
+  }
 }
 
 .searchable-table__table--grouped thead tr:last-child th {

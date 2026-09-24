@@ -9,40 +9,9 @@
   padding-bottom: var(--space-3);
 }
 
-.about__toggle {
-  display: flex;
-  gap: var(--space-2);
-  margin: var(--space-4) 0;
-}
-
-.about__toggle-btn {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-ink);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
-}
-
-.about__toggle-btn:hover {
-  border-color: var(--color-primary);
-}
-
-.about__toggle-btn--active {
-  background: var(--color-primary);
-  border-color: var(--color-primary-dark);
-  color: var(--color-text-accent);
-}
-
-.about__toggle-btn--active:hover {
-  border-color: var(--color-primary-dark);
-}
-
 .about__text {
   padding: var(--space-5) var(--space-6);
-  margin-bottom: var(--space-6);
+  margin: var(--space-4) 0 var(--space-6);
 }
 
 .about__reg-no {

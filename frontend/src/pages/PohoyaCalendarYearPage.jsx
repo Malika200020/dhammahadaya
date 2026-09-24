@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { getPohoyaCalendarYear } from '../api/pohoyaCalendar';
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryImage';
 import { LoadingState } from '../components/LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './PohoyaCalendarYearPage.css';
 
 // build-spec §16.3/§16.4 — one page for every year (2025, 2026, and any
@@ -11,6 +12,7 @@ import './PohoyaCalendarYearPage.css';
 // like "/sathara-pohoya-calendar-2026/") since the set of years is
 // admin-extensible, not fixed at build time.
 export function PohoyaCalendarYearPage() {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const year = pathname.match(/sathara-pohoya-calendar-([^/]+)/)?.[1];
   const [calendar, setCalendar] = useState(null);
@@ -27,21 +29,21 @@ export function PohoyaCalendarYearPage() {
       .finally(() => setLoading(false));
   }, [year]);
 
-  if (error) return <p className="pohoya-year__error">{error.status === 404 ? `No calendar published for ${year}.` : error.message}</p>;
-  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
+  if (error) return <p className="pohoya-year__error">{error.status === 404 ? t('pohoyaYear.notPublished', { year }) : error.message}</p>;
+  if (loading) return <LoadingState message={t('common.loadingColdStart')} />;
   if (!calendar) return null;
 
   return (
     <div className="pohoya-year">
-      <h1>සතර පොහොය දින දර්ශනය {calendar.year}</h1>
+      <h1>{t('pohoyaYear.pageTitle', { year: calendar.year })}</h1>
 
       <table className="pohoya-year__table">
         <thead>
           <tr>
-            <th>Month (Sinhala – English)</th>
-            <th>Date</th>
-            <th>Weekday</th>
-            <th>Poya</th>
+            <th>{t('pohoyaYear.monthColumn')}</th>
+            <th>{t('pohoyaYear.dateColumn')}</th>
+            <th>{t('pohoyaYear.weekdayColumn')}</th>
+            <th>{t('pohoyaYear.poyaColumn')}</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +61,7 @@ export function PohoyaCalendarYearPage() {
       {calendar.image_url ? (
         <img className="pohoya-year__image" src={optimizeCloudinaryUrl(calendar.image_url)} alt={`Sathara Pohoya Calendar ${calendar.year}`} />
       ) : (
-        <p className="pohoya-year__no-image">Calendar image not yet uploaded.</p>
+        <p className="pohoya-year__no-image">{t('pohoyaYear.imageNotUploaded')}</p>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { InquiryForm } from '../components/InquiryForm';
 import { NewsletterSignup } from '../components/NewsletterSignup';
+import { useTranslation } from '../i18n/LanguageContext';
 import {
   contactLocationEn,
   contactDirectionsEn,
@@ -14,9 +15,10 @@ import './ContactUsPage.css';
 // build-spec §18 — static location/contact info + the shared InquiryForm
 // and NewsletterSignup components (also used later on the home page).
 export function ContactUsPage() {
+  const { t } = useTranslation();
   return (
     <div className="contact-us">
-      <h1>Contact Us</h1>
+      <h1>{t('nav.contactUs')}</h1>
 
       <iframe
         className="contact-us__map"
@@ -25,12 +27,14 @@ export function ContactUsPage() {
         loading="lazy"
       />
       <a className="contact-us__map-link" href={contactMapLinkUrl} target="_blank" rel="noreferrer">
-        View on Google Maps
+        {t('contactUs.viewOnGoogleMaps')}
       </a>
 
-      {/* [CONTENT — English, migrate verbatim] build-spec §18 */}
+      {/* [CONTENT — English, migrate verbatim] build-spec §18 — English
+          only, no Sinhala version exists, so this text doesn't switch with
+          the language toggle. */}
       <section className="contact-us__section card">
-        <h2>Location</h2>
+        <h2>{t('contactUs.location')}</h2>
         <p>{contactLocationEn}</p>
         <ul>
           {contactDirectionsEn.map((line, i) => (
@@ -40,7 +44,7 @@ export function ContactUsPage() {
       </section>
 
       <section className="contact-us__section card">
-        <h2>Postal Address</h2>
+        <h2>{t('contactUs.postalAddress')}</h2>
         <address>
           {contactPostalAddressLines.map((line, i) => (
             <span key={i}>
@@ -52,7 +56,7 @@ export function ContactUsPage() {
       </section>
 
       <section className="contact-us__section card">
-        <h2>Contact Details</h2>
+        <h2>{t('contactUs.contactDetails')}</h2>
         <table className="contact-us__table">
           <tbody>
             {contactChannels.map(([channel, value]) => (
@@ -66,7 +70,7 @@ export function ContactUsPage() {
       </section>
 
       <section className="contact-us__section card">
-        <h2>Office Phone Hours</h2>
+        <h2>{t('contactUs.officePhoneHours')}</h2>
         <table className="contact-us__table">
           <tbody>
             {contactOfficeHours.map(([day, hours]) => (
@@ -80,12 +84,12 @@ export function ContactUsPage() {
       </section>
 
       <section className="contact-us__section card">
-        <h2>Send an Inquiry</h2>
+        <h2>{t('contactUs.sendInquiry')}</h2>
         <InquiryForm />
       </section>
 
       <section className="contact-us__section card">
-        <h2>Newsletter</h2>
+        <h2>{t('contactUs.newsletter')}</h2>
         <NewsletterSignup />
       </section>
     </div>

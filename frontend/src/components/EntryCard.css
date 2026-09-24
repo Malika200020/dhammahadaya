@@ -9,8 +9,12 @@
   color: inherit;
 }
 
+/* Client-reported, 2026-09: with no excerpt to anchor it, the title alone
+   at --font-size-md read oversized for a card this small — sized down one
+   step to match the rest of the site's card titles. */
 .entry-card--catalogue .entry-card__title {
   margin-bottom: 0;
+  font-size: var(--font-size-base);
 }
 
 .entry-card__image {

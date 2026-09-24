@@ -32,46 +32,16 @@
   padding-left: var(--space-5);
 }
 
-.sponsorship__toggle {
-  display: flex;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
-}
-
 .sponsorship__development {
   padding-bottom: var(--space-6);
 }
 
-.sponsorship__development-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
+.sponsorship__development-status {
   margin-top: var(--space-5);
-}
-
-.sponsorship__toggle-btn {
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  color: var(--color-ink);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-primary-tint);
   border-radius: var(--radius-md);
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color var(--duration-base) var(--ease-standard), border-color var(--duration-base) var(--ease-standard);
-}
-
-.sponsorship__toggle-btn:hover {
-  border-color: var(--color-primary);
-}
-
-.sponsorship__toggle-btn--active {
-  background: var(--color-primary);
-  border-color: var(--color-primary-dark);
-  color: var(--color-text-accent);
-}
-
-.sponsorship__toggle-btn--active:hover {
-  border-color: var(--color-primary-dark);
+  color: var(--color-ink);
 }
 
 .sponsorship__form {

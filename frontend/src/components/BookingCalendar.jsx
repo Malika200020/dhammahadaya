@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { LoadingState } from './LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './BookingCalendar.css';
 
 // Single-month date-status calendar for the Sponsorships booking flow
@@ -11,11 +12,6 @@ import './BookingCalendar.css';
 // preview, full Sponsorship page) fetches bookings for whichever month is
 // selected instead of duplicating that state per page.
 
-const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
 const YEAR_OPTIONS_AHEAD = 2; // current year + this many future years, selectable
 
 function pad(n) {
@@ -38,6 +34,7 @@ export function getMonthRange(year, month) {
 }
 
 function MonthGrid({ year, month, statusByDate, todayIso, selectedDate, onSelectDate }) {
+  const { t } = useTranslation();
   const firstWeekday = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const cells = [];
@@ -47,9 +44,9 @@ function MonthGrid({ year, month, statusByDate, todayIso, selectedDate, onSelect
   return (
     <div className="booking-calendar__month">
       <div className="booking-calendar__grid">
-        {WEEKDAYS.map((w) => (
+        {[0, 1, 2, 3, 4, 5, 6].map((w) => (
           <div key={w} className="booking-calendar__weekday">
-            {w}
+            {t(`calendar.weekday.${w}`)}
           </div>
         ))}
         {cells.map((d, i) => {
@@ -79,6 +76,7 @@ function MonthGrid({ year, month, statusByDate, todayIso, selectedDate, onSelect
 }
 
 export function BookingCalendar({ bookings, selectedDate, onSelectDate, onMonthChange, loading }) {
+  const { t } = useTranslation();
   const now = useMemo(() => new Date(), []);
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
@@ -107,17 +105,17 @@ export function BookingCalendar({ bookings, selectedDate, onSelectDate, onMonthC
     <div className="booking-calendar">
       <div className="booking-calendar__controls">
         <label className="booking-calendar__control">
-          Month
+          {t('calendar.month')}
           <select value={month} onChange={(e) => setMonth(Number(e.target.value))}>
-            {MONTH_NAMES.map((name, i) => (
-              <option key={name} value={i}>
-                {name}
+            {Array.from({ length: 12 }, (_, i) => i).map((i) => (
+              <option key={i} value={i}>
+                {t(`calendar.month.${i}`)}
               </option>
             ))}
           </select>
         </label>
         <label className="booking-calendar__control">
-          Year
+          {t('calendar.year')}
           <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
             {yearOptions.map((y) => (
               <option key={y} value={y}>
@@ -129,16 +127,16 @@ export function BookingCalendar({ bookings, selectedDate, onSelectDate, onMonthC
       </div>
 
       <div className="booking-calendar__legend">
-        <span className="booking-calendar__legend-item booking-calendar__legend-item--available">Available</span>
-        <span className="booking-calendar__legend-item booking-calendar__legend-item--pending">Pending</span>
-        <span className="booking-calendar__legend-item booking-calendar__legend-item--booked">Booked</span>
+        <span className="booking-calendar__legend-item booking-calendar__legend-item--available">{t('calendar.available')}</span>
+        <span className="booking-calendar__legend-item booking-calendar__legend-item--pending">{t('calendar.pending')}</span>
+        <span className="booking-calendar__legend-item booking-calendar__legend-item--booked">{t('calendar.booked')}</span>
       </div>
 
       {loading ? (
         // Never fall through to MonthGrid while the newly-selected month's
         // bookings are still in flight — every date would default to
         // "available" until statusByDate actually reflects this month.
-        <LoadingState message="Loading availability…" />
+        <LoadingState message={t('calendar.loadingAvailability')} />
       ) : (
         <MonthGrid
           year={year}

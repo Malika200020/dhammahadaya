@@ -21,10 +21,14 @@
   margin: var(--space-4) 0 0;
 }
 
+/* Sized a step below the sitewide h1 default (--font-size-2xl): unlike a
+   short page title ("About", "Sponsorships"), this heading is often a full
+   Sinhala sentence, and at the default size a long one reads oversized and
+   heavy (client-reported, 2026-09). */
 .entry-detail h1 {
   margin-top: var(--space-5);
   margin-bottom: 0;
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   line-height: var(--line-height-sinhala);
 }
 
@@ -50,7 +54,10 @@
   box-shadow: var(--shadow-sm);
   padding: var(--space-6);
   margin-top: var(--space-5);
-  font-size: var(--font-size-md);
+  /* Matches the base body-copy size used elsewhere on the site (About,
+     Sponsorship note) — was a step larger than the rest of the site's
+     prose, reported as too large, 2026-09. */
+  font-size: var(--font-size-base);
   line-height: var(--line-height-sinhala);
 }
 

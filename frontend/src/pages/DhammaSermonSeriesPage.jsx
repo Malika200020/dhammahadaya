@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { listSeriesVideos } from '../api/videos';
 import { VideoGallery } from '../components/VideoGallery';
+import { useTranslation } from '../i18n/LanguageContext';
 import './DhammaSermonSeriesPage.css';
 
 // One page for all six Dhamma Sermons series (build-spec §9) — `seriesSlug`
@@ -8,6 +9,7 @@ import './DhammaSermonSeriesPage.css';
 // DictionaryPage/PdfBookCategoryPage/EntryListPage, not a dynamic :param
 // route); everything else (title, videos, pagination) comes from the API.
 export function DhammaSermonSeriesPage({ seriesSlug }) {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,7 @@ export function DhammaSermonSeriesPage({ seriesSlug }) {
     };
   }, [seriesSlug, page]);
 
-  if (error) return <p className="dhamma-sermon-series__error">Failed to load: {error.message}</p>;
+  if (error) return <p className="dhamma-sermon-series__error">{t('common.failedToLoad', { message: error.message })}</p>;
 
   return (
     <div className="dhamma-sermon-series">

@@ -1,3 +1,4 @@
+import { useTranslation } from '../i18n/LanguageContext';
 import './TripitakaSearchPage.css';
 
 // build-spec §7 — a thin wrapper embedding tipitaka.lk; no backend logic.
@@ -12,13 +13,14 @@ import './TripitakaSearchPage.css';
 // to that landing page instead, since this page no longer needs to double
 // as its own mini-index.
 export function TripitakaSearchPage() {
+  const { t } = useTranslation();
   return (
     <div className="tripitaka-search">
-      <h1>Tripitaka Search</h1>
+      <h1>{t('home.tripitakaSearch')}</h1>
       <p className="tripitaka-search__fallback">
-        If the page below doesn't load,{' '}
+        {t('tripitakaSearch.fallbackPrefix')}{' '}
         <a href="https://tipitaka.lk/" target="_blank" rel="noreferrer">
-          open tipitaka.lk in a new tab
+          {t('tripitakaSearch.fallbackLink')}
         </a>
         .
       </p>

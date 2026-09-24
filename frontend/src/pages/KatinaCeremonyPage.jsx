@@ -3,9 +3,11 @@ import { listKatinaYears } from '../api/katina';
 import { getGallery } from '../api/galleries';
 import { PhotoGallery } from '../components/PhotoGallery';
 import { LoadingState } from '../components/LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './KatinaCeremonyPage.css';
 
 function YearSection({ year, organizers }) {
+  const { t } = useTranslation();
   const [images, setImages] = useState([]);
   const [imagesLoading, setImagesLoading] = useState(true);
 
@@ -19,7 +21,7 @@ function YearSection({ year, organizers }) {
   return (
     <section className="katina__year card">
       <h2>{year}</h2>
-      <h3 className="katina__organizers-heading">Organizers</h3>
+      <h3 className="katina__organizers-heading">{t('katina.organizers')}</h3>
       {organizers.length > 0 ? (
         <ul className="katina__organizers">
           {organizers.map((name, i) => (
@@ -27,7 +29,7 @@ function YearSection({ year, organizers }) {
           ))}
         </ul>
       ) : (
-        <p className="katina__no-organizers">Organizers to be announced.</p>
+        <p className="katina__no-organizers">{t('katina.organizersTba')}</p>
       )}
       <PhotoGallery images={images} loading={imagesLoading} />
     </section>
@@ -38,6 +40,7 @@ function YearSection({ year, organizers }) {
 // The gallery reuses gallery_images from step 7, scoped via
 // gallery_key=<year>, exactly what that per-year scoping was built for.
 export function KatinaCeremonyPage() {
+  const { t } = useTranslation();
   const [years, setYears] = useState([]);
   const [yearsLoading, setYearsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -51,10 +54,10 @@ export function KatinaCeremonyPage() {
 
   return (
     <div className="katina">
-      <h1>Katina Ceremony</h1>
+      <h1>{t('katina.pageTitle')}</h1>
       {error ? <p className="katina__error">{error.message}</p> : null}
-      {yearsLoading ? <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." /> : null}
-      {!yearsLoading && years.length === 0 ? <p className="katina__empty">No Katina years published yet.</p> : null}
+      {yearsLoading ? <LoadingState message={t('common.loadingColdStart')} /> : null}
+      {!yearsLoading && years.length === 0 ? <p className="katina__empty">{t('katina.noYearsYet')}</p> : null}
       {years.map((y) => (
         <YearSection key={y.year} year={y.year} organizers={y.organizers} />
       ))}

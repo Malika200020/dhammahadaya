@@ -1,5 +1,6 @@
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryImage';
 import { LoadingState } from './LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './PhotoGallery.css';
 
 // Generic admin-uploaded photo gallery grid — shared by Buddha Puja (§12)
@@ -8,7 +9,8 @@ import './PhotoGallery.css';
 // optional — callers that don't track it (or already show their own
 // loading state) can omit it and keep the old empty-means-nothing behavior.
 export function PhotoGallery({ images, loading = false }) {
-  if (loading && images.length === 0) return <LoadingState message="Loading photos…" />;
+  const { t } = useTranslation();
+  if (loading && images.length === 0) return <LoadingState message={t('photoGallery.loading')} />;
   if (images.length === 0) return null;
 
   return (

@@ -3,12 +3,14 @@ import { listBuddhaPujaVideos } from '../api/videos';
 import { getGallery } from '../api/galleries';
 import { VideoGallery } from '../components/VideoGallery';
 import { PhotoGallery } from '../components/PhotoGallery';
+import { useTranslation } from '../i18n/LanguageContext';
 import { buddhaPujaDedicationParagraphs } from '../content/buddhaPujaContent';
 import './BuddhaPujaPage.css';
 
 // build-spec §12 — dedication text, paginated video gallery, then the
 // dated photo gallery (admin-uploaded).
 export function BuddhaPujaPage() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [videoData, setVideoData] = useState(null);
   const [videoError, setVideoError] = useState(null);
@@ -44,7 +46,7 @@ export function BuddhaPujaPage() {
 
   return (
     <div className="buddha-puja">
-      <h1>Buddha Puja</h1>
+      <h1>{t('buddhaPuja.pageTitle')}</h1>
 
       {/* [CONTENT — Sinhala, migrate verbatim] build-spec §12 */}
       <div className="buddha-puja__dedication card">
@@ -70,7 +72,7 @@ export function BuddhaPujaPage() {
         error={videoError}
       />
 
-      <h2 className="buddha-puja__gallery-heading">Photo Gallery</h2>
+      <h2 className="buddha-puja__gallery-heading">{t('about.photoGallery')}</h2>
       <PhotoGallery images={images} loading={imagesLoading} />
     </div>
   );

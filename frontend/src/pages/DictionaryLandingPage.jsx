@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../i18n/LanguageContext';
 import './DictionaryLandingPage.css';
 
 // Landing page for the Dictionary nav item, added when its nav dropdown
@@ -7,15 +8,16 @@ import './DictionaryLandingPage.css';
 // site-wide) — matches the card-grid pattern used by the other former
 // dropdowns (PdfBooksLandingPage, ProgramsLandingPage).
 export function DictionaryLandingPage() {
+  const { t } = useTranslation();
   return (
     <div className="dictionary-landing">
-      <h1>Dictionary</h1>
+      <h1>{t('dictionary.pageTitle')}</h1>
       <div className="dictionary-landing__grid">
         <Link to="/pali-sinhalese-dictionary/" className="dictionary-landing__card card card--interactive">
-          Pali Sinhalese Dictionary
+          {t('dictionary.paliSinhalese')}
         </Link>
         <Link to="/sinhala-dictionary/" className="dictionary-landing__card card card--interactive">
-          Sinhala Dictionary
+          {t('dictionary.sinhala')}
         </Link>
       </div>
     </div>

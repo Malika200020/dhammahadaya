@@ -9,11 +9,6 @@
   padding-bottom: var(--space-3);
 }
 
-.pdf-book-category__title-si {
-  font-weight: 400;
-  color: var(--color-primary-dark);
-}
-
 .pdf-book-category__section {
   margin-top: var(--space-6);
 }

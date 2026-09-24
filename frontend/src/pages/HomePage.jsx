@@ -8,6 +8,7 @@ import { BookingCalendar, getMonthRange } from '../components/BookingCalendar';
 import { LoadingState } from '../components/LoadingState';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
+import { useTranslation } from '../i18n/LanguageContext';
 import { sponsorshipNoteEn } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
 import { contactPostalAddressLines, contactChannels } from '../content/contactContent';
@@ -35,6 +36,7 @@ function phoneFor(label) {
 // /about/).
 export function HomePage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   // Picked once per page load/visit (client request, 2026-09) — a fresh
   // random line every time a user lands on or refreshes the Home page,
   // not re-rolled on every re-render while they stay on it.
@@ -72,16 +74,25 @@ export function HomePage() {
           <img src="/images/golden-buddha.jpg" alt="" className="home__hero-image" />
         </div>
         <div className="home__hero-text card">
-          {heroPaliStanza.split('\n').map((line, i) => (
-            <p key={`pali-${i}`}>{line}</p>
-          ))}
-          <p>{heroConstantLine}</p>
-          {heroRandomLine.split('\n').map((line, i) => (
-            <p key={`random-${i}`}>{line}</p>
-          ))}
-          {heroClosingLine.split('\n').map((line, i) => (
-            <p key={`closing-${i}`}>{line}</p>
-          ))}
+          {/* Two visually distinct groups — the formal Pali invocation, then
+              the Sinhala narrative verse — rather than nine same-weight
+              lines read as one undifferentiated block (client-reported,
+              2026-09: "review and improve the formatting... presented
+              clearly"). */}
+          <div className="home__hero-pali">
+            {heroPaliStanza.split('\n').map((line, i) => (
+              <p key={`pali-${i}`}>{line}</p>
+            ))}
+          </div>
+          <div className="home__hero-verse">
+            <p>{heroConstantLine}</p>
+            {heroRandomLine.split('\n').map((line, i) => (
+              <p key={`random-${i}`}>{line}</p>
+            ))}
+            {heroClosingLine.split('\n').map((line, i) => (
+              <p key={`closing-${i}`}>{line}</p>
+            ))}
+          </div>
         </div>
       </Reveal>
 
@@ -96,7 +107,7 @@ export function HomePage() {
             <p key={i}>{p}</p>
           ))}
           <Link to="/about/" className="btn btn--primary">
-            About Us
+            {t('home.aboutUsButton')}
           </Link>
         </div>
       </Reveal>
@@ -106,45 +117,45 @@ export function HomePage() {
           Posts button moved to the Newsletters page itself (/post/), since
           that's also where their nav dropdown entries moved to. */}
       <Reveal as="section" className="home__section">
-        <h2>Latest Newsletters</h2>
+        <h2>{t('home.latestNewsletters')}</h2>
         {newslettersLoading ? (
-          <LoadingState message="Loading newsletters…" />
+          <LoadingState message={t('home.loadingNewsletters')} />
         ) : (
           <div className="home__newsletter-cards">
             {newsletters.map((entry) => (
               <EntryCard key={entry.id} entry={entry} basePath="/post/" catalogue />
             ))}
-            {newsletters.length === 0 ? <p>No newsletters yet.</p> : null}
+            {newsletters.length === 0 ? <p>{t('home.noNewslettersYet')}</p> : null}
           </div>
         )}
 
         <Link to="/post/" className="btn btn--primary">
-          More Newsletters
+          {t('home.moreNewsletters')}
         </Link>
       </Reveal>
 
       {/* 4.6 Tripitaka section */}
       <Reveal as="section" className="home__section">
-        <h2>Tripitaka</h2>
+        <h2>{t('home.tripitakaHeading')}</h2>
         <div className="home__image-row">
           <div className="home__image-item card card--interactive">
             <img src="/images/Thripitaka-Catalogue-Img.jpg" alt="" />
             <Link to="/tripitaka-catalogs/" className="btn btn--primary">
-              Tripitaka Catalogue
+              {t('home.tripitakaCatalogue')}
             </Link>
             <p className="home__caption">{tripitakaCatalogueCaption}</p>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Thripitaka-Search-Img.jpg" alt="" />
             <Link to="/tripitaka-search/" className="btn btn--primary">
-              Tripitaka Search
+              {t('home.tripitakaSearch')}
             </Link>
             <p className="home__caption">{tripitakaSearchCaption}</p>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Pdf-Book-Img.jpg" alt="" />
             <Link to="/pdf-books/" className="btn btn--primary">
-              PDF Books
+              {t('home.pdfBooks')}
             </Link>
             <p className="home__caption">{pdfBookCaption}</p>
           </div>
@@ -153,12 +164,12 @@ export function HomePage() {
 
       {/* 4.7 Dhamma Sermons section */}
       <Reveal as="section" className="home__section">
-        <h2>Dhamma Sermons</h2>
+        <h2>{t('home.dhammaSermonsHeading')}</h2>
         <div className="home__image-row">
           <div className="home__image-item card card--interactive">
             <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
             <Link to="/dhamma-sermon/" className="btn btn--primary">
-              Dhamma Sermons
+              {t('home.dhammaSermonsButton')}
             </Link>
           </div>
           <div className="home__image-item card card--interactive">
@@ -169,7 +180,7 @@ export function HomePage() {
               rel="noreferrer"
               className="btn btn--primary"
             >
-              YouTube
+              {t('home.youtubeChannel')}
             </a>
           </div>
         </div>
@@ -177,7 +188,7 @@ export function HomePage() {
 
       {/* 4.8 Sponsorships section — reuses the step-8 booking calendar + data */}
       <Reveal as="section" className="home__section">
-        <h2>Sponsorships</h2>
+        <h2>{t('home.sponsorshipsHeading')}</h2>
         <div className="home__sponsorship-card card">
           <div className="home__sponsorship-calendar">
             <BookingCalendar
@@ -195,30 +206,30 @@ export function HomePage() {
           </div>
         </div>
         <Link to="/sponsorship/danaya/" className="btn btn--primary">
-          More Sponsorships
+          {t('home.moreSponsorships')}
         </Link>
       </Reveal>
 
       {/* 4.9 Meritorious deeds & Our Programs */}
       <Reveal as="section" className="home__section">
-        <h2>Meritorious Deeds &amp; Our Programs</h2>
+        <h2>{t('home.meritoriousDeeds')}</h2>
         <div className="home__image-row">
           <div className="home__image-item card card--interactive">
             <img src="/images/Katina-Img.jpg" alt="" />
             <Link to="/katina-ceremony/" className="btn btn--primary">
-              Katina Ceremony
+              {t('home.katinaCeremony')}
             </Link>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Buddha-Puja-Img.jpg" alt="" />
             <Link to="/buddha-puja/" className="btn btn--primary">
-              Buddha Puja
+              {t('home.buddhaPuja')}
             </Link>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Meditation-Img.jpg" alt="" />
             <Link to="/meditation-programs/" className="btn btn--primary">
-              Meditation
+              {t('home.meditation')}
             </Link>
           </div>
         </div>
@@ -241,7 +252,7 @@ export function HomePage() {
             rel="noreferrer"
           >
             <Users size={20} aria-hidden="true" />
-            <span>WhatsApp Group</span>
+            <span>{t('home.whatsappGroup')}</span>
           </a>
           <a
             className="home__social-link"
@@ -250,7 +261,7 @@ export function HomePage() {
             rel="noreferrer"
           >
             <MessageCircle size={20} aria-hidden="true" />
-            <span>WhatsApp</span>
+            <span>{t('home.whatsapp')}</span>
           </a>
           <a
             className="home__social-link"
@@ -259,11 +270,11 @@ export function HomePage() {
             rel="noreferrer"
           >
             <PlaySquare size={20} aria-hidden="true" />
-            <span>YouTube</span>
+            <span>{t('home.youtube')}</span>
           </a>
           <a className="home__social-link" href="https://www.facebook.com/dhammahadaya.net/" target="_blank" rel="noreferrer">
             <ThumbsUp size={20} aria-hidden="true" />
-            <span>Facebook</span>
+            <span>{t('home.facebook')}</span>
           </a>
         </div>
       </Reveal>
@@ -277,9 +288,7 @@ export function HomePage() {
           </div>
           <div className="home__static-contact-row">
             <Phone size={18} aria-hidden="true" />
-            <p>
-              Office phone: {phoneFor('Phone 2')}, {phoneFor('Phone 1')}
-            </p>
+            <p>{t('home.officePhone', { phones: `${phoneFor('Phone 2')}, ${phoneFor('Phone 1')}` })}</p>
           </div>
         </div>
       </Reveal>

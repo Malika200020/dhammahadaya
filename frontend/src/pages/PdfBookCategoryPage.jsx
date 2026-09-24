@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getPdfBookCategory } from '../api/pdfBooks';
 import { LoadingState } from '../components/LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './PdfBookCategoryPage.css';
 
 function Subsections({ subsections }) {
@@ -48,6 +49,7 @@ function SectionTabs({ groups }) {
 }
 
 function PdfEntryRow({ entry }) {
+  const { t } = useTranslation();
   if (entry.link_status === 'no_link_yet') {
     // Visible placeholder, not a broken link and not hidden — build-spec
     // §8.3 explicitly tracks these as a distinct "no link yet" state so
@@ -55,7 +57,7 @@ function PdfEntryRow({ entry }) {
     return (
       <li className="pdf-entry pdf-entry--pending" aria-disabled="true">
         <span className="pdf-entry__title">{entry.title}</span>
-        <span className="pdf-entry__badge pdf-entry__badge--pending">Coming soon</span>
+        <span className="pdf-entry__badge pdf-entry__badge--pending">{t('pdfBooks.comingSoon')}</span>
       </li>
     );
   }
@@ -65,7 +67,7 @@ function PdfEntryRow({ entry }) {
         {entry.title}
       </a>
       {entry.link_status === 'available_new' ? (
-        <span className="pdf-entry__badge pdf-entry__badge--new">New</span>
+        <span className="pdf-entry__badge pdf-entry__badge--new">{t('pdfBooks.new')}</span>
       ) : null}
     </li>
   );
@@ -76,6 +78,7 @@ function PdfEntryRow({ entry }) {
 // (section -> subsection -> entries) and ordering come entirely from the
 // API, which preserves the source data's row order.
 export function PdfBookCategoryPage({ slug }) {
+  const { language, t } = useTranslation();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -98,17 +101,14 @@ export function PdfBookCategoryPage({ slug }) {
     };
   }, [slug]);
 
-  if (error) return <p className="pdf-book-category__error">Failed to load: {error.message}</p>;
-  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
+  if (error) return <p className="pdf-book-category__error">{t('common.failedToLoad', { message: error.message })}</p>;
+  if (loading) return <LoadingState message={t('common.loadingColdStart')} />;
   if (!data) return null;
 
   return (
     <div className="pdf-book-category">
       <header className="pdf-book-category__header">
-        <h1>
-          {data.titleEn}
-          {data.titleSi ? <span className="pdf-book-category__title-si"> — {data.titleSi}</span> : null}
-        </h1>
+        <h1>{(language === 'en' ? data.titleEn : data.titleSi) || data.titleEn}</h1>
       </header>
 
       {data.sectionTabs ? (

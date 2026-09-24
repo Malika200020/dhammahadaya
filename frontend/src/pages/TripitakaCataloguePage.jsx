@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { searchTripitakaCatalogue } from '../api/catalogue';
 import { usePaginatedSearch, MIN_QUERY_LENGTH } from '../hooks/usePaginatedSearch';
 import { SearchableTable } from '../components/SearchableTable';
+import { useTranslation } from '../i18n/LanguageContext';
 import {
   catalogueIntroParagraphs,
   catalogueColumnLegend,
@@ -42,6 +43,7 @@ function CatalogueStaticContent() {
 }
 
 export function TripitakaCataloguePage() {
+  const { t } = useTranslation();
   const fetchPage = useCallback(
     ({ query, page, pageSize }) => searchTripitakaCatalogue({ query, page, pageSize }),
     []
@@ -53,7 +55,7 @@ export function TripitakaCataloguePage() {
     <SearchableTable
       titleEn={data?.titleEn ?? ''}
       titleSi={data?.titleSi}
-      searchPlaceholder="Search sutta name, nikaya, vagga... / සූත්‍ර නාමය සොයන්න..."
+      searchPlaceholder={t('tripitakaCatalogue.searchPlaceholder')}
       inputValue={inputValue}
       onInputChange={setInputValue}
       columns={data?.columns ?? []}

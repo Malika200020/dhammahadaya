@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { submitInquiry } from '../api/inquiries';
+import { useTranslation } from '../i18n/LanguageContext';
 import './InquiryForm.css';
 
 const EMPTY_FORM = { name: '', email: '', phone: '', message: '' };
@@ -9,6 +10,7 @@ const EMPTY_FORM = { name: '', email: '', phone: '', message: '' };
 // (same component, same /api/inquiries endpoint — nothing Contact-Us-
 // specific about it).
 export function InquiryForm() {
+  const { t } = useTranslation();
   const [form, setForm] = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -36,27 +38,27 @@ export function InquiryForm() {
   return (
     <form className="inquiry-form" onSubmit={handleSubmit}>
       <label>
-        Name
+        {t('common.name')}
         <input value={form.name} onChange={(e) => updateField('name', e.target.value)} required />
       </label>
       <label>
-        Email
+        {t('common.email')}
         <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} required />
       </label>
       <label>
-        Phone Number
+        {t('common.phoneNumber')}
         <input value={form.phone} onChange={(e) => updateField('phone', e.target.value)} />
       </label>
       <label>
-        Message
+        {t('common.message')}
         <textarea value={form.message} onChange={(e) => updateField('message', e.target.value)} rows={4} required />
       </label>
 
       {error ? <p className="inquiry-form__error">{error}</p> : null}
-      {success ? <p className="inquiry-form__success">Thank you — your message has been sent.</p> : null}
+      {success ? <p className="inquiry-form__success">{t('inquiryForm.success')}</p> : null}
 
       <button type="submit" className="btn btn--primary" disabled={submitting}>
-        {submitting ? 'Sending...' : 'Send'}
+        {submitting ? t('common.sending') : t('common.send')}
       </button>
     </form>
   );

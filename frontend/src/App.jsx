@@ -10,6 +10,7 @@ import { TripitakaCataloguePage } from './pages/TripitakaCataloguePage';
 import { TripitakaLandingPage } from './pages/TripitakaLandingPage';
 import { NewslettersLandingPage } from './pages/NewslettersLandingPage';
 import { SponsorshipLandingPage } from './pages/SponsorshipLandingPage';
+import { AcknowledgementPage } from './pages/AcknowledgementPage';
 import { EntryListPage } from './pages/EntryListPage';
 import { EntryDetailPage } from './pages/EntryDetailPage';
 import { PdfBooksLandingPage } from './pages/PdfBooksLandingPage';
@@ -59,6 +60,7 @@ import { AdminSessionProvider } from './components/admin/AdminSessionProvider';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
 import { DHAMMA_SERMON_SERIES_SLUGS } from './config/dhammaSermonSeries';
 import { useTheme } from './hooks/useTheme';
+import { LanguageProvider } from './i18n/LanguageContext';
 
 // Article-list pattern (build-spec §3) routes: same two components, one
 // per entry-type slug — see frontend/src/config/entryTypes.js.
@@ -101,17 +103,18 @@ export function App() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <BrowserRouter>
-      <GlobalNavBar theme={theme} toggleTheme={toggleTheme} />
-      <Routes>
+    <LanguageProvider>
+      <BrowserRouter>
+        <GlobalNavBar theme={theme} toggleTheme={toggleTheme} />
+        <Routes>
         <Route path="/dictionary/" element={<DictionaryLandingPage />} />
         <Route
           path="/pali-sinhalese-dictionary/"
-          element={<DictionaryPage key="pali-sinhalese-dictionary" slug="pali-sinhalese-dictionary" searchPlaceholder="Search Pali word... / පාලි වචනය සොයන්න..." />}
+          element={<DictionaryPage key="pali-sinhalese-dictionary" slug="pali-sinhalese-dictionary" />}
         />
         <Route
           path="/sinhala-dictionary/"
-          element={<DictionaryPage key="sinhala-dictionary" slug="sinhala-dictionary" searchPlaceholder="Search Sinhala word... / වචනය සොයන්න..." />}
+          element={<DictionaryPage key="sinhala-dictionary" slug="sinhala-dictionary" />}
         />
         <Route path="/tripitaka-catalogs/" element={<TripitakaCataloguePage />} />
         <Route path="/newsletters/" element={<NewslettersLandingPage />} />
@@ -136,6 +139,7 @@ export function App() {
         <Route path="/sponsorship/" element={<SponsorshipLandingPage />} />
         <Route path="/sponsorship/danaya/" element={<SponsorshipPage category="danaya" />} />
         <Route path="/sponsorship/development-projects/" element={<SponsorshipPage category="development" />} />
+        <Route path="/sponsorship/acknowledgement/" element={<AcknowledgementPage />} />
         <Route path="/meditation-programs/" element={<MeditationProgramsPage />} />
         <Route path="/katina-ceremony/" element={<KatinaCeremonyPage />} />
         <Route path="/programs/" element={<ProgramsLandingPage />} />
@@ -226,6 +230,7 @@ export function App() {
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
       <GlobalFooter />
-    </BrowserRouter>
+      </BrowserRouter>
+    </LanguageProvider>
   );
 }

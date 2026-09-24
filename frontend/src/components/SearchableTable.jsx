@@ -1,4 +1,5 @@
 import { LoadingState } from './LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './SearchableTable.css';
 
 // Source data for linkable segments carries a literal leading `"PDF"`
@@ -97,6 +98,7 @@ export function SearchableTable({
   minQueryLength,
   children,
 }) {
+  const { language, t } = useTranslation();
   const hasGroups = columns.some((col) => col.group);
   const groupRuns = hasGroups ? buildGroupRuns(columns) : [];
   const groupEndKeys = hasGroups
@@ -111,10 +113,11 @@ export function SearchableTable({
     <div className="searchable-table">
       {titleEn ? (
         <header className="searchable-table__header">
-          <h1>
-            {titleEn}
-            {titleSi ? <span className="searchable-table__title-si"> — {titleSi}</span> : null}
-          </h1>
+          {/* titleEn/titleSi are already-bilingual (the API sends both) —
+              picks whichever matches the current language instead of
+              always showing both together, per the "no mixed-language
+              experience" requirement (client request, 2026-09). */}
+          <h1>{(language === 'en' ? titleEn : titleSi) || titleEn}</h1>
         </header>
       ) : null}
 
@@ -130,18 +133,14 @@ export function SearchableTable({
       />
 
       {error ? (
-        <p className="searchable-table__error">Search failed: {error.message}</p>
+        <p className="searchable-table__error">{t('searchableTable.searchFailed', { message: error.message })}</p>
       ) : tooShort ? (
-        <p className="searchable-table__hint">Type at least {minQueryLength} characters to search.</p>
+        <p className="searchable-table__hint">{t('searchableTable.typeAtLeast', { n: minQueryLength })}</p>
       ) : loading && rows.length === 0 ? (
-        <LoadingState message="Loading… the first search of the day can take up to a minute while the server wakes up." />
+        <LoadingState message={t('common.searchingColdStart')} />
       ) : (
         <>
-          {hasGroups ? (
-            <p className="searchable-table__scroll-hint">
-              ⟷ Scroll sideways to see all columns / වගුව සම්පූර්ණයෙන් බැලීමට වමට/දකුණට අනුචලනය කරන්න
-            </p>
-          ) : null}
+          {hasGroups ? <p className="searchable-table__scroll-hint">{t('searchableTable.scrollHint')}</p> : null}
           <div className="searchable-table__scroll">
           <table className={`searchable-table__table${hasGroups ? ' searchable-table__table--grouped' : ''}`}>
             <thead>
@@ -196,7 +195,7 @@ export function SearchableTable({
               {!loading && rows.length === 0 ? (
                 <tr>
                   <td colSpan={columns.length} className="searchable-table__empty">
-                    No results.
+                    {t('searchableTable.noResults')}
                   </td>
                 </tr>
               ) : null}
@@ -211,18 +210,16 @@ export function SearchableTable({
               disabled={page <= 1 || loading}
               onClick={() => onPageChange(page - 1)}
             >
-              Previous
+              {t('common.previous')}
             </button>
-            <span>
-              Page {page} of {totalPages} ({totalRows.toLocaleString()} results)
-            </span>
+            <span>{t('searchableTable.pageOfResults', { page, total: totalPages, count: totalRows.toLocaleString() })}</span>
             <button
               type="button"
               className="btn btn--secondary btn--sm"
               disabled={page >= totalPages || loading}
               onClick={() => onPageChange(page + 1)}
             >
-              Next
+              {t('common.next')}
             </button>
           </div>
         </>

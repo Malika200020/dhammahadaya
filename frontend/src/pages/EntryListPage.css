@@ -22,11 +22,6 @@
   padding-bottom: var(--space-3);
 }
 
-.entry-list__title-si {
-  font-weight: 400;
-  color: var(--color-primary-dark);
-}
-
 .entry-list__cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

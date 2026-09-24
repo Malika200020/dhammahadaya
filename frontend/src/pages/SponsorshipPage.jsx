@@ -1,9 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getSponsorshipCalendar, createSponsorshipBooking } from '../api/sponsorship';
 import { BookingCalendar, getMonthRange } from '../components/BookingCalendar';
 import { DevelopmentBankDetails } from './DevelopmentPage';
-import { sponsorshipHeader, sponsorshipNoteEn, sponsorshipNoteSi } from '../content/sponsorshipContent';
+import { useTranslation } from '../i18n/LanguageContext';
+import { sponsorshipNoteEn, sponsorshipNoteSi } from '../content/sponsorshipContent';
 import './SponsorshipPage.css';
 
 const EMPTY_FORM = { name: '', email: '', phone: '', objective: '', mailingAddress: '' };
@@ -16,8 +16,11 @@ const EMPTY_FORM = { name: '', email: '', phone: '', objective: '', mailingAddre
 // used by Dictionary/Programs/Dhamma Sermons (client request, 2026-09).
 // `category` picks which one this route renders; no in-page toggle between
 // them any more, for the same reason those other sections don't have one.
+// The page's own EN/SI toggle was replaced by the global nav-bar language
+// toggle (client request, 2026-09) — reads the current language instead of
+// keeping its own local state.
 export function SponsorshipPage({ category }) {
-  const [language, setLanguage] = useState('en');
+  const { language, t } = useTranslation();
   const [bookings, setBookings] = useState([]);
   // Bookings start empty and every date defaults to "available" (see
   // BookingCalendar) — without this flag, the calendar would render as
@@ -60,7 +63,7 @@ export function SponsorshipPage({ category }) {
     setError(null);
     setSuccess(null);
     if (!selectedDate) {
-      setError('Please select an available date from the calendar.');
+      setError(t('sponsorship.selectDateError'));
       return;
     }
     setSubmitting(true);
@@ -73,7 +76,7 @@ export function SponsorshipPage({ category }) {
         objective: form.objective,
         mailing_address: form.mailingAddress || null,
       });
-      setSuccess(`Thank you — your booking for ${selectedDate} has been submitted and is now Pending review.`);
+      setSuccess(t('sponsorship.bookingSuccess', { date: selectedDate }));
       setForm(EMPTY_FORM);
       setSelectedDate(null);
       reloadCurrentMonth();
@@ -87,43 +90,16 @@ export function SponsorshipPage({ category }) {
 
   return (
     <div className="sponsorship">
-      <h1>{category === 'development' ? 'Development Projects' : sponsorshipHeader}</h1>
+      <h1>{category === 'development' ? t('sponsorship.developmentHeading') : t('sponsorship.pageTitle')}</h1>
 
       {category === 'development' ? (
         <div className="sponsorship__development">
           <DevelopmentBankDetails />
-          <div className="sponsorship__development-links">
-            <Link to="/special-thanks/" className="btn btn--secondary btn--sm">
-              Special Thanks
-            </Link>
-            <Link to="/honorable-tribute/" className="btn btn--secondary btn--sm">
-              Honorable Tribute
-            </Link>
-            <Link to="/siri-sugatha-sasana-bandumathi/" className="btn btn--secondary btn--sm">
-              Siri Sugatha Sasana Bandumathi
-            </Link>
-          </div>
+          <p className="sponsorship__development-status">{t('sponsorship.developmentStatus')}</p>
         </div>
       ) : (
         <>
           <div className="sponsorship__note card">
-            <div className="sponsorship__toggle">
-              <button
-                type="button"
-                className={language === 'en' ? 'sponsorship__toggle-btn sponsorship__toggle-btn--active' : 'sponsorship__toggle-btn'}
-                onClick={() => setLanguage('en')}
-              >
-                English
-              </button>
-              <button
-                type="button"
-                className={language === 'si' ? 'sponsorship__toggle-btn sponsorship__toggle-btn--active' : 'sponsorship__toggle-btn'}
-                onClick={() => setLanguage('si')}
-              >
-                සිංහල
-              </button>
-            </div>
-
             {/* [CONTENT — Sinhala/English, migrate verbatim] build-spec §10 */}
             {note.paragraphs.map((paragraph, i) => (
               <p key={i}>
@@ -143,11 +119,9 @@ export function SponsorshipPage({ category }) {
             </ol>
           </div>
 
-          <h2 className="sponsorship__section-heading">Select a date</h2>
+          <h2 className="sponsorship__section-heading">{t('sponsorship.selectDate')}</h2>
           {calendarError ? (
-            <p className="sponsorship__error">
-              Couldn't load date availability. Please refresh the page before selecting a date, so you don't pick one that's already taken.
-            </p>
+            <p className="sponsorship__error">{t('sponsorship.calendarError')}</p>
           ) : (
             <BookingCalendar
               bookings={bookings}
@@ -158,38 +132,42 @@ export function SponsorshipPage({ category }) {
             />
           )}
 
-          <h2 className="sponsorship__section-heading">Booking form</h2>
+          <h2 className="sponsorship__section-heading">{t('sponsorship.bookingForm')}</h2>
           <form className="sponsorship__form" onSubmit={handleSubmit}>
             <label>
-              Name | නම
+              {t('common.name')}
               <input value={form.name} onChange={(e) => updateField('name', e.target.value)} required />
             </label>
             <label>
-              Email | ඊ ලිපිනය
+              {t('common.email')}
               <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} required />
             </label>
             <label>
-              Phone Number | දුරකථන අංකය
+              {t('common.phoneNumber')}
               <input value={form.phone} onChange={(e) => updateField('phone', e.target.value)} required />
             </label>
             <label>
-              Date | දිනය
-              <input value={selectedDate ?? ''} placeholder="Select a date from the calendar above" readOnly required />
+              {t('sponsorship.selectDate')}
+              <input value={selectedDate ?? ''} placeholder={t('sponsorship.datePlaceholder')} readOnly required />
             </label>
             <label>
-              Details / Objective | අරමුණ
+              {t('sponsorship.detailsObjective')}
               <textarea value={form.objective} onChange={(e) => updateField('objective', e.target.value)} rows={3} required />
             </label>
             <label>
-              Mailing Address | තැපැල් ලිපිනය
-              <input value={form.mailingAddress} onChange={(e) => updateField('mailingAddress', e.target.value)} placeholder="optional" />
+              {t('sponsorship.mailingAddress')}
+              <input
+                value={form.mailingAddress}
+                onChange={(e) => updateField('mailingAddress', e.target.value)}
+                placeholder={t('sponsorship.optional')}
+              />
             </label>
 
             {error ? <p className="sponsorship__error">{error}</p> : null}
             {success ? <p className="sponsorship__success">{success}</p> : null}
 
             <button type="submit" className="btn btn--primary" disabled={submitting}>
-              {submitting ? 'Sending...' : 'Send'}
+              {submitting ? t('common.sending') : t('common.send')}
             </button>
           </form>
         </>

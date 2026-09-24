@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { submitMeditationApplication } from '../api/meditation';
 import { Recaptcha, RECAPTCHA_ENABLED } from '../components/Recaptcha';
+import { useTranslation } from '../i18n/LanguageContext';
 import { meditationRulesParagraphs, meditationPledgeEn, meditationPledgeSi } from '../content/meditationContent';
 import './MeditationProgramsPage.css';
 
@@ -24,6 +25,7 @@ function stayDays(from, to) {
 }
 
 export function MeditationProgramsPage() {
+  const { language, t } = useTranslation();
   const [form, setForm] = useState(EMPTY_FORM);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -43,15 +45,15 @@ export function MeditationProgramsPage() {
     setSuccess(null);
 
     if (stayTooLong) {
-      setError(`Stay must be at most ${MAX_STAY_DAYS} days (From Date through To Date, inclusive).`);
+      setError(t('meditation.stayTooLongError', { max: MAX_STAY_DAYS }));
       return;
     }
     if (!form.agreed) {
-      setError('You must agree to the terms.');
+      setError(t('meditation.mustAgreeError'));
       return;
     }
     if (RECAPTCHA_ENABLED && !recaptchaToken) {
-      setError('Please complete the "I\'m not a robot" check.');
+      setError(t('meditation.recaptchaError'));
       return;
     }
 
@@ -70,7 +72,7 @@ export function MeditationProgramsPage() {
         agreed: form.agreed,
         recaptcha_token: recaptchaToken,
       });
-      setSuccess('Thank you — your registration has been submitted. The monastery will be in touch.');
+      setSuccess(t('meditation.successMessage'));
       setForm(EMPTY_FORM);
       setRecaptchaToken(null);
     } catch (err) {
@@ -82,7 +84,7 @@ export function MeditationProgramsPage() {
 
   return (
     <div className="meditation">
-      <h1>Meditation Programs</h1>
+      <h1>{t('meditation.pageTitle')}</h1>
 
       {/* [CONTENT — Sinhala, migrate verbatim] build-spec §13 */}
       <div className="meditation__rules card">
@@ -91,36 +93,34 @@ export function MeditationProgramsPage() {
         ))}
       </div>
 
-      <h2 className="meditation__section-heading">Registration</h2>
+      <h2 className="meditation__section-heading">{t('meditation.registration')}</h2>
       <form className="meditation__form" onSubmit={handleSubmit}>
         <label>
-          Name | නම
+          {t('common.name')}
           <input value={form.name} onChange={(e) => updateField('name', e.target.value)} required />
         </label>
         <label>
-          Email
+          {t('common.email')}
           <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} required />
         </label>
         <label>
-          Phone Number
+          {t('common.phoneNumber')}
           <input value={form.phone} onChange={(e) => updateField('phone', e.target.value)} required />
         </label>
         <label>
-          From Date (MAX 7 days) | දින සිට (උපරිම දින 7)
+          {t('meditation.fromDate', { max: MAX_STAY_DAYS })}
           <input type="date" value={form.fromDate} onChange={(e) => updateField('fromDate', e.target.value)} required />
         </label>
         <label>
-          To Date
+          {t('meditation.toDate')}
           <input type="date" value={form.toDate} onChange={(e) => updateField('toDate', e.target.value)} required />
         </label>
         {stayTooLong ? (
-          <p className="meditation__field-error">
-            That's {days} days — the maximum stay is {MAX_STAY_DAYS} days.
-          </p>
+          <p className="meditation__field-error">{t('meditation.stayTooLongNotice', { days, max: MAX_STAY_DAYS })}</p>
         ) : null}
 
         <fieldset className="meditation__fieldset">
-          <legend>Experience of meditation | භාවනා පුහුණු / නුපුහුණු බව</legend>
+          <legend>{t('meditation.experienceLabel')}</legend>
           <label className="meditation__radio">
             <input
               type="radio"
@@ -130,7 +130,7 @@ export function MeditationProgramsPage() {
               onChange={() => updateField('experience', 'yes')}
               required
             />
-            Yes / භාවනා පුහුණු
+            {t('meditation.experienceYes')}
           </label>
           <label className="meditation__radio">
             <input
@@ -140,31 +140,26 @@ export function MeditationProgramsPage() {
               checked={form.experience === 'no'}
               onChange={() => updateField('experience', 'no')}
             />
-            No / නුපුහුණු බව
+            {t('meditation.experienceNo')}
           </label>
         </fieldset>
 
         <label>
-          Types of meditation performed | කරන ලද භාවනා වර්ග
+          {t('meditation.meditationTypesLabel')}
           <input value={form.meditationTypes} onChange={(e) => updateField('meditationTypes', e.target.value)} />
         </label>
         <label>
-          Who were your previous meditation teachers? | ඔබේ කලින් භාවනා ගුරුවරුන් කවුද?
+          {t('meditation.previousTeachersLabel')}
           <input value={form.previousTeachers} onChange={(e) => updateField('previousTeachers', e.target.value)} />
         </label>
         <label>
-          What are the current diseases? | දැනට පවතින රෝග මොනවාද?
+          {t('meditation.currentDiseasesLabel')}
           <textarea value={form.currentDiseases} onChange={(e) => updateField('currentDiseases', e.target.value)} rows={2} />
         </label>
 
         <label className="meditation__agree">
           <input type="checkbox" checked={form.agreed} onChange={(e) => updateField('agreed', e.target.checked)} required />
-          <span>
-            {meditationPledgeEn}
-            <br />
-            <br />
-            {meditationPledgeSi}
-          </span>
+          <span>{language === 'en' ? meditationPledgeEn : meditationPledgeSi}</span>
         </label>
 
         <Recaptcha onChange={setRecaptchaToken} />
@@ -173,7 +168,7 @@ export function MeditationProgramsPage() {
         {success ? <p className="meditation__success">{success}</p> : null}
 
         <button type="submit" className="btn btn--primary" disabled={submitting}>
-          {submitting ? 'Sending...' : 'Send'}
+          {submitting ? t('common.sending') : t('common.send')}
         </button>
       </form>
     </div>

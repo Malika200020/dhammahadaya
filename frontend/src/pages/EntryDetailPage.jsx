@@ -3,11 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import { getEntry } from '../api/entries';
 import { optimizeCloudinaryUrl, optimizeCloudinaryUrlsInHtml } from '../utils/cloudinaryImage';
 import { LoadingState } from '../components/LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import './EntryDetailPage.css';
 
 // Full entry + previous/next navigation (build-spec §3). Same component
 // for all three entry types — configured only by `slug`.
 export function EntryDetailPage({ slug }) {
+  const { t } = useTranslation();
   const basePath = `/${slug}/`;
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -33,8 +35,8 @@ export function EntryDetailPage({ slug }) {
     };
   }, [slug, id]);
 
-  if (loading) return <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />;
-  if (error) return <p className="entry-detail__error">Failed to load: {error.message}</p>;
+  if (loading) return <LoadingState message={t('common.loadingColdStart')} />;
+  if (error) return <p className="entry-detail__error">{t('common.failedToLoad', { message: error.message })}</p>;
   if (!data) return null;
 
   const { entry, prev, next } = data;
@@ -43,9 +45,9 @@ export function EntryDetailPage({ slug }) {
   return (
     <div className="entry-detail">
       <Link to={basePath} className="btn btn--secondary btn--sm entry-detail__back">
-        « Back to list
+        {t('common.backToList')}
       </Link>
-      {showEpisodeNumber ? <span className="entry-detail__episode">Episode {entry.order}</span> : null}
+      {showEpisodeNumber ? <span className="entry-detail__episode">{t('entryDetail.episode', { n: entry.order })}</span> : null}
       <h1>{entry.title_si}</h1>
       {entry.cover_image ? <img src={optimizeCloudinaryUrl(entry.cover_image)} alt="" className="entry-detail__image" /> : null}
       {/* Body is admin-authored rich text (behind auth), not user-submitted — rendered trusted, as-is. */}
@@ -56,7 +58,7 @@ export function EntryDetailPage({ slug }) {
           <Link to={`${basePath}${prev.id}/`} className="entry-detail__nav-link entry-detail__nav-link--prev">
             <span className="entry-detail__nav-arrow">«</span>
             <span className="entry-detail__nav-text">
-              <span className="entry-detail__nav-label">Previous</span>
+              <span className="entry-detail__nav-label">{t('common.previous')}</span>
               <span className="entry-detail__nav-title">{prev.title_si}</span>
             </span>
           </Link>
@@ -66,7 +68,7 @@ export function EntryDetailPage({ slug }) {
         {next ? (
           <Link to={`${basePath}${next.id}/`} className="entry-detail__nav-link entry-detail__nav-link--next">
             <span className="entry-detail__nav-text">
-              <span className="entry-detail__nav-label">Next</span>
+              <span className="entry-detail__nav-label">{t('common.next')}</span>
               <span className="entry-detail__nav-title">{next.title_si}</span>
             </span>
             <span className="entry-detail__nav-arrow">»</span>

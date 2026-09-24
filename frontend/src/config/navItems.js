@@ -18,14 +18,18 @@
 // on the Tripitaka landing page. Development no longer has its own entry —
 // its bank-detail content moved to the Sponsorships → Development Projects
 // page.
+//
+// `labelKey` (client request, 2026-09: global language toggle) looks up
+// the label in i18n/translations.js instead of a literal string, so the
+// nav re-renders in whichever language is currently selected.
 export const NAV_ITEMS = [
-  { label: 'Dhammahadaya', to: '/' },
-  { label: 'Newsletters', to: '/newsletters/' },
-  { label: 'Tripitaka', to: '/tripitaka/' },
-  { label: 'Dictionary', to: '/dictionary/' },
-  { label: 'Dhamma Sermons', to: '/dhamma-sermon/' },
-  { label: 'Programs', to: '/programs/' },
-  { label: 'Sponsorships', to: '/sponsorship/' },
-  { label: 'Contact Us', to: '/contact-us/' },
-  { label: 'About us', to: '/about/' },
+  { labelKey: 'nav.home', to: '/' },
+  { labelKey: 'nav.newsletters', to: '/newsletters/' },
+  { labelKey: 'nav.tripitaka', to: '/tripitaka/' },
+  { labelKey: 'nav.dictionary', to: '/dictionary/' },
+  { labelKey: 'nav.dhammaSermons', to: '/dhamma-sermon/' },
+  { labelKey: 'nav.programs', to: '/programs/' },
+  { labelKey: 'nav.sponsorships', to: '/sponsorship/' },
+  { labelKey: 'nav.contactUs', to: '/contact-us/' },
+  { labelKey: 'nav.aboutUs', to: '/about/' },
 ];

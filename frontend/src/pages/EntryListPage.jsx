@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { listEntries } from '../api/entries';
 import { EntryCard } from '../components/EntryCard';
 import { LoadingState } from '../components/LoadingState';
+import { useTranslation } from '../i18n/LanguageContext';
 import { apeBuduHamuduruwoHeader, apeBuduHamuduruwoIntroParagraphs } from '../content/apeBuduHamuduruwoContent';
 import './EntryListPage.css';
 
@@ -14,6 +15,7 @@ import './EntryListPage.css';
 // Important Articles/§5.4 don't have one) — rendered above the list only
 // for that slug.
 export function EntryListPage({ slug }) {
+  const { language, t } = useTranslation();
   const basePath = `/${slug}/`;
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
@@ -39,7 +41,16 @@ export function EntryListPage({ slug }) {
     };
   }, [slug, page]);
 
-  if (error) return <p className="entry-list__error">Failed to load: {error.message}</p>;
+  if (error) return <p className="entry-list__error">{t('common.failedToLoad', { message: error.message })}</p>;
+
+  // The API already returns both titleEn and titleSi for these entry types
+  // (already-bilingual content, unlike the entries themselves) — picks
+  // whichever matches the current language instead of always showing both
+  // at once, per the "no mixed-language experience" requirement. Posts is
+  // the one exception: its own titleEn/titleSi still say "Post(s)" — this
+  // site calls it "Newsletters" instead (client request, 2026-09), so that
+  // override takes priority over the API's own title for that slug only.
+  const title = slug === 'post' ? t('nav.newsletters') : (language === 'en' ? data?.titleEn : data?.titleSi) ?? data?.titleEn ?? '';
 
   return (
     <div className="entry-list">
@@ -53,38 +64,33 @@ export function EntryListPage({ slug }) {
       ) : null}
 
       <header className="entry-list__header">
-        <h1>
-          {data?.titleEn ?? ''}
-          {data?.titleSi ? <span className="entry-list__title-si"> — {data.titleSi}</span> : null}
-        </h1>
+        <h1>{title}</h1>
       </header>
 
       {loading && !data ? (
-        <LoadingState message="Loading… the first load of the day can take up to a minute while the server wakes up." />
+        <LoadingState message={t('common.loadingColdStart')} />
       ) : (
         <div className="entry-list__cards">
           {(data?.entries ?? []).map((entry) => (
             <EntryCard key={entry.id} entry={entry} basePath={basePath} catalogue={slug === 'post'} />
           ))}
-          {!loading && data && data.entries.length === 0 ? <p>No entries yet.</p> : null}
+          {!loading && data && data.entries.length === 0 ? <p>{t('common.noEntriesYet')}</p> : null}
         </div>
       )}
 
       {data && data.totalPages > 1 ? (
         <div className="entry-list__pagination">
           <button type="button" className="btn btn--secondary btn--sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-            Previous
+            {t('common.previous')}
           </button>
-          <span>
-            Page {data.page} of {data.totalPages}
-          </span>
+          <span>{t('common.pageOf', { page: data.page, total: data.totalPages })}</span>
           <button
             type="button"
             className="btn btn--secondary btn--sm"
             disabled={page >= data.totalPages}
             onClick={() => setPage((p) => p + 1)}
           >
-            Next
+            {t('common.next')}
           </button>
         </div>
       ) : null}
