@@ -130,19 +130,74 @@ function bookingReceivedEmail(booking) {
   });
 }
 
-// pending -> booked.
+// pending -> booked. Bank details are specific to this daily-dana
+// sponsorship account (client-provided, 2026-09) — a different account
+// from the one on the Development Projects page, so deliberately not
+// reused from DevelopmentPage.jsx/DevelopmentBankDetails. Built directly
+// (not via composeBookingEmail) since this is the one email with a second,
+// differently-purposed details table (the bank account) alongside the
+// booking's own details — greetingName still carries booking.name, same as
+// every other stage email, so the sponsor's name is always in the greeting.
 function bookingConfirmedEmail(booking) {
-  return composeBookingEmail({
-    subject: 'Your Dhammahadaya sponsorship booking is confirmed',
-    greetingName: booking.name,
-    introLines: ['Your sponsorship booking has been confirmed by Dhammahadaya Senasanaya.'],
-    detailRows: [
-      ['Date', formatDate(booking.date)],
-      ['Status', 'Confirmed'],
-      ['Objective', booking.objective],
-    ],
-    closingLines: ['Thank you for your generosity. May the Triple Gem protect you!', 'Dhammahadaya Forest Monastery'],
-  });
+  const subject = 'Your Dhammahadaya sponsorship booking is confirmed';
+  const dateStr = formatDate(booking.date);
+
+  const bankRows = [
+    ['Account Name', 'Dhammahadaya Senasanaya'],
+    ['Account Number', '1097 6100 4111'],
+    ['Bank Name', 'Sampath Bank'],
+    ['Branch', 'Balangoda'],
+    ['SWIFT Code', 'BSAMLKLX'],
+  ];
+
+  const introLines = [
+    `Your sponsorship booking for: ${dateStr} has been approved.`,
+    'We offer merit to you for offering to sponsor daily requirements at the Dhammahadaya Monastery in Balangoda. There are meditating Monks residing at the Monastery and these donations will support the alms, medicines, travel, education, and the maintenance of the Monastery so as to allow the Monks to focus on treading on the righteous path.',
+    `We respectfully confirm and accept ${dateStr}, which you have chosen for the daily donation. Kindly deposit the donation in the following Bank account.`,
+  ];
+  const afterBankLines = [
+    'In order to maintain a proper record of accounts by the Treasurer, we kindly request you to Email or WhatsApp a photo or scan of the remittance advice to,',
+  ];
+  const contactRows = [
+    ['Email', 'dhammahadayasenasanaya@gmail.com'],
+    ['Mobile', '+94 70 216 4642'],
+  ];
+  const closingLines = [
+    'May the merits gained by this meritorious deed helps you and your loved ones to tread the samsaric journey with ease till you reach the supreme bliss of Nibbana in the shortest possible time.',
+    'May the Triple-gem protect you!',
+    'Dhammahadaya Senasanaya',
+  ];
+
+  const text = [
+    `Dear ${booking.name},`,
+    '',
+    ...introLines,
+    '',
+    ...bankRows.map(([label, value]) => `${label}: ${value}`),
+    '',
+    ...afterBankLines,
+    '',
+    ...contactRows.map(([label, value]) => `${label}: ${value}`),
+    '',
+    ...closingLines,
+  ].join('\n');
+
+  const paragraph = (line) => `<p style="font-size:15px; line-height:1.6; margin:0 0 12px;">${escapeHtml(line)}</p>`;
+
+  const bodyHtml = [
+    paragraph(`Dear ${booking.name},`),
+    ...introLines.map(paragraph),
+    detailsTableHtml(bankRows),
+    ...afterBankLines.map(paragraph),
+    detailsTableHtml(contactRows),
+    ...closingLines.map((line, i) =>
+      i === closingLines.length - 1
+        ? `<p style="font-size:15px; line-height:1.6; margin:12px 0 0; font-weight:600;">${escapeHtml(line)}</p>`
+        : paragraph(line)
+    ),
+  ].join('');
+
+  return { subject, text, html: wrapHtml({ title: subject, bodyHtml }) };
 }
 
 // pending -> declined.
