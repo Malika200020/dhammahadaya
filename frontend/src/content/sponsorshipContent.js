@@ -6,6 +6,11 @@
 // line was a sentence fragment, "Sir/ Madam" had a stray space, and the
 // main paragraph had a subject-verb mismatch ("contributions ... provides")
 // plus two awkward definite articles. Meaning and tone left unchanged.
+// paragraphs[3]'s closing sentence was later replaced wholesale with the
+// client's own rewritten dedication sentence (client request, 2026-09) —
+// this shows on both the Home page preview and the full Sponsorship page,
+// since both read from this same array. sponsorshipNoteSi is untouched —
+// no Sinhala version of the new sentence was given.
 
 export const sponsorshipHeader = "Sponsorships දායකත්ව";
 
@@ -14,7 +19,7 @@ export const sponsorshipNoteEn = {
   "With the prosperity of Buddha Sasana at heart …….",
   "Dear Sir/Madam,",
   "Sponsorships for Dhammahadaya Forest Monastery",
-  "We sincerely thank you for your annual, monthly, and daily donations to our monastery. We appreciatively remind you that your contributions not only cover the monastery’s water and electricity bills but also provide for other requirements of the monks such as medical, educational, and traveling expenses. We must reiterate the fact that aiding the monks who are in quest of their own enlightenment and the longevity of Buddha Sasana is a deed that generates merits beyond description. May the good merits you generate through your generosity towards the prosperity of Buddha Sasana be gained by your living and departed relatives, all the loved ones and superior beings causing them to have health, wealth, a better existence, and ultimately enlightenment!",
+  "We sincerely thank you for your annual, monthly, and daily donations to our monastery. We appreciatively remind you that your contributions not only cover the monastery’s water and electricity bills but also provide for other requirements of the monks such as medical, educational, and traveling expenses. We must reiterate the fact that aiding the monks who are in quest of their own enlightenment and the longevity of Buddha Sasana is a deed that generates merits beyond description. May the good merits you generate through your generosity towards the prosperity of the Buddha Sāsana be shared with your living and departed relatives, loved ones, and all sentient beings. May these merits bring them health, happiness, peace, prosperity, and a better existence, and ultimately support them on the path towards enlightenment.",
   "May the Triple-gem protect you!\nDhammahadaya Forest Monastery"
 ],
   instructionsHeading: "Instructions to book your dates.",

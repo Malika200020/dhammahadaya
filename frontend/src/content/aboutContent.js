@@ -9,7 +9,9 @@
 // what was flagged.
 
 export const aboutEn = {
-  registrationNo: "Registration No: BC/TEMPO/20/18/072",
+  // Client correction, 2026-09: the registration number never had "TEMPO/"
+  // in it — that was an error in the original migrated text.
+  registrationNo: "Registration No: BC/20/18/072",
   paragraphs: [
   "Nestled amidst the mountains and the peaceful wilderness off Kalthota, Balangoda is the Dhammahadaya Aranya Senasanaya (Dhammahadaya Monastery) where serenity meets the soul. Dhammahadaya means the Heart of the great teachings of the Buddha.",
   "This Theravada Buddhist monastery began its journey on the 03rd of May 2017, as a branch of Mihindu Aranya, Anuradhapura which is a sector of the Siyam Nikaya, Rohana Parshavaya, Wanavasa sector. The journey began on this great day in the presence and with blessings from Most Ven. Galpatha Sumana Anunayaka Thero of Mihindu Aranya, Most Ven. Mankadawala Sudassana Thero of Labunoruwakanda Aranya Senasanaya and other most venerable Maha Sanga Rathnaya (Most Noble Theros). The chief dayakas present included Dr. Shriyani Abeysuriya, Mrs. Nirma Jayaweera and many others.",
@@ -22,33 +24,33 @@ export const aboutEn = {
 ],
 };
 
-// Visitor guidelines (client-provided, English only, 2026-09) — no Sinhala
-// text was given for this section, so unlike aboutEn/aboutSi above it isn't
-// gated behind the page's language toggle; it renders as-is regardless of
-// which language is selected. The visiting-hour times are published
-// exactly as given, placeholder brackets included, at the client's
-// explicit instruction ("implement it as it is").
+// Visitor guidelines (client-provided, English only, 2026-09, revised
+// 2026-09) — no Sinhala text was given for this section, so unlike
+// aboutEn/aboutSi above it isn't gated behind the page's language toggle;
+// it renders as-is regardless of which language is selected. The
+// visiting-hour times are published exactly as given, placeholder brackets
+// included, at the client's explicit instruction ("implement it as it is").
 export const visitorGuidelinesEn = {
   heading: 'Visitor Guidelines',
   sections: [
     {
       heading: 'Dress Code',
       paragraphs: [
-        'A temple is a place of spiritual reflection, and respectful attire is mandatory for entry. All visitors, regardless of gender, must dress modestly.',
+        'A Monastery is a place of spiritual reflection and respectful attire is mandatory for entry. All visitors, regardless of gender, must dress modestly.',
       ],
     },
     {
       heading: 'Chaperone Requirement',
       paragraphs: [
-        'Female guests visiting the temple grounds outside of public ceremonies must ensure they are accompanied by a third person, unless it is a public ceremony.',
+        'Female guests visiting the monastery, other than for religious ceremonies, must ensure that they are accompanied by a second person.',
       ],
     },
     {
       heading: 'Visiting Hours',
-      paragraphs: ['The temple grounds are open to the public during the following times:'],
+      paragraphs: ['The monastery is open to the general public during the following times'],
       hours: [
-        'Weekdays (Monday to Friday): Please visit between [00:00 AM] and [00:00 PM].',
-        'Weekends (Saturday and Sunday): Please visit between [00:00 AM] and [00:00 PM].',
+        'Weekdays: Please visit between [00:00 AM] and [00:00 PM].',
+        'Weekends: Please visit between [00:00 AM] and [00:00 PM].',
       ],
     },
   ],

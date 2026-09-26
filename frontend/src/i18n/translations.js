@@ -275,7 +275,7 @@ export const translations = {
   'home.youtubeChannel': { en: 'YouTube Channel', si: 'YouTube නාලිකාව' },
   'home.sponsorshipsHeading': { en: 'Sponsorships', si: 'දායකත්ව' },
   'home.moreSponsorships': { en: 'More Sponsorships', si: 'තවත් දායකත්ව' },
-  'home.meritoriousDeeds': { en: 'Meritorious Deeds & Our Programs', si: 'පුණ්‍ය කටයුතු සහ අපගේ වැඩසටහන්' },
+  'home.meritoriousDeeds': { en: 'Meritorious Deeds & Programs', si: 'පුණ්‍ය කටයුතු සහ වැඩසටහන්' },
   'home.katinaCeremony': { en: 'Katina Ceremony', si: 'කඨින පිංකම' },
   'home.buddhaPuja': { en: 'Buddha Puja', si: 'බුද්ධ පූජා' },
   'home.meditation': { en: 'Meditation', si: 'භාවනා' },

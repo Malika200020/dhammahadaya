@@ -38,6 +38,7 @@ export const contactChannels = [
     "+94 70 216 4642"
   ]
 ];
+// Saturday/Sunday rows updated per client correction, 2026-09.
 export const contactOfficeHours = [
   [
     "Weekdays",
@@ -45,11 +46,11 @@ export const contactOfficeHours = [
   ],
   [
     "Saturday",
-    "All day (phone on)"
+    "All day (Phone 1 and Phone 2)"
   ],
   [
     "Sunday",
-    "All day (phone off)"
+    "All day (Phone 2)"
   ]
 ];
 export const contactMapEmbedSrc = 'https://www.google.com/maps?q=6.6347779,80.7948675&output=embed';
