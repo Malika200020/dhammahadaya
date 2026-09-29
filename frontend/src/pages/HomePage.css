@@ -46,14 +46,23 @@
   display: inline-flex;
   max-width: 320px;
   width: 100%;
-  /* The glow bleeds past this box on purpose (inset: -42%) — clipping it
-     here keeps that bleed contained instead of widening the page's actual
-     layout width, which is what was causing mobile viewport-widening /
-     horizontal-scroll bugs (the body-level overflow-x: hidden safety net
-     in tokens.css only clips the *rendered* overflow; it doesn't stop the
-     browser from first sizing the mobile layout viewport around the
-     glow's oversized box). */
-  overflow: hidden;
+}
+
+/* The glow bleeds well past its own box on purpose (inset: -42%, see
+   .home__hero-glow below) — that's the intended ambient effect and desktop
+   has plenty of surrounding whitespace for it. But on narrow/mobile
+   viewports that bleed (~134px past a 320px box on each side) is wider
+   than the screen itself, and the browser widens its mobile layout
+   viewport to fit it before the body-level overflow-x: hidden safety net
+   (tokens.css) ever gets a chance to clip it — that widening, not a plain
+   scrollbar, is what produced the blank-space/horizontal-overflow bug.
+   Clipping the glow to its wrap only below the breakpoint where the bleed
+   would actually reach the screen edge fixes that without flattening the
+   glow everywhere. */
+@media (max-width: 640px) {
+  .home__hero-image-wrap {
+    overflow: hidden;
+  }
 }
 
 .home__hero-glow {
