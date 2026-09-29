@@ -46,6 +46,14 @@
   display: inline-flex;
   max-width: 320px;
   width: 100%;
+  /* The glow bleeds past this box on purpose (inset: -42%) — clipping it
+     here keeps that bleed contained instead of widening the page's actual
+     layout width, which is what was causing mobile viewport-widening /
+     horizontal-scroll bugs (the body-level overflow-x: hidden safety net
+     in tokens.css only clips the *rendered* overflow; it doesn't stop the
+     browser from first sizing the mobile layout viewport around the
+     glow's oversized box). */
+  overflow: hidden;
 }
 
 .home__hero-glow {
@@ -90,6 +98,11 @@
 .home__hero-text p {
   margin: var(--space-2) 0;
   line-height: var(--line-height-sinhala);
+  /* The Pali chant lines are single long compound words with no spaces
+     to break on (e.g. "අප්පටිහතඤාණචාරස්ස") — without this, the browser
+     refuses to wrap them, they overflow the card, and that overflow
+     widens the whole page horizontally on narrow/mobile viewports. */
+  overflow-wrap: anywhere;
 }
 
 /* The Pali invocation reads as a formal chant, distinct from the Sinhala
