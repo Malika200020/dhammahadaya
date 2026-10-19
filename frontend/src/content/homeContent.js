@@ -232,10 +232,27 @@ export const asuMahaSrawakayanParagraphs = [
 // catalogue, and TripitakaSearchPage.jsx's tipitaka.lk embed), while
 // keeping the specific factual claims from the original text (the 57
 // volumes, the original text being left unchanged) rather than replacing
-// them with unverified new ones.
-export const tripitakaCatalogueCaption =
-  "Look up sutta names in the Tripitaka, Atthakatha, and Tika by their printed and PDF page numbers.";
-export const tripitakaSearchCaption =
-  "Search the scanned Buddha Jayanthi Tripitaka online. All 57 volumes have been digitized with full-text search, using proper fonts to keep the table of contents easy to read, without changing the original text.";
-export const pdfBookCaption =
-  "Download PDF copies of the Tripitaka, Atthakatha, Tīka, and other valuable books.";
+// them with unverified new ones. Sinhala added later (client doc, 2026-10) —
+// these three were English-only until then.
+export const tripitakaCatalogueCaption = {
+  en: "Look up sutta names in the Tripitaka, Atthakatha, and Tika by their printed and PDF page numbers.",
+  si: "ත්‍රිපිටකය, අට්ඨකථා සහ ටීකා තුළ ඇති සූත්‍රවල නම්, ඒවායේ මුද්‍රිත සහ PDF පිටු අංක මගින් සොයා බලන්න.",
+};
+export const tripitakaSearchCaption = {
+  en: "Search the scanned Buddha Jayanthi Tripitaka online. All 57 volumes have been digitized with full-text search, using proper fonts to keep the table of contents easy to read, without changing the original text.",
+  si: "මුල් බුද්ධ ජයන්ති ත්‍රිපිටක පෙළෙහි අකුරකුදු වෙනස් නො කොට, සුරැකිව ඩිජිටල්කරණය කරන ලද සමස්ත ග්‍රන්ථ කාණ්ඩ 57 ම දැන් අන්තර්ජාලය ඔස්සේ පරිශීලනය කළ හැක. කියවීමට පහසු සුපැහැදිලි අකුරු රටාවන්ගෙන් (Proper Fonts) සහ ක්‍රමවත් පටුනකින් සමන්විත මෙහි ඇති පූර්ණ පාඨ සෙවුම් (Full-Text Search) පහසුකම මඟින්, උතුම් ශ්‍රී සද්ධර්මය ක්ෂණයකින් සොයා ගන්න.",
+};
+export const pdfBookCaption = {
+  en: "Download PDF copies of the Tripitaka, Atthakatha, Tīka, and other valuable books.",
+  si: "පිරිසිදු ත්‍රිපිටක මූල පාඨ, අටුවා, ටීකා මෙන්ම තවත් වටිනා ධර්ම ග්‍රන්ථයන්හි PDF පිටපත් පහසුවෙන් ම බාගත (Download) කර ගන්න",
+};
+
+// Monastery-intro excerpt shown on the Home page (§4.2 below) reuses
+// aboutEn.paragraphs[0] and [2] for English — but the client's Sinhala doc
+// (2026-10) gave distinct, shorter Sinhala wording for this excerpt rather
+// than reusing aboutSi's (longer, separately-rewritten) paragraphs, so it
+// gets its own pair here instead.
+export const homeIntroParagraphsSi = [
+  "බලන්ගොඩ, කල්තොට නිල් වන් කඳුවැටි සහ ගන වනාන්තර පියස මැද සැඟවුණු ධම්මහදය ආරණ්‍ය සේනාසනය, වෙහෙස වූ සිතකට සැබෑ නිදහසත් නිස්කලංක සුවයත් ළඟා කර දෙන පින්බර තපෝවනයකි. 'ධම්මහදය' යනු තිලෝගුරු බුදු පියාණන් වහන්සේ වදාළ උතුම් ශ්‍රී සද්ධර්මයේ අකලංක හදවතයි.",
+  "අක්කර තුනක පමණ වනපෙත පුරා විසිරී ඇති සෙනසුන් කුටි තුළ වැඩ වසන ථෙරවාද භික්ෂූන් වහන්සේලා, විනයානුකූලව අල්පේච්ඡ චාම් දිවිපෙවෙතක් ගත කරති. මෙහි දෙසුම් ලැබෙන සෑම ධර්ම දේශනාවක් ම, කරනු ලබන සෑම දහම් කතිකාවක් ම පිරිසිදු ත්‍රිපිටකය සහ අටුවා දහම පමණක් ම මූලික කරගත් අකලංක බුද්ධ වචනයෙන් සුපෝෂිතය.",
+];

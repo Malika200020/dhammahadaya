@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getGallery } from '../api/galleries';
 import { PhotoGallery } from '../components/PhotoGallery';
 import { useTranslation } from '../i18n/LanguageContext';
-import { aboutEn, aboutSi, visitorGuidelinesEn } from '../content/aboutContent';
+import { aboutEn, aboutSi, visitorGuidelines } from '../content/aboutContent';
 import './AboutPage.css';
 
 // build-spec §14 — EN/SI static text + a photo gallery reusing the step-7
@@ -23,6 +23,7 @@ export function AboutPage() {
   }, []);
 
   const content = language === 'en' ? aboutEn : aboutSi;
+  const guidelines = visitorGuidelines[language];
 
   return (
     <div className="about">
@@ -36,12 +37,12 @@ export function AboutPage() {
         ))}
       </div>
 
-      {/* English only — no Sinhala version of this content exists (added
-          2026-09, not part of the original bilingual migration), so unlike
-          the text above it doesn't switch with the language toggle. */}
+      {/* Sinhala added 2026-10 — English-only until then (added 2026-09,
+          not part of the original bilingual migration). Now switches with
+          the language toggle like the rest of the page. */}
       <div className="about__guidelines card">
-        <h2>{visitorGuidelinesEn.heading}</h2>
-        {visitorGuidelinesEn.sections.map((section) => (
+        <h2>{guidelines.heading}</h2>
+        {guidelines.sections.map((section) => (
           <div key={section.heading} className="about__guideline-section">
             <h3>{section.heading}</h3>
             {section.paragraphs.map((p, i) => (

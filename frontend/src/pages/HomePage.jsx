@@ -9,7 +9,7 @@ import { LoadingState } from '../components/LoadingState';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
 import { useTranslation } from '../i18n/LanguageContext';
-import { sponsorshipNoteEn } from '../content/sponsorshipContent';
+import { sponsorshipNoteEn, sponsorshipNoteSi, sponsorshipPreviewSignature } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
 import { contactPostalAddressLines, contactChannels } from '../content/contactContent';
 import {
@@ -20,11 +20,12 @@ import {
   tripitakaCatalogueCaption,
   tripitakaSearchCaption,
   pdfBookCaption,
+  homeIntroParagraphsSi,
 } from '../content/homeContent';
 import './HomePage.css';
 
 function phoneFor(label) {
-  return contactChannels.find(([l]) => l === label)?.[1];
+  return contactChannels.en.find(([l]) => l === label)?.[1];
 }
 
 // Home page (build-spec §4) — almost entirely composition: every section
@@ -36,7 +37,7 @@ function phoneFor(label) {
 // /about/).
 export function HomePage() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { language, t } = useTranslation();
   // Picked once per page load/visit (client request, 2026-09) — a fresh
   // random line every time a user lands on or refreshes the Home page,
   // not re-rolled on every re-render while they stay on it.
@@ -96,14 +97,17 @@ export function HomePage() {
         </div>
       </Reveal>
 
-      {/* 4.2 Monastery intro — reuses aboutEn.paragraphs (same text as /about/).
-          Only the 1st and 3rd paragraphs are shown here (client request,
-          2026-09: drop the 2nd from this home-page excerpt) — the full text
-          is unaffected and still shows in full on /about/. */}
+      {/* 4.2 Monastery intro — English reuses aboutEn.paragraphs (same text
+          as /about/); only the 1st and 3rd paragraphs are shown here
+          (client request, 2026-09: drop the 2nd from this home-page
+          excerpt) — the full text is unaffected and still shows in full on
+          /about/. Sinhala doesn't reuse aboutSi here — the client's doc
+          (2026-10) gave distinct, shorter Sinhala wording specifically for
+          this excerpt (see homeIntroParagraphsSi). */}
       <Reveal as="section" className="home__intro">
         <img src="/images/Damma-Senasanaya-Logo.png" alt="Dhammahadaya Senasanaya" className="home__intro-logo" />
         <div className="home__intro-text">
-          {[aboutEn.paragraphs[0], aboutEn.paragraphs[2]].map((p, i) => (
+          {(language === 'en' ? [aboutEn.paragraphs[0], aboutEn.paragraphs[2]] : homeIntroParagraphsSi).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
           <Link to="/about/" className="btn btn--primary">
@@ -143,21 +147,21 @@ export function HomePage() {
             <Link to="/tripitaka-catalogs/" className="btn btn--primary">
               {t('home.tripitakaCatalogue')}
             </Link>
-            <p className="home__caption">{tripitakaCatalogueCaption}</p>
+            <p className="home__caption">{tripitakaCatalogueCaption[language]}</p>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Thripitaka-Search-Img.jpg" alt="" />
             <Link to="/tripitaka-search/" className="btn btn--primary">
               {t('home.tripitakaSearch')}
             </Link>
-            <p className="home__caption">{tripitakaSearchCaption}</p>
+            <p className="home__caption">{tripitakaSearchCaption[language]}</p>
           </div>
           <div className="home__image-item card card--interactive">
             <img src="/images/Pdf-Book-Img.jpg" alt="" />
             <Link to="/pdf-books/" className="btn btn--primary">
               {t('home.pdfBooks')}
             </Link>
-            <p className="home__caption">{pdfBookCaption}</p>
+            <p className="home__caption">{pdfBookCaption[language]}</p>
           </div>
         </div>
       </Reveal>
@@ -200,8 +204,15 @@ export function HomePage() {
             />
           </div>
           <div className="home__sponsorship-message">
-            {[sponsorshipNoteEn.paragraphs[0], sponsorshipNoteEn.paragraphs[1], sponsorshipNoteEn.paragraphs[3]].map((p, i) => (
-              <p key={i}>{p}</p>
+            {(() => {
+              const note = language === 'en' ? sponsorshipNoteEn : sponsorshipNoteSi;
+              return [note.paragraphs[0], note.paragraphs[1], note.paragraphs[3]].map((p, i) => <p key={i}>{p}</p>);
+            })()}
+            {/* Closing signature (client doc, 2026-10) — this excerpt skips
+                sponsorshipNoteEn/Si's own "May the Triple-gem..." sign-off
+                (see map above), so it had no closing of its own until now. */}
+            {sponsorshipPreviewSignature[language].map((line, i) => (
+              <p key={`sig-${i}`}>{line}</p>
             ))}
           </div>
         </div>
@@ -284,7 +295,7 @@ export function HomePage() {
         <div className="home__static-contact card">
           <div className="home__static-contact-row">
             <MapPin size={18} aria-hidden="true" />
-            <address>{contactPostalAddressLines.join(', ')}</address>
+            <address>{contactPostalAddressLines[language].join(', ')}</address>
           </div>
           <div className="home__static-contact-row">
             <Phone size={18} aria-hidden="true" />

@@ -2,11 +2,12 @@ import { InquiryForm } from '../components/InquiryForm';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { useTranslation } from '../i18n/LanguageContext';
 import {
-  contactLocationEn,
-  contactDirectionsEn,
+  contactLocation,
+  contactDirections,
   contactPostalAddressLines,
   contactChannels,
   contactOfficeHours,
+  contactOfficeHoursIntroSi,
   contactMapEmbedSrc,
   contactMapLinkUrl,
 } from '../content/contactContent';
@@ -14,8 +15,11 @@ import './ContactUsPage.css';
 
 // build-spec §18 — static location/contact info + the shared InquiryForm
 // and NewsletterSignup components (also used later on the home page).
+// Sinhala added later (client doc, 2026-10) — this whole section was
+// English-only until then (no Sinhala version existed at the time of the
+// original migration).
 export function ContactUsPage() {
-  const { t } = useTranslation();
+  const { language, t } = useTranslation();
   return (
     <div className="contact-us">
       <h1>{t('nav.contactUs')}</h1>
@@ -30,14 +34,12 @@ export function ContactUsPage() {
         {t('contactUs.viewOnGoogleMaps')}
       </a>
 
-      {/* [CONTENT — English, migrate verbatim] build-spec §18 — English
-          only, no Sinhala version exists, so this text doesn't switch with
-          the language toggle. */}
+      {/* [CONTENT — English/Sinhala, migrate verbatim] build-spec §18 */}
       <section className="contact-us__section card">
         <h2>{t('contactUs.location')}</h2>
-        <p>{contactLocationEn}</p>
+        <p>{contactLocation[language]}</p>
         <ul>
-          {contactDirectionsEn.map((line, i) => (
+          {contactDirections[language].map((line, i) => (
             <li key={i}>{line}</li>
           ))}
         </ul>
@@ -46,7 +48,7 @@ export function ContactUsPage() {
       <section className="contact-us__section card">
         <h2>{t('contactUs.postalAddress')}</h2>
         <address>
-          {contactPostalAddressLines.map((line, i) => (
+          {contactPostalAddressLines[language].map((line, i) => (
             <span key={i}>
               {line}
               <br />
@@ -59,7 +61,7 @@ export function ContactUsPage() {
         <h2>{t('contactUs.contactDetails')}</h2>
         <table className="contact-us__table">
           <tbody>
-            {contactChannels.map(([channel, value]) => (
+            {contactChannels[language].map(([channel, value]) => (
               <tr key={channel}>
                 <th>{channel}</th>
                 <td>{value}</td>
@@ -71,9 +73,10 @@ export function ContactUsPage() {
 
       <section className="contact-us__section card">
         <h2>{t('contactUs.officePhoneHours')}</h2>
+        {language === 'si' ? <p>{contactOfficeHoursIntroSi}</p> : null}
         <table className="contact-us__table">
           <tbody>
-            {contactOfficeHours.map(([day, hours]) => (
+            {contactOfficeHours[language].map(([day, hours]) => (
               <tr key={day}>
                 <th>{day}</th>
                 <td>{hours}</td>

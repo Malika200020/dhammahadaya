@@ -9,10 +9,25 @@
 // paragraphs[3]'s closing sentence was later replaced wholesale with the
 // client's own rewritten dedication sentence (client request, 2026-09) —
 // this shows on both the Home page preview and the full Sponsorship page,
-// since both read from this same array. sponsorshipNoteSi is untouched —
-// no Sinhala version of the new sentence was given.
+// since both read from this same array. sponsorshipNoteSi.paragraphs was
+// later replaced wholesale too (client doc, 2026-10) — a longer, 6-paragraph
+// version rather than a literal translation of the English, matching the
+// same independent-narrative pattern aboutSi already uses relative to
+// aboutEn. sponsorshipNoteSi.instructions/instructionsHeading are unchanged
+// (the client's doc repeated them verbatim).
 
 export const sponsorshipHeader = "Sponsorships දායකත්ව";
+
+// Closing signature for the Home page's sponsorship excerpt (§4.8) — the
+// excerpt there only shows 3 of sponsorshipNoteEn/Si's 5 paragraphs (skips
+// the heading and the "May the Triple-gem..." sign-off used on the full
+// /sponsorship/danaya/ page), so it had no closing of its own. Client doc
+// (2026-10) gave this address/phone block immediately after that same
+// excerpt's greeting text, so it serves as that excerpt's sign-off instead.
+export const sponsorshipPreviewSignature = {
+  en: ["Dhammahadaya Senasanaya, Watawala, Mulgama, Balangoda, 70117", "Office phone: +94 45 313 4808, +94 70 216 4642"],
+  si: ["ධම්මහදය සේනාසනය, වටවල, මුල්ගම, බලන්ගොඩ, 70117", "කාර්යාල දුරකථන: +94 45 313 4808, +94 70 216 4642"],
+};
 
 export const sponsorshipNoteEn = {
   paragraphs: [
@@ -20,7 +35,7 @@ export const sponsorshipNoteEn = {
   "Dear Sir/Madam,",
   "Sponsorships for Dhammahadaya Forest Monastery",
   "We sincerely thank you for your annual, monthly, and daily donations to our monastery. We appreciatively remind you that your contributions not only cover the monastery’s water and electricity bills but also provide for other requirements of the monks such as medical, educational, and traveling expenses. We must reiterate the fact that aiding the monks who are in quest of their own enlightenment and the longevity of Buddha Sasana is a deed that generates merits beyond description. May the good merits you generate through your generosity towards the prosperity of the Buddha Sāsana be shared with your living and departed relatives, loved ones, and all sentient beings. May these merits bring them health, happiness, peace, prosperity, and a better existence, and ultimately support them on the path towards enlightenment.",
-  "May the Triple-gem protect you!\nDhammahadaya Forest Monastery"
+  "May the Triple-gem protect you!\nDhammahadaya Forest Monastery - Balangoda"
 ],
   instructionsHeading: "Instructions to book your dates.",
   instructions: [
@@ -34,11 +49,13 @@ export const sponsorshipNoteEn = {
 
 export const sponsorshipNoteSi = {
   paragraphs: [
-  "සාසනික ලැදියාවෙන් යුක්තව.",
-  "පින්වත් මහත්මයාණෙනි / මහත්මියනි.",
-  "බළංගොඩ ධම්මහදය සේනාසනයේ දෛනික දායකත්වය පිළිබදවයි.",
-  "බළංගොඩ ධම්මහදය සේනාසනයේ දෛනික දායකත්වය වාර්ෂිකව / මාසිකව භාර ගන්නා, ඔබතුමා / ඔබතුමිය හට මෙත් සිතින් පුණ්‍යානුමෝදනා කර සිටිමු. එම දායකත්වය සේනාසනයේ දානය, ජල, විදුලි බිල්පත් සඳහා, ගිලන් ස්වාමින් වහන්සේලාට ඖෂධ ලබාදීම, ස්වාමීන් වහන්සේලාගේ අධ්‍යාපන කටයුතු හා ගමන් වියදම්, ඇතුළුව විහාරස්ථානයේ ශාසනික අවශ්‍යතා සදහා යොදා ගැනෙන බව මෙත් සිතින් දන්වාලමි. මෙසේ සම්බුදු සසුනෙ උන්නතිය වෙනුවෙන් හා සාංසාරික විමුක්තිය උදෙසා ධර්ම මාර්ගයෙහි හැසිරෙන අරණ්‍යවාසි බුද්ධපුත්‍රයන් වහන්සේලා ගේ පහසු විහර‍නය සහ සිදු කරන්නාවු සාසනික මෙහවර අඛන්ඩව පවත්වාගෙන යාම සඳහා පිංවත් ඔබතුමා / ඔබතුමිය විසින් දරන ලද දායකත්වය බුදුසසුන වෙනුවෙන් සිදු කරන මහත් උපකාරයක් බව පුණ්‍යානුමෝදනාවෙන් යුතු ව සිහිපත් කරමි..",
-  "තෙරුවන් සරණයි !\nධම්මහදය සේනාසනය – බළංගොඩ"
+  "බුද්ධ ශාසනයේ චිරස්ථිතිය හදවතින් ම පෙරදැරි කර ගනිමින්...",
+  "පින්වත් මහත්මයාණෙනි / මහත්මියනි,",
+  "අප සේනාසනය වෙත ඔබ විසින් දිනපතා, මාස්පතා සහ වාර්ෂිකව සිදුකරනු ලබන අප්‍රමාණ පරිත්‍යාගයන් සහ නිරන්තර ශාසනික උපස්ථානයන් මෙත් සිත් පෙරටු කොට ගෞරවපූර්වකව සිහිපත් කරමු. සෙනසුන් පියසත්, එහි වැඩවසන සඟරුවනත් සුවසේ සුරැකෙන්නේ ඔබ වැනි සැදැහැවතුන්ගේ නොමඳ දායකත්වය සහ මෙත් සිත හේතුවෙනි.",
+  "ඔබ ලබාදෙන ඒ උතුම් ආධාර උපකාර, ආරණ්‍යයේ ජල හා විදුලි බිල්පත් ඇතුළු අත්‍යවශ්‍ය නඩත්තු කටයුතුවලට මෙන්ම භාවනානුයෝගී මහා සංඝරත්නයේ ගිලන්පස, බෙහෙත් හේත්, අධ්‍යාපනික හා ගමනාගමන පහසුකම් නොපිරිහෙළා සපුරා ගැනීමට මහඟු සෙවණැල්ලක් වේ. එමගින් උන්වහන්සේලාට කිසිදු බාධාවකින් තොරව ධර්මය හැදෑරීමටත්, ප්‍රතිපත්ති පූජාවන්හි යෙදීමටත්, පිරිසිදු සම්බුදු සසුන ඉදිරි පරපුර උදෙසා ආරක්ෂා කර තැබීමටත් අවශ්‍ය පරිසරය මනාව ගොඩනැගේ.",
+  "උතුම් නිවන් මඟ හෙළි කර ගනු වස් දහමට කැපවී වැඩ වසන සඟරුවන උදෙසාත්, සම්බුදු සසුනේ චිර ජීවනය උදෙසාත් සිදු කරන මෙවන් උපස්ථානයන් වචනයෙන් කියා නිම කළ නො හැකි මහා කුසල කර්මයකි. එහි ආනිසංස මෙලොව පරලොව දෙලොව සැනසුම පිණිස ම හේතු වාසනා වනු නො අනුමානය.",
+  "සම්බුදු සසුන කෙරෙහි පිරිසිදු මෙත් සිතින් ඔබ රැස්කරගත් සියලු උතුම් පුණ්‍ය සම්භාරයන් ඔබගේ පවුලේ සැමටත්, දයාබර හිතමිතුරන්ටත්, පරලෝසැපත් ඥාතීන්ටත්, සියලු විශ්වාසී සත්ත්වයන්ටත් අත්වේවා! එම සියලු පින් බලයෙන් ඔබ සැමට නිරෝගී සුවය, පවුලේ සතුට, සාමය, සෞභාග්‍යය සහ සැනසිල්ල උදාවේවා! යහපත් ප්‍රඥාවෙන් දිවි මඟ ආලෝකමත් වී, අවසානයේ උතුම් වූ චතුරාර්ය සත්‍යාවබෝධයෙන් සසර දුකින් එතෙර වන්නට මෙම පින් හේතු වාසනා වේවා!",
+  "තෙරුවන් සරණයි!\nධම්මහදය ආරණ්‍ය සේනාසනය - බළංගොඩ"
 ],
   instructionsHeading: "ඔබගේ දින වෙන් කරවා ගැනීමට උපදෙස්.",
   instructions: [
