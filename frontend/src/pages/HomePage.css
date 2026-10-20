@@ -201,8 +201,9 @@
 .home__image-item--square {
   /* Bigger than the shared 320px cap — standing alone, centered, a
      320px-wide card left too much empty space either side of it on a wide
-     screen (client-reported, 2026-10: "stretch it out a bit"). */
-  max-width: 480px;
+     screen (client-reported, 2026-10: "stretch it out a bit"). 480px was
+     then too big (client-reported, 2026-10: "make it a bit smaller"). */
+  max-width: 380px;
 }
 
 .home__image-item--square img {
