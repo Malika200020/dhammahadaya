@@ -175,7 +175,7 @@ export function HomePage() {
       <Reveal as="section" className="home__section">
         <h2>{t('home.dhammaSermonsHeading')}</h2>
         <div className="home__image-row">
-          <div className="home__image-item card card--interactive">
+          <div className="home__image-item home__image-item--square card card--interactive">
             <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
             <Link to="/dhamma-sermon/" className="btn btn--primary">
               {t('home.dhammaSermonsButton')}
