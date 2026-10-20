@@ -174,7 +174,7 @@ export function HomePage() {
           something actually useful when a broadcast is live. */}
       <Reveal as="section" className="home__section">
         <h2>{t('home.dhammaSermonsHeading')}</h2>
-        <div className="home__image-row">
+        <div className="home__image-row home__image-row--center">
           <div className="home__image-item home__image-item--square card card--interactive">
             <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
             <Link to="/dhamma-sermon/" className="btn btn--primary">

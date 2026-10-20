@@ -182,11 +182,29 @@
   margin-bottom: var(--space-4);
 }
 
+/* Dhamma Sermons row is a single card now (its neighboring YouTube Channel
+   card was removed, 2026-10) — centers it instead of leaving it pinned to
+   the left with a wide empty gap next to it (client-reported, 2026-10:
+   "a lot of white space ... is bad UX"). Harmless for the other
+   multi-card rows reusing .home__image-row (Tripitaka, Katina, etc.):
+   they already fill most of the row width, so centering the group doesn't
+   visibly change anything there. */
+.home__image-row--center {
+  justify-content: center;
+}
+
 /* Dhamma-Sermons-Img.jpg is a 1:1 square (client-replaced, 2026-10) —
    unlike this row's other images (all landscape/portrait, already well
    suited to the 160px-tall cover crop above), cropping a square source
    into that wide short box hides nearly all of it. A square box instead
    lets object-fit: cover show the complete image uncropped. */
+.home__image-item--square {
+  /* Bigger than the shared 320px cap — standing alone, centered, a
+     320px-wide card left too much empty space either side of it on a wide
+     screen (client-reported, 2026-10: "stretch it out a bit"). */
+  max-width: 480px;
+}
+
 .home__image-item--square img {
   height: auto;
   aspect-ratio: 1 / 1;
