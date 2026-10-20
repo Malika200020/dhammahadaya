@@ -13,8 +13,13 @@ export const AdminSessionContext = createContext(undefined);
 export function AdminSessionProvider({ children }) {
   const [session, setSession] = useState(undefined);
 
+  // Returns the promise so callers that need the *updated* session before
+  // acting on it (e.g. AdminChangePasswordPage navigating away right after
+  // clearing mustChangePassword) can await it, instead of navigating while
+  // the fetch is still in flight and racing RequireAdminAuth's redirect
+  // check against a stale cached session value.
   const refresh = useCallback(() => {
-    getSession()
+    return getSession()
       .then(setSession)
       .catch(() => setSession(null));
   }, []);

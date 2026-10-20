@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const sessionMiddleware = require('./session');
 const { requireAdminAuth } = require('./middleware/requireAdminAuth');
+const { requireSuperAdmin } = require('./middleware/requireSuperAdmin');
+const { blockUntilPasswordChanged } = require('./middleware/blockUntilPasswordChanged');
 
 const dictionariesRouter = require('./routes/dictionaries');
 const tripitakaCatalogueRouter = require('./routes/tripitaka-catalogue');
@@ -34,6 +36,9 @@ const newsletterRouter = require('./routes/newsletter');
 const adminNewsletterRouter = require('./routes/admin-newsletter');
 const adminTripitakaCatalogueRouter = require('./routes/admin-tripitaka-catalogue');
 const adminWhatsappRouter = require('./routes/admin-whatsapp');
+const youtubeLiveRouter = require('./routes/youtube-live');
+const adminYoutubeLiveRouter = require('./routes/admin-youtube-live');
+const adminAdminUsersRouter = require('./routes/admin-admin-users');
 
 const app = express();
 // Render (and its own edge/CDN layer) terminates TLS and forwards to this
@@ -71,24 +76,35 @@ app.use('/api/special-thanks', specialThanksRouter);
 app.use('/api/static-documents', staticDocumentsRouter);
 app.use('/api/inquiries', inquiriesRouter);
 app.use('/api/newsletter-subscribers', newsletterRouter);
+app.use('/api/youtube-live', youtubeLiveRouter);
 
 app.use('/api/admin/auth', adminAuthRouter);
-app.use('/api/admin/entries', requireAdminAuth, adminEntriesRouter);
-app.use('/api/admin/uploads', requireAdminAuth, adminUploadsRouter);
-app.use('/api/admin/pdf-books', requireAdminAuth, adminPdfBooksRouter);
-app.use('/api/admin/video-series', requireAdminAuth, adminVideoSeriesRouter);
-app.use('/api/admin/videos', requireAdminAuth, adminVideosRouter);
-app.use('/api/admin/galleries', requireAdminAuth, adminGalleriesRouter);
-app.use('/api/admin/sponsorship', requireAdminAuth, adminSponsorshipRouter);
-app.use('/api/admin/meditation-applications', requireAdminAuth, adminMeditationRouter);
-app.use('/api/admin/katina', requireAdminAuth, adminKatinaRouter);
-app.use('/api/admin/pohoya-calendar', requireAdminAuth, adminPohoyaCalendarRouter);
-app.use('/api/admin/special-thanks', requireAdminAuth, adminSpecialThanksRouter);
-app.use('/api/admin/static-documents', requireAdminAuth, adminStaticDocumentsRouter);
-app.use('/api/admin/inquiries', requireAdminAuth, adminInquiriesRouter);
-app.use('/api/admin/newsletter-subscribers', requireAdminAuth, adminNewsletterRouter);
-app.use('/api/admin/tripitaka-catalogue', requireAdminAuth, adminTripitakaCatalogueRouter);
-app.use('/api/admin/whatsapp', requireAdminAuth, adminWhatsappRouter);
+
+// Content-tier — both admin roles (requireAdminAuth only, plus
+// blockUntilPasswordChanged so a normal admin mid-forced-change can't use
+// these either).
+app.use('/api/admin/entries', requireAdminAuth, blockUntilPasswordChanged, adminEntriesRouter);
+app.use('/api/admin/uploads', requireAdminAuth, blockUntilPasswordChanged, adminUploadsRouter);
+app.use('/api/admin/pdf-books', requireAdminAuth, blockUntilPasswordChanged, adminPdfBooksRouter);
+app.use('/api/admin/video-series', requireAdminAuth, blockUntilPasswordChanged, adminVideoSeriesRouter);
+app.use('/api/admin/videos', requireAdminAuth, blockUntilPasswordChanged, adminVideosRouter);
+app.use('/api/admin/galleries', requireAdminAuth, blockUntilPasswordChanged, adminGalleriesRouter);
+app.use('/api/admin/katina', requireAdminAuth, blockUntilPasswordChanged, adminKatinaRouter);
+app.use('/api/admin/pohoya-calendar', requireAdminAuth, blockUntilPasswordChanged, adminPohoyaCalendarRouter);
+app.use('/api/admin/special-thanks', requireAdminAuth, blockUntilPasswordChanged, adminSpecialThanksRouter);
+app.use('/api/admin/static-documents', requireAdminAuth, blockUntilPasswordChanged, adminStaticDocumentsRouter);
+app.use('/api/admin/tripitaka-catalogue', requireAdminAuth, blockUntilPasswordChanged, adminTripitakaCatalogueRouter);
+app.use('/api/admin/youtube-live', requireAdminAuth, blockUntilPasswordChanged, adminYoutubeLiveRouter);
+
+// Super-admin-only — booking/sponsorship management, submission-data access
+// (inquiries, newsletter subscribers, meditation applications), the
+// WhatsApp integration panel, and admin-account management itself.
+app.use('/api/admin/sponsorship', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminSponsorshipRouter);
+app.use('/api/admin/meditation-applications', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminMeditationRouter);
+app.use('/api/admin/inquiries', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminInquiriesRouter);
+app.use('/api/admin/newsletter-subscribers', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminNewsletterRouter);
+app.use('/api/admin/whatsapp', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminWhatsappRouter);
+app.use('/api/admin/admin-users', requireAdminAuth, blockUntilPasswordChanged, requireSuperAdmin, adminAdminUsersRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);

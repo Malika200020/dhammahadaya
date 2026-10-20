@@ -18,14 +18,48 @@ function jsonBody(data) {
 }
 
 // --- auth ---
-export const login = (email, password) =>
-  request('/api/admin/auth/login', { method: 'POST', ...jsonBody({ email, password }) });
+// identifier is an email (super admins) or a username (normal admins) —
+// one field, the backend figures out which kind of account it is.
+export const login = (identifier, password) =>
+  request('/api/admin/auth/login', { method: 'POST', ...jsonBody({ identifier, password }) });
 
 export const verifyOtp = (code) => request('/api/admin/auth/verify-otp', { method: 'POST', ...jsonBody({ code }) });
 
 export const logout = () => request('/api/admin/auth/logout', { method: 'POST' });
 
 export const getSession = () => request('/api/admin/auth/me');
+
+// Normal-admin forced first-login change (also reachable any time after,
+// though the only UI entry point is the forced redirect).
+export const changePassword = (newPassword) =>
+  request('/api/admin/auth/change-password', { method: 'POST', ...jsonBody({ newPassword }) });
+
+// Super-admin self-service change, OTP-protected — two steps.
+export const requestOwnPasswordChange = (currentPassword, newPassword) =>
+  request('/api/admin/auth/change-own-password/request', { method: 'POST', ...jsonBody({ currentPassword, newPassword }) });
+
+export const verifyOwnPasswordChange = (code) =>
+  request('/api/admin/auth/change-own-password/verify', { method: 'POST', ...jsonBody({ code }) });
+
+// --- admin-user management (super admin only) ---
+export const listAdminUsers = () => request('/api/admin/admin-users');
+
+export const createAdminUser = (username, password) =>
+  request('/api/admin/admin-users', { method: 'POST', ...jsonBody({ username, password }) });
+
+export const resetAdminUserPassword = (id, newPassword) =>
+  request(`/api/admin/admin-users/${id}/reset-password`, { method: 'POST', ...jsonBody({ newPassword }) });
+
+export const deleteAdminUser = (id) =>
+  request(`/api/admin/admin-users/${id}`, { method: 'DELETE' });
+
+// --- youtube live ---
+export const getAdminYoutubeLive = () => request('/api/admin/youtube-live');
+
+export const setYoutubeLive = (url) =>
+  request('/api/admin/youtube-live', { method: 'PUT', ...jsonBody({ url }) });
+
+export const clearYoutubeLive = () => request('/api/admin/youtube-live', { method: 'DELETE' });
 
 // --- entries CRUD ---
 export const listAdminEntries = (type) =>

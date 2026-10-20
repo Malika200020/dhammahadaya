@@ -13,6 +13,7 @@ export function AdminLayout() {
   const { session, logout } = useAdminSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const isSuperAdmin = session?.role === 'super_admin';
 
   // Close the drawer automatically on navigation — otherwise picking a
   // section from the mobile menu would leave it covering the new page.
@@ -73,17 +74,26 @@ export function AdminLayout() {
           <NavLink to="/admin/galleries/buddha-puja" className={navLinkClass}>
             Buddha Puja Gallery
           </NavLink>
-          <hr />
-          <NavLink to="/admin/sponsorship" className={navLinkClass}>
-            Sponsorship Bookings
-          </NavLink>
-          <NavLink to="/admin/whatsapp" className={navLinkClass}>
-            WhatsApp
+          <NavLink to="/admin/youtube-live" className={navLinkClass}>
+            YouTube Live
           </NavLink>
           <hr />
-          <NavLink to="/admin/meditation-applications" className={navLinkClass}>
-            Meditation Applications
-          </NavLink>
+          {isSuperAdmin ? (
+            <>
+              <NavLink to="/admin/sponsorship" className={navLinkClass}>
+                Sponsorship Bookings
+              </NavLink>
+              <NavLink to="/admin/whatsapp" className={navLinkClass}>
+                WhatsApp
+              </NavLink>
+              <hr />
+            </>
+          ) : null}
+          {isSuperAdmin ? (
+            <NavLink to="/admin/meditation-applications" className={navLinkClass}>
+              Meditation Applications
+            </NavLink>
+          ) : null}
           <NavLink to="/admin/katina" className={navLinkClass}>
             Katina Ceremony Years
           </NavLink>
@@ -103,15 +113,26 @@ export function AdminLayout() {
           <NavLink to="/admin/siri-sugatha-sasana-bandumathi" className={navLinkClass}>
             Siri Sugatha Sasana Bandumathi
           </NavLink>
-          <NavLink to="/admin/inquiries" className={navLinkClass}>
-            Inquiries
-          </NavLink>
-          <NavLink to="/admin/newsletter-subscribers" className={navLinkClass}>
-            Newsletter Subscribers
-          </NavLink>
+          {isSuperAdmin ? (
+            <>
+              <NavLink to="/admin/inquiries" className={navLinkClass}>
+                Inquiries
+              </NavLink>
+              <NavLink to="/admin/newsletter-subscribers" className={navLinkClass}>
+                Newsletter Subscribers
+              </NavLink>
+              <hr />
+              <NavLink to="/admin/admin-users" className={navLinkClass}>
+                Admin Users
+              </NavLink>
+              <NavLink to="/admin/change-my-password" className={navLinkClass}>
+                Change My Password
+              </NavLink>
+            </>
+          ) : null}
         </nav>
         <div className="admin-layout__account">
-          <span className="admin-layout__email">{session?.email}</span>
+          <span className="admin-layout__email">{session?.email || session?.username}</span>
           <button type="button" className="btn btn--primary btn--sm" onClick={logout}>
             Log out
           </button>

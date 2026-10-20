@@ -8,6 +8,7 @@ import { BookingCalendar, getMonthRange } from '../components/BookingCalendar';
 import { LoadingState } from '../components/LoadingState';
 import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
+import { YouTubeLiveSection } from '../components/YouTubeLiveSection';
 import { useTranslation } from '../i18n/LanguageContext';
 import { sponsorshipNoteEn, sponsorshipNoteSi, sponsorshipPreviewSignature } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
@@ -166,7 +167,11 @@ export function HomePage() {
         </div>
       </Reveal>
 
-      {/* 4.7 Dhamma Sermons section */}
+      {/* 4.7 Dhamma Sermons section — the separate YouTube Channel card that
+          used to sit next to this one was removed (client request,
+          2026-10): it was redundant since both led to YouTube, and the new
+          YouTubeLiveSection below (conditionally rendered) replaces it with
+          something actually useful when a broadcast is live. */}
       <Reveal as="section" className="home__section">
         <h2>{t('home.dhammaSermonsHeading')}</h2>
         <div className="home__image-row">
@@ -176,19 +181,10 @@ export function HomePage() {
               {t('home.dhammaSermonsButton')}
             </Link>
           </div>
-          <div className="home__image-item card card--interactive">
-            <img src="/images/youtube-logo-icon.jpg" alt="" />
-            <a
-              href="https://www.youtube.com/channel/UCJCpaizlVHxNzWi3tvEmsaw"
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn--primary"
-            >
-              {t('home.youtubeChannel')}
-            </a>
-          </div>
         </div>
       </Reveal>
+
+      <YouTubeLiveSection />
 
       {/* 4.8 Sponsorships section — reuses the step-8 booking calendar + data */}
       <Reveal as="section" className="home__section">

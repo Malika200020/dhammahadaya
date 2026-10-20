@@ -1,0 +1,79 @@
+.admin-admin-users h1 {
+  color: var(--color-ink);
+  margin: 0 0 0.5rem;
+}
+
+.admin-admin-users__hint {
+  color: var(--color-text-soft);
+  max-width: 640px;
+  margin-bottom: 1.5rem;
+}
+
+.admin-admin-users__create {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  max-width: 640px;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-admin-users__create label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.admin-admin-users__create input {
+  font-weight: 400;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.admin-admin-users__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  font-size: 0.9rem;
+}
+
+.admin-admin-users__table th,
+.admin-admin-users__table td {
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-admin-users__actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-admin-users__actions button {
+  background: none;
+  border: none;
+  color: var(--color-primary-dark);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+}
+
+.admin-admin-users__delete {
+  color: var(--color-danger) !important;
+}
+
+.admin-admin-users__empty {
+  color: var(--color-text-soft);
+  text-align: center;
+}
+
+.admin-admin-users__error {
+  color: var(--color-danger);
+}

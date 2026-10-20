@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { HomePage } from './pages/HomePage';
 import { AsuMahaSrawakayanPage } from './pages/AsuMahaSrawakayanPage';
 import { TripitakaSearchPage } from './pages/TripitakaSearchPage';
@@ -54,7 +54,12 @@ import { AdminNewsletterSubscribersPage } from './pages/admin/AdminNewsletterSub
 import { AdminTripitakaCatalogueListPage } from './pages/admin/AdminTripitakaCatalogueListPage';
 import { AdminTripitakaCatalogueFormPage } from './pages/admin/AdminTripitakaCatalogueFormPage';
 import { AdminWhatsappPage } from './pages/admin/AdminWhatsappPage';
+import { AdminYouTubeLivePage } from './pages/admin/AdminYouTubeLivePage';
+import { AdminChangePasswordPage } from './pages/admin/AdminChangePasswordPage';
+import { AdminChangeOwnPasswordPage } from './pages/admin/AdminChangeOwnPasswordPage';
+import { AdminAdminUsersPage } from './pages/admin/AdminAdminUsersPage';
 import { RequireAdminAuth } from './components/admin/RequireAdminAuth';
+import { RequireSuperAdmin } from './components/admin/RequireSuperAdmin';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminSessionProvider } from './components/admin/AdminSessionProvider';
 import { PDF_BOOK_CATEGORIES } from './config/pdfBookCategories';
@@ -154,6 +159,14 @@ export function App() {
           element={<StaticDocumentPage slug="siri-sugatha-sasana-bandumathi" />}
         />
 
+        {/* AdminLoginPage is deliberately NOT inside AdminSessionProvider —
+            navigating straight from here into the protected tree below
+            mounts that provider fresh (session: undefined → "loading"),
+            which is what makes RequireAdminAuth wait instead of bouncing
+            back to login on a stale pre-login session value. Tried sharing
+            one provider across both and calling refresh() after login, but
+            refresh() is async and the redirect check ran before it
+            resolved, bouncing straight back to login every time. */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route
           element={
@@ -164,6 +177,7 @@ export function App() {
         >
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Navigate to="/admin/entries/newsletter" replace />} />
+            <Route path="/admin/change-password" element={<AdminChangePasswordPage />} />
             <Route path="/admin/entries/:type" element={<AdminEntriesListPage />} />
             <Route path="/admin/entries/:type/new" element={<AdminEntryFormPage />} />
             <Route path="/admin/entries/:type/:id/edit" element={<AdminEntryFormPage />} />
@@ -189,9 +203,7 @@ export function App() {
             />
             <Route path="/admin/galleries/about" element={<AdminGalleryPage gallery="about" title="About Photo Gallery" />} />
 
-            <Route path="/admin/sponsorship" element={<AdminSponsorshipListPage />} />
-
-            <Route path="/admin/meditation-applications" element={<AdminMeditationApplicationsPage />} />
+            <Route path="/admin/youtube-live" element={<AdminYouTubeLivePage />} />
 
             <Route path="/admin/katina" element={<AdminKatinaListPage />} />
             <Route path="/admin/katina/new" element={<AdminKatinaYearFormPage />} />
@@ -212,14 +224,24 @@ export function App() {
               element={<AdminStaticDocumentFormPage slug="siri-sugatha-sasana-bandumathi" />}
             />
 
-            <Route path="/admin/inquiries" element={<AdminInquiriesPage />} />
-            <Route path="/admin/newsletter-subscribers" element={<AdminNewsletterSubscribersPage />} />
-
             <Route path="/admin/tripitaka-catalogue" element={<AdminTripitakaCatalogueListPage />} />
             <Route path="/admin/tripitaka-catalogue/new" element={<AdminTripitakaCatalogueFormPage />} />
             <Route path="/admin/tripitaka-catalogue/:id/edit" element={<AdminTripitakaCatalogueFormPage />} />
 
-            <Route path="/admin/whatsapp" element={<AdminWhatsappPage />} />
+            {/* Super-admin-only — role checked client-side here just to keep
+                a normal admin from landing on a page that would only error
+                out on them; the real gate is requireSuperAdmin on the
+                matching /api/admin/* routes (see backend/src/app.js), which
+                re-checks the role from the database on every request. */}
+            <Route element={<RequireSuperAdmin />}>
+              <Route path="/admin/sponsorship" element={<AdminSponsorshipListPage />} />
+              <Route path="/admin/meditation-applications" element={<AdminMeditationApplicationsPage />} />
+              <Route path="/admin/inquiries" element={<AdminInquiriesPage />} />
+              <Route path="/admin/newsletter-subscribers" element={<AdminNewsletterSubscribersPage />} />
+              <Route path="/admin/whatsapp" element={<AdminWhatsappPage />} />
+              <Route path="/admin/admin-users" element={<AdminAdminUsersPage />} />
+              <Route path="/admin/change-my-password" element={<AdminChangeOwnPasswordPage />} />
+            </Route>
           </Route>
         </Route>
 

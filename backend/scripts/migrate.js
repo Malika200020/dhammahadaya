@@ -31,6 +31,21 @@ async function main() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
   `);
+  // Two-role admin model (2026-10): super admins (seeded, email + OTP login,
+  // full access) and normal admins (created by a super admin, username +
+  // password only, content-management access only). `DEFAULT 'super_admin'`
+  // on the new `role` column means every pre-existing admin_users row —
+  // i.e. the already-seeded super-admin accounts — keeps working exactly as
+  // before with zero manual migration. email is now nullable because normal
+  // admins are identified by username instead (enforced at the application
+  // layer in routes/admin-auth.js and routes/admin-admin-users.js, not here,
+  // since which field is required depends on role).
+  await client.query(`ALTER TABLE admin_users ALTER COLUMN email DROP NOT NULL;`);
+  await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;`);
+  await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'super_admin';`);
+  await client.query(`ALTER TABLE admin_users DROP CONSTRAINT IF EXISTS admin_users_role_check;`);
+  await client.query(`ALTER TABLE admin_users ADD CONSTRAINT admin_users_role_check CHECK (role IN ('super_admin', 'admin'));`);
+  await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN NOT NULL DEFAULT false;`);
 
   // Entry shape per build-spec §3: the Article-list pattern, shared by
   // Newsletters/Posts, Ape Budu Hamuduruwo, and Important Articles —
@@ -422,7 +437,18 @@ async function main() {
     );
   }
 
-  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber, pdf_books, tripitaka_catalogue.');
+  // Singleton row (id=1 always, upserted in routes/admin-youtube-live.js) —
+  // url IS NULL means "no live link set", which is what the Home page's
+  // YouTube Live section checks to decide whether to render at all.
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS youtube_live_setting (
+      id SERIAL PRIMARY KEY,
+      url TEXT,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+
+  console.log('Schema is up to date: admin_users, entries, session, video_series, videos, gallery_images, sponsorship_booking, meditation_application, katina_year, pohoya_calendar, special_thanks, static_document, inquiry_message, newsletter_subscriber, pdf_books, tripitaka_catalogue, youtube_live_setting.');
   await client.end();
 }
 
