@@ -10,7 +10,7 @@ import { NewsletterSignup } from '../components/NewsletterSignup';
 import { Reveal } from '../components/Reveal';
 import { YouTubeLiveSection } from '../components/YouTubeLiveSection';
 import { useTranslation } from '../i18n/LanguageContext';
-import { sponsorshipNoteEn, sponsorshipNoteSi, sponsorshipPreviewSignature } from '../content/sponsorshipContent';
+import { sponsorshipNoteEn, sponsorshipNoteSi } from '../content/sponsorshipContent';
 import { aboutEn } from '../content/aboutContent';
 import { contactPostalAddressLines, contactChannels } from '../content/contactContent';
 import {
@@ -98,6 +98,11 @@ export function HomePage() {
         </div>
       </Reveal>
 
+      {/* Placed directly below the hero (client request, 2026-10) rather
+          than further down the page, so a visitor doesn't have to scroll
+          past several sections to find a live broadcast. */}
+      <YouTubeLiveSection />
+
       {/* 4.2 Monastery intro — English reuses aboutEn.paragraphs (same text
           as /about/); only the 1st and 3rd paragraphs are shown here
           (client request, 2026-09: drop the 2nd from this home-page
@@ -167,25 +172,6 @@ export function HomePage() {
         </div>
       </Reveal>
 
-      {/* 4.7 Dhamma Sermons section — the separate YouTube Channel card that
-          used to sit next to this one was removed (client request,
-          2026-10): it was redundant since both led to YouTube, and the new
-          YouTubeLiveSection below (conditionally rendered) replaces it with
-          something actually useful when a broadcast is live. */}
-      <Reveal as="section" className="home__section">
-        <h2>{t('home.dhammaSermonsHeading')}</h2>
-        <div className="home__image-row home__image-row--center">
-          <div className="home__image-item home__image-item--square card card--interactive">
-            <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
-            <Link to="/dhamma-sermon/" className="btn btn--primary">
-              {t('home.dhammaSermonsButton')}
-            </Link>
-          </div>
-        </div>
-      </Reveal>
-
-      <YouTubeLiveSection />
-
       {/* 4.8 Sponsorships section — reuses the step-8 booking calendar + data */}
       <Reveal as="section" className="home__section">
         <h2>{t('home.sponsorshipsHeading')}</h2>
@@ -204,12 +190,6 @@ export function HomePage() {
               const note = language === 'en' ? sponsorshipNoteEn : sponsorshipNoteSi;
               return [note.paragraphs[0], note.paragraphs[1], note.paragraphs[3]].map((p, i) => <p key={i}>{p}</p>);
             })()}
-            {/* Closing signature (client doc, 2026-10) — this excerpt skips
-                sponsorshipNoteEn/Si's own "May the Triple-gem..." sign-off
-                (see map above), so it had no closing of its own until now. */}
-            {sponsorshipPreviewSignature[language].map((line, i) => (
-              <p key={`sig-${i}`}>{line}</p>
-            ))}
           </div>
         </div>
         <Link to="/sponsorship/danaya/" className="btn btn--primary">
@@ -217,7 +197,12 @@ export function HomePage() {
         </Link>
       </Reveal>
 
-      {/* 4.9 Meritorious deeds & Our Programs */}
+      {/* 4.9 Meritorious deeds & Our Programs — the Dhamma Sermons card
+          moved in here from its own standalone section (client request,
+          2026-10). Keeps the --square modifier (see HomePage.css): that
+          image is a 1:1 source, and the default 160px-tall cover crop
+          this row's other (landscape) images use would hide nearly all
+          of it. */}
       <Reveal as="section" className="home__section">
         <h2>{t('home.meritoriousDeeds')}</h2>
         <div className="home__image-row">
@@ -237,6 +222,12 @@ export function HomePage() {
             <img src="/images/Meditation-Img.jpg" alt="" />
             <Link to="/meditation-programs/" className="btn btn--primary">
               {t('home.meditation')}
+            </Link>
+          </div>
+          <div className="home__image-item home__image-item--square card card--interactive">
+            <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
+            <Link to="/dhamma-sermon/" className="btn btn--primary">
+              {t('home.dhammaSermonsButton')}
             </Link>
           </div>
         </div>

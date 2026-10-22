@@ -11,8 +11,8 @@ export function Footer() {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <div className="site-footer__col">
-          <p className="site-footer__brand">Dhammahadaya Senasanaya</p>
-          <address className="site-footer__address">Watawala, Mulgama, Balangoda</address>
+          <p className="site-footer__brand">{t('footer.brand')}</p>
+          <address className="site-footer__address">{t('footer.address')}</address>
         </div>
 
         <div className="site-footer__col">

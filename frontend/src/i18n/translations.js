@@ -198,6 +198,13 @@ export const translations = {
   'inquiryForm.success': { en: 'Thank you — your message has been sent.', si: 'ස්තුතියි — ඔබගේ පණිවිඩය යවා ඇත.' },
 
   // --- Footer ---
+  // Sinhala added 2026-10 — brand/address were hardcoded English-only
+  // until then. The client's doc gave this exact text (including the
+  // postal code, which the English version doesn't have) as "the Sinhala
+  // translation of the footer" — initially placed in the Home page's
+  // sponsorship preview by mistake, moved here once the client clarified.
+  'footer.brand': { en: 'Dhammahadaya Senasanaya', si: 'ධම්මහදය සේනාසනය' },
+  'footer.address': { en: 'Watawala, Mulgama, Balangoda', si: 'වටවල, මුල්ගම, බලන්ගොඩ, 70117' },
   'footer.contactHeading': { en: 'Contact', si: 'සම්බන්ධ වන්න' },
   'footer.mobile': { en: 'Mobile: +94 70 216 4642', si: 'ජංගම දුරකථනය: +94 70 216 4642' },
   'footer.landPhone': { en: 'Land Phone: +94 45 313 4808', si: 'ස්ථාවර දුරකථනය: +94 45 313 4808' },
@@ -270,13 +277,12 @@ export const translations = {
   'home.tripitakaCatalogue': { en: 'Tripitaka Catalogue', si: 'ත්‍රිපිටක නාමාවලිය' },
   'home.tripitakaSearch': { en: 'Tripitaka Search', si: 'ත්‍රිපිටක සෙවීම' },
   'home.pdfBooks': { en: 'PDF Books', si: 'PDF පොත්' },
-  'home.dhammaSermonsHeading': { en: 'Dhamma Sermons', si: 'ධර්ම දේශනා' },
   'home.dhammaSermonsButton': { en: 'Dhamma Sermons', si: 'ධර්ම දේශනා' },
   'home.youtubeLiveHeading': { en: 'Live Now', si: 'සජීවීව දැන්' },
   'home.youtubeLiveUnmute': { en: 'Tap to unmute', si: 'හඬ විවෘත කිරීමට ස්පර්ශ කරන්න' },
   'home.youtubeLiveFullscreen': { en: 'View fullscreen', si: 'සම්පූර්ණ තිරයෙන් බලන්න' },
   'home.sponsorshipsHeading': { en: 'Sponsorships', si: 'දායකත්ව' },
-  'home.moreSponsorships': { en: 'More Sponsorships', si: 'තවත් දායකත්ව' },
+  'home.moreSponsorships': { en: 'You too can contribute', si: 'ඔබත් දායකවන්න' },
   'home.meritoriousDeeds': { en: 'Meritorious Deeds & Programs', si: 'පුණ්‍ය කටයුතු සහ වැඩසටහන්' },
   'home.katinaCeremony': { en: 'Katina Ceremony', si: 'කඨින පිංකම' },
   'home.buddhaPuja': { en: 'Buddha Puja', si: 'බුද්ධ පූජා' },

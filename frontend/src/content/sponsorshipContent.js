@@ -18,17 +18,6 @@
 
 export const sponsorshipHeader = "Sponsorships දායකත්ව";
 
-// Closing signature for the Home page's sponsorship excerpt (§4.8) — the
-// excerpt there only shows 3 of sponsorshipNoteEn/Si's 5 paragraphs (skips
-// the heading and the "May the Triple-gem..." sign-off used on the full
-// /sponsorship/danaya/ page), so it had no closing of its own. Client doc
-// (2026-10) gave this address/phone block immediately after that same
-// excerpt's greeting text, so it serves as that excerpt's sign-off instead.
-export const sponsorshipPreviewSignature = {
-  en: ["Dhammahadaya Senasanaya, Watawala, Mulgama, Balangoda, 70117", "Office phone: +94 45 313 4808, +94 70 216 4642"],
-  si: ["ධම්මහදය සේනාසනය, වටවල, මුල්ගම, බලන්ගොඩ, 70117", "කාර්යාල දුරකථන: +94 45 313 4808, +94 70 216 4642"],
-};
-
 export const sponsorshipNoteEn = {
   paragraphs: [
   "With the prosperity of Buddha Sasana at heart …….",

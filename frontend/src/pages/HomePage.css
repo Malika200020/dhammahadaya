@@ -182,30 +182,15 @@
   margin-bottom: var(--space-4);
 }
 
-/* Dhamma Sermons row is a single card now (its neighboring YouTube Channel
-   card was removed, 2026-10) — centers it instead of leaving it pinned to
-   the left with a wide empty gap next to it (client-reported, 2026-10:
-   "a lot of white space ... is bad UX"). Harmless for the other
-   multi-card rows reusing .home__image-row (Tripitaka, Katina, etc.):
-   they already fill most of the row width, so centering the group doesn't
-   visibly change anything there. */
-.home__image-row--center {
-  justify-content: center;
-}
-
 /* Dhamma-Sermons-Img.jpg is a 1:1 square (client-replaced, 2026-10) —
    unlike this row's other images (all landscape/portrait, already well
    suited to the 160px-tall cover crop above), cropping a square source
    into that wide short box hides nearly all of it. A square box instead
-   lets object-fit: cover show the complete image uncropped. */
-.home__image-item--square {
-  /* Bigger than the shared 320px cap — standing alone, centered, a
-     320px-wide card left too much empty space either side of it on a wide
-     screen (client-reported, 2026-10: "stretch it out a bit"). 480px was
-     then too big (client-reported, 2026-10: "make it a bit smaller"). */
-  max-width: 380px;
-}
-
+   lets object-fit: cover show the complete image uncropped. Sized the same
+   as its siblings (the shared 320px cap) now that it sits alongside three
+   other cards in Meritorious Deeds & Programs (client request, 2026-10)
+   rather than standing alone — it previously needed a bigger, centered
+   special case for exactly that lone-card context, which no longer applies. */
 .home__image-item--square img {
   height: auto;
   aspect-ratio: 1 / 1;
