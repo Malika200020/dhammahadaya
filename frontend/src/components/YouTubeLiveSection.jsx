@@ -61,6 +61,13 @@ export function YouTubeLiveSection() {
   return (
     <section ref={setRefs} className={`youtube-live reveal${visible ? ' reveal--visible' : ''}`}>
       <h2>{t('home.youtubeLiveHeading')}</h2>
+      {/* Instructional hint (client request, 2026-10) — the overlay button
+          below is the actual unmute control; this just makes sure a
+          visitor understands *why* there's no sound before they even reach
+          it, since autoplay has to start muted everywhere. Only shown while
+          still muted, same as the button itself — once unmuted it's no
+          longer relevant. */}
+      {muted ? <p className="youtube-live__hint">{t('home.youtubeLiveUnmuteHint')}</p> : null}
       <div className="youtube-live__frame card">
         {visible ? (
           <iframe

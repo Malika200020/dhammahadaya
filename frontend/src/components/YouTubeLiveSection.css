@@ -2,6 +2,14 @@
   margin: var(--space-9) 0;
 }
 
+.youtube-live__hint {
+  max-width: 900px;
+  margin: 0 auto var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
 .youtube-live__frame {
   position: relative;
   padding: var(--space-3);

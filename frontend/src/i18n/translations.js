@@ -280,6 +280,13 @@ export const translations = {
   'home.dhammaSermonsButton': { en: 'Dhamma Sermons', si: 'ධර්ම දේශනා' },
   'home.youtubeLiveHeading': { en: 'Live Now', si: 'සජීවීව දැන්' },
   'home.youtubeLiveUnmute': { en: 'Tap to unmute', si: 'හඬ විවෘත කිරීමට ස්පර්ශ කරන්න' },
+  // Instructional hint shown above the player while muted (client request,
+  // 2026-10) — explains why there's no sound before the visitor even
+  // reaches the unmute button itself.
+  'home.youtubeLiveUnmuteHint': {
+    en: 'This video starts muted — tap the unmute button below to hear it.',
+    si: 'මෙම වීඩියෝව ආරම්භයේ දී නිහඬව ධාවනය වේ — හඬ ඇසීමට පහත බොත්තම ස්පර්ශ කරන්න.',
+  },
   'home.youtubeLiveFullscreen': { en: 'View fullscreen', si: 'සම්පූර්ණ තිරයෙන් බලන්න' },
   'home.sponsorshipsHeading': { en: 'Sponsorships', si: 'දායකත්ව' },
   'home.moreSponsorships': { en: 'You too can contribute', si: 'ඔබත් දායකවන්න' },

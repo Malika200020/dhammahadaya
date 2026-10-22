@@ -224,8 +224,8 @@ export function HomePage() {
               {t('home.meditation')}
             </Link>
           </div>
-          <div className="home__image-item home__image-item--square card card--interactive">
-            <img src="/images/Dhamma-Sermons-Img.jpg" alt="" />
+          <div className="home__image-item card card--interactive">
+            <img src="/images/Dhamma-Sermons-Img.jpg" alt="" className="home__image--contain" />
             <Link to="/dhamma-sermon/" className="btn btn--primary">
               {t('home.dhammaSermonsButton')}
             </Link>

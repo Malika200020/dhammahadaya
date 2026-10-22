@@ -183,17 +183,14 @@
 }
 
 /* Dhamma-Sermons-Img.jpg is a 1:1 square (client-replaced, 2026-10) —
-   unlike this row's other images (all landscape/portrait, already well
-   suited to the 160px-tall cover crop above), cropping a square source
-   into that wide short box hides nearly all of it. A square box instead
-   lets object-fit: cover show the complete image uncropped. Sized the same
-   as its siblings (the shared 320px cap) now that it sits alongside three
-   other cards in Meritorious Deeds & Programs (client request, 2026-10)
-   rather than standing alone — it previously needed a bigger, centered
-   special case for exactly that lone-card context, which no longer applies. */
-.home__image-item--square img {
-  height: auto;
-  aspect-ratio: 1 / 1;
+   cropping it with the shared cover rule above (matching every other card's
+   size, client request) hid most of it. contain scales it down to fit
+   within that same box instead, so the full image is visible with a little
+   letterboxing left/right rather than being cropped — the card's own
+   background (behind the now-transparent-edged img) shows through those
+   gaps, so it reads as an inset image rather than empty space. */
+.home__image-item .home__image--contain {
+  object-fit: contain;
 }
 
 .home__caption {
