@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { submitMeditationApplication } from '../api/meditation';
 import { Recaptcha, RECAPTCHA_ENABLED } from '../components/Recaptcha';
 import { useTranslation } from '../i18n/LanguageContext';
-import { meditationRulesParagraphs, meditationPledgeEn, meditationPledgeSi } from '../content/meditationContent';
+import {
+  meditationRulesParagraphsEn,
+  meditationRulesParagraphsSi,
+  meditationPledgeEn,
+  meditationPledgeSi,
+} from '../content/meditationContent';
 import './MeditationProgramsPage.css';
 
 const MAX_STAY_DAYS = 7;
@@ -86,9 +91,9 @@ export function MeditationProgramsPage() {
     <div className="meditation">
       <h1>{t('meditation.pageTitle')}</h1>
 
-      {/* [CONTENT — Sinhala, migrate verbatim] build-spec §13 */}
+      {/* [CONTENT — English/Sinhala, migrate verbatim] build-spec §13 */}
       <div className="meditation__rules card">
-        {meditationRulesParagraphs.map((line, i) => (
+        {(language === 'en' ? meditationRulesParagraphsEn : meditationRulesParagraphsSi).map((line, i) => (
           <p key={i}>{line}</p>
         ))}
       </div>
@@ -138,20 +143,27 @@ export function MeditationProgramsPage() {
               name="experience"
               value="no"
               checked={form.experience === 'no'}
-              onChange={() => updateField('experience', 'no')}
+              onChange={() => setForm((f) => ({ ...f, experience: 'no', meditationTypes: '', previousTeachers: '' }))}
             />
             {t('meditation.experienceNo')}
           </label>
         </fieldset>
 
-        <label>
-          {t('meditation.meditationTypesLabel')}
-          <input value={form.meditationTypes} onChange={(e) => updateField('meditationTypes', e.target.value)} />
-        </label>
-        <label>
-          {t('meditation.previousTeachersLabel')}
-          <input value={form.previousTeachers} onChange={(e) => updateField('previousTeachers', e.target.value)} />
-        </label>
+        {/* Only relevant to yogis who already have experience — hidden for
+            "No" and on first load (client request, 2026-10), not just
+            disabled, since they don't apply otherwise. */}
+        {form.experience === 'yes' ? (
+          <>
+            <label>
+              {t('meditation.meditationTypesLabel')}
+              <input value={form.meditationTypes} onChange={(e) => updateField('meditationTypes', e.target.value)} />
+            </label>
+            <label>
+              {t('meditation.previousTeachersLabel')}
+              <input value={form.previousTeachers} onChange={(e) => updateField('previousTeachers', e.target.value)} />
+            </label>
+          </>
+        ) : null}
         <label>
           {t('meditation.currentDiseasesLabel')}
           <textarea value={form.currentDiseases} onChange={(e) => updateField('currentDiseases', e.target.value)} rows={2} />

@@ -21,18 +21,48 @@ import './YouTubeLiveSection.css';
 // time. The fullscreen button here is a second, custom one — on the
 // section's wrapper rather than the iframe — since fullscreening the
 // wrapper keeps our own overlay/controls visible too, not just raw video.
+//
+// Auto-recovery on tab refocus (client-reported, 2026-10: "the live video
+// not loading... when opening the webapp again after watching it once...
+// have to refresh"). A backgrounded mobile tab can silently kill a live
+// embed's underlying connection — React has no way to detect that the
+// iframe's browsing context died, so without this the page just sits there
+// showing a dead player forever, since nothing about our own state ever
+// changed. reloadKey, bumped on every hidden→visible transition and folded
+// into the iframe's key, forces React to tear down and recreate the iframe
+// from scratch (a real reload, not just a re-render) exactly when a manual
+// page refresh previously would have been the only fix. Refetching the
+// live link at the same time also picks up anything an admin changed while
+// the visitor's tab was in the background.
 export function YouTubeLiveSection() {
   const { t } = useTranslation();
   const [live, setLive] = useState(null); // { url, videoId } | null | undefined (loading)
   const [muted, setMuted] = useState(true);
+  const [reloadKey, setReloadKey] = useState(0);
   const wrapperRef = useRef(null);
   const iframeRef = useRef(null);
   const [revealRef, visible] = useReveal();
 
-  useEffect(() => {
+  function refetchLive() {
     getYoutubeLive()
       .then((d) => setLive(d.url ? d : null))
       .catch(() => setLive(null));
+  }
+
+  useEffect(() => {
+    refetchLive();
+  }, []);
+
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        setMuted(true);
+        setReloadKey((k) => k + 1);
+        refetchLive();
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
   function setRefs(node) {
@@ -71,6 +101,7 @@ export function YouTubeLiveSection() {
       <div className="youtube-live__frame card">
         {visible ? (
           <iframe
+            key={reloadKey}
             ref={iframeRef}
             src={`https://www.youtube.com/embed/${live.videoId}?autoplay=1&mute=1&playsinline=1&rel=0&enablejsapi=1`}
             title={t('home.youtubeLiveHeading')}
