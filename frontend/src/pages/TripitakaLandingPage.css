@@ -9,14 +9,24 @@
   padding-bottom: var(--space-3);
 }
 
+/* Flexbox + justify-content: center rather than CSS Grid's auto-fill
+   (client-reported, 2026-10: "less white space in the right side") —
+   auto-fill reserves a full column track per minmax(240px,1fr) slot that
+   fits the container regardless of how many cards actually exist, so with
+   only 3 cards here it left an empty 4th column-width gap pinned to the
+   right instead of centering the row. Matches the same pattern already
+   used for the Home page's image rows (HomePage.css's .home__image-row). */
 .tripitaka-landing__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-5);
   margin-top: var(--space-6);
 }
 
 .tripitaka-landing__card {
+  flex: 1 1 240px;
+  max-width: 320px;
   padding: var(--space-6) var(--space-4);
   display: flex;
   flex-direction: column;

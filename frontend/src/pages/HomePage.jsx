@@ -75,7 +75,7 @@ export function HomePage() {
           <div className="home__hero-glow" aria-hidden="true" />
           <img src="/images/golden-buddha.jpg" alt="" className="home__hero-image" />
         </div>
-        <div className="home__hero-text card">
+        <div className="home__hero-text">
           {/* Two visually distinct groups — the formal Pali invocation, then
               the Sinhala narrative verse — rather than nine same-weight
               lines read as one undifferentiated block (client-reported,

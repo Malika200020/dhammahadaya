@@ -114,11 +114,24 @@ export function AdminPohoyaCalendarFormPage() {
           />
         </label>
         <label>
-          Calendar image
+          {imageUrl ? 'Replace calendar image' : 'Calendar image'}
           <input type="file" accept="image/*" onChange={handleImageChange} disabled={uploading} />
         </label>
         {uploading ? <p className="admin-pohoya-form__uploading">Uploading...</p> : null}
-        {imageUrl ? <img src={optimizeCloudinaryUrl(imageUrl)} alt="" className="admin-pohoya-form__preview" /> : null}
+        {imageUrl ? (
+          <div className="admin-pohoya-form__preview-wrap">
+            <img src={optimizeCloudinaryUrl(imageUrl)} alt="" className="admin-pohoya-form__preview" />
+            {/* Previously had no way to clear the image back to "none" —
+                picking a new file could replace it, but there was no control
+                to remove it outright (client-reported, 2026-10: "cannot
+                delete... the images"). Only clears local state; still
+                requires Save below to actually persist, same as every other
+                field on this form. */}
+            <button type="button" className="admin-pohoya-form__remove-image" onClick={() => setImageUrl(null)}>
+              Remove image
+            </button>
+          </div>
+        ) : null}
 
         {error ? <p className="admin-pohoya-form__error">{error}</p> : null}
         <button type="submit" disabled={saving || uploading}>

@@ -14,6 +14,11 @@
   gap: var(--space-4);
   margin-top: var(--space-6);
   flex-wrap: wrap;
+  /* client-reported, 2026-10: "less white space in the right side" — this
+     row was already flexbox, just missing centering (defaulted to
+     flex-start, so leftover space when cards don't fill a row sat
+     entirely on the right instead of being split evenly). */
+  justify-content: center;
 }
 
 .programs__card {

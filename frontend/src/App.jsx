@@ -223,6 +223,18 @@ export function App() {
               path="/admin/siri-sugatha-sasana-bandumathi"
               element={<AdminStaticDocumentFormPage slug="siri-sugatha-sasana-bandumathi" />}
             />
+            {/* Photo galleries for the two static documents above (client
+                request, 2026-10) — reuses the same generic AdminGalleryPage
+                as Buddha Puja/About/Katina, just pointed at a gallery name
+                matching each page's own slug. */}
+            <Route
+              path="/admin/galleries/honorable-tribute"
+              element={<AdminGalleryPage gallery="honorable-tribute" title="Honorable Tribute Gallery" />}
+            />
+            <Route
+              path="/admin/galleries/siri-sugatha-sasana-bandumathi"
+              element={<AdminGalleryPage gallery="siri-sugatha-sasana-bandumathi" title="Siri Sugatha Sasana Bandumathi Gallery" />}
+            />
 
             <Route path="/admin/tripitaka-catalogue" element={<AdminTripitakaCatalogueListPage />} />
             <Route path="/admin/tripitaka-catalogue/new" element={<AdminTripitakaCatalogueFormPage />} />

@@ -9,14 +9,21 @@
   padding-bottom: var(--space-3);
 }
 
+/* Flexbox + justify-content: center rather than CSS Grid's auto-fill
+   (client-reported, 2026-10: "less white space in the right side") — see
+   TripitakaLandingPage.css for the full explanation of why auto-fill
+   left a one-sided gap here with only 3 cards. */
 .sponsorship-landing__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-5);
   margin-top: var(--space-6);
 }
 
 .sponsorship-landing__card {
+  flex: 1 1 220px;
+  max-width: 300px;
   padding: var(--space-6) var(--space-4);
   display: flex;
   align-items: center;

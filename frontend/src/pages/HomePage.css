@@ -98,6 +98,15 @@
   box-shadow: var(--shadow-md);
 }
 
+/* No longer a .card (client request, 2026-10: "remove the border... let it
+   blend with the background... do not have it inside a boxed area") — the
+   text now sits directly on the page background instead of a bordered,
+   shadowed panel. Keeping the padding (just spacing now, not a box's
+   interior) and the Pali/verse divider below: that's a different, still-
+   wanted distinction between the two text groups, not the boxed container
+   the client was asking to remove. --color-surface (the card's old
+   background) and --color-background (the page's) are close enough in
+   both themes that this reads as a seamless change, not a mismatch. */
 .home__hero-text {
   width: 100%;
   max-width: 640px;
@@ -112,6 +121,14 @@
      refuses to wrap them, they overflow the card, and that overflow
      widens the whole page horizontally on narrow/mobile viewports. */
   overflow-wrap: anywhere;
+  /* Some visual weight to replace what the removed card's border/shadow
+     used to give this text (client request, 2026-10: "make it bold...
+     stand out a bit") — semibold rather than the heavier 700 headings use
+     elsewhere, since Sinhala/Pali combining marks get harder to read at
+     full bold, plus a soft warm glow instead of a hard shadow so it still
+     reads as part of the page rather than a box pretending not to be one. */
+  font-weight: 600;
+  text-shadow: 0 1px 12px rgba(253, 160, 66, 0.18);
 }
 
 /* The Pali invocation reads as a formal chant, distinct from the Sinhala

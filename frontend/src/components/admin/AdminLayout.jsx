@@ -110,8 +110,14 @@ export function AdminLayout() {
           <NavLink to="/admin/honorable-tribute" className={navLinkClass}>
             Honorable Tribute
           </NavLink>
+          <NavLink to="/admin/galleries/honorable-tribute" className={navLinkClass}>
+            Honorable Tribute Gallery
+          </NavLink>
           <NavLink to="/admin/siri-sugatha-sasana-bandumathi" className={navLinkClass}>
             Siri Sugatha Sasana Bandumathi
+          </NavLink>
+          <NavLink to="/admin/galleries/siri-sugatha-sasana-bandumathi" className={navLinkClass}>
+            Siri Sugatha Sasana Bandumathi Gallery
           </NavLink>
           {isSuperAdmin ? (
             <>
