@@ -100,8 +100,11 @@ export const translations = {
   'theme.switchToDark': { en: 'Switch to dark theme', si: 'අඳුරු තේමාවට මාරු වන්න' },
 
   // --- Tripitaka search embed page ---
-  'tripitakaSearch.fallbackPrefix': { en: "If the page below doesn't load,", si: 'පහත පිටුව පූරණය නොවන්නේ නම්,' },
-  'tripitakaSearch.fallbackLink': { en: 'open tipitaka.lk in a new tab', si: 'tipitaka.lk නව ටැබයක විවෘත කරන්න' },
+  'tripitakaSearch.note': {
+    en: 'The Tripitaka search tool is provided by tipitaka.lk and opens in a new tab.',
+    si: 'ත්‍රිපිටක සෙවීමේ මෙවලම tipitaka.lk මගින් සපයනු ලබන අතර එය නව ටැබයක විවෘත වේ.',
+  },
+  'tripitakaSearch.openLink': { en: 'Open tipitaka.lk', si: 'tipitaka.lk විවෘත කරන්න' },
 
   // --- Searchable table (Dictionary + Tripitaka Catalogue shell) ---
   'searchableTable.searchFailed': { en: 'Search failed: {message}', si: 'සෙවීම අසාර්ථක විය: {message}' },
